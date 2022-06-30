@@ -420,7 +420,7 @@ Getting help in the RStudio console
 ```r
 > sum
 ```
-- start typing, then hit `TAB` (or just wait a second)
+- start typing `sum`, then hit the `TAB` key (or just wait a second)
 - RStudio will display help on all functions that start `sum`.
 - Use (up arrow, down arrow) to move through
 the list.
@@ -434,7 +434,7 @@ Type `?name` for help on name. Example:
 ```r
 > ?log
 ```
-- This will show information about the `log` function (and related functions), including the name and meaning of the arguments and returned values.
+- This will show information about the `log` function (and related functions) in the Help pane, including the name and meaning of the arguments and returned values.
 - The help display is hyperlinked, so clicking on a blue link will take you to related material.
 - R documentation often describes a set of functions, such as all the ones related to logarithms, on a single help page.
 - Parts of the R documentation are rather obscure.
@@ -466,7 +466,7 @@ Answer: convert weights
 
 ```r
 > weights <- c(1.1, 2.2, 3.3)
-> ## this divides the weights, element-wise, by the conversion factor:
+> # this divides the weights, element-wise, by the conversion factor:
 > weights / 2.2
 [1] 0.5 1.0 1.5
 ```
@@ -1089,11 +1089,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-2  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
-3  21.4     4  121    109  4.11  2.78  18.6     1     1     4     2
+1  21.4     4  121    109  4.11  2.78  18.6     1     1     4     2
+2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+3  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
 4  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
-5  27.3     4   79     66  4.08  1.94  18.9     1     1     4     1
+5  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -2695,7 +2695,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7ff3c6a24eb8>
+<bytecode: 0x7f79573a56b8>
 <environment: namespace:base>
 ```
 

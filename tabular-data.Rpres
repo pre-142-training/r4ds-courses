@@ -375,7 +375,7 @@ Getting help in the RStudio console
 ```{r eval=FALSE}
 sum
 ```
-- start typing, then hit `TAB` (or just wait a second)
+- start typing `sum`, then hit the `TAB` key (or just wait a second)
 - RStudio will display help on all functions that start `sum`.
 - Use (up arrow, down arrow) to move through
 the list.
@@ -388,7 +388,7 @@ Type `?name` for help on name. Example:
 ```{r eval=FALSE,tidy=FALSE}
 ?log
 ```
-- This will show information about the `log` function (and related functions), including the name and meaning of the arguments and returned values.
+- This will show information about the `log` function (and related functions) in the Help pane, including the name and meaning of the arguments and returned values.
 - The help display is hyperlinked, so clicking on a blue link will take you to related material.
 - R documentation often describes a set of functions, such as all the ones related to logarithms, on a single help page.
 - Parts of the R documentation are rather obscure.
@@ -417,7 +417,7 @@ Answer: convert weights
 ========================================================
 ```{r}
 weights <- c(1.1, 2.2, 3.3)
-## this divides the weights, element-wise, by the conversion factor:
+# this divides the weights, element-wise, by the conversion factor:
 weights / 2.2
 ```
 
