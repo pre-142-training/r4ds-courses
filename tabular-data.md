@@ -30,9 +30,7 @@ By the end of the course you should be able to...
 - manipulate and subset tabular data
 - visualize tabular data using line and scatter plots
 
-<div align="left">
-<img src="images/data-science.png" width=800 height=300>
-</div>
+![](images/data-science.png)
 
 Resources for this course
 ========================================================
@@ -41,16 +39,12 @@ Resources for this course
 
 - The tidyverse collection of R packages is used in this course, and in PHW142, to provide lots of additional functionality that's not present in the basic R programming language.
 
-<div align="center">
-<img src="images/tidyverse.png">
-</div>
+![](images/tidyverse.png)
 
 Resources for this course
 ========================================================
 
-<div align="right">
-<img src="https://r4ds.had.co.nz/cover.png">
-</div>
+![](https://r4ds.had.co.nz/cover.png)
 
 ***
 ## [R for Data Science (R4DS) free online book by Hadley Wickham](https://r4ds.had.co.nz)
@@ -86,9 +80,7 @@ called a REPL.
 
 ***
 
-<div align="left">
-<img src="images/console.png">
-</div>
+![](images/console.png)
 
 
 A simple example in the console
@@ -129,14 +121,18 @@ R is a scientific calculator
 ========================================================
 
 ```r
-> 1 + 2 * 3
+> 1 + 2 * 3 # R respects order of operations
 [1] 7
-> log(10)
-[1] 2.302585
-> 4 * atan(1)
-[1] 3.141593
+> 3/4
+[1] 0.75
 > 6^3
 [1] 216
+> log(10) # natural log
+[1] 2.302585
+> log10(10) # log base 10
+[1] 1
+> sqrt(16)
+[1] 4
 ```
 
 Vectors
@@ -157,16 +153,18 @@ Vectors
 - The colon `:` is a handy shortcut to create a vector that is
 a sequence of integers from the first number to the second number
 (inclusive).
-- Many R functions and operators automatically work with
-multi-element vector arguments.
+- Many R functions and operators automatically work when you input with
+multi-element vectors.
 - Long vectors wrap around. (Your screen may have a different width than what is shown here.)
 - Look at the `[ ]` notation. The second output line starts
-with 23, which is the 24^th element of the vector.
+with 26, which is the 26^th element of the vector.
 - This notation will help you figure out where you are in a long vector.
 
 Elementwise operations on a vector
 ========================================================
-  - This multiplies each element of `1:10` by the corresponding
+  - An operation is elementwise (or element-wise) if the action you perform on a vector produces a vector with the same dimensions as the original.
+ 
+  - The code below multiplies each element of `1:10` by the corresponding
 element of `1:10`, that is, it squares each element.
 
 ```r
@@ -183,10 +181,10 @@ could use exponentiation:
 
 Operator precedence: the rules
 ========================================================
-- R does not evaluate strictly left to right. Instead,
-operators have their own precedence, a kind of priority for
+- R does not evaluate strictly left to right.
+- R respects the traditional mathematical order of operations ([PEMDAS](https://www.purplemath.com/modules/orderops.htm)), but R has special operators that have their own precedence, a kind of priority for
 evaluation.
-- The sequence operator : has a higher precedence than addition +.
+- For example, the sequence operator `:` has a higher precedence than addition `+`.
 
 ```r
 > 1 + 0:10
@@ -198,7 +196,7 @@ evaluation.
 > 0:(10 + 1)
  [1]  0  1  2  3  4  5  6  7  8  9 10 11
 ```
-
+- ADVANCED: check out [a complete list of R operators and their precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html).
 
 Variables
 ========================================================
@@ -216,6 +214,10 @@ names to things.
 - R prints no result from this assignment, but what you entered
 causes a side effect: R has stored the association between
 x and 10. (Look at the Environment pane.)
+
+***
+
+![](images/environment.png)
 
 
 Using the value of a variable
@@ -246,7 +248,6 @@ to type this using one key combination.
 - `=` is easier to type.
 - You will see both used throughout R and user code.
 
-
 ```r
 > x <- 10
 > x
@@ -255,7 +256,7 @@ to type this using one key combination.
 > x
 [1] 20
 ```
-
+- We suggest you stick to the arrow `<-` to reduce confusion with the comparison operator `==` (more on that later).
 
 Assignment has no undo
 ========================================================
@@ -305,10 +306,10 @@ disputes over the right way to do this can get heated.
 ```r
 stringlength
 string.length
-StringLength
+StringLength (CamelCase)
 stringLength
-string_length (underbar)
-string-length (hyphen)
+string_length (underscore or underbar a.k.a. snake_case)
+string-length (hyphen a.k.a. kebab-case)
 ```
 - To be consistent with the packages we will use, I recommend snake_case where you separate lowercase words with _
 - Note that R itself uses several of these conventions.
@@ -334,22 +335,38 @@ Answer: birth year
 ===
 
 ```r
-> my_age_end_of_year = 29
-> this_year = 2019
+> my_age_end_of_year = 31
+> this_year = 2022
 > my_birth_year = this_year - my_age_end_of_year
 > my_birth_year
-[1] 1990
+[1] 1991
 ```
 
 Functions
 ========================================================
 type: section
 
+What is a function?
+========================================================
++ Backbone of R programming language, majority of things you will do in R rely on them!
++ Set of statements that performs a specific task
++ User is able to call or pass information to the function
++ Function will perform task and return object or value or action
+
+### Where do functions come from?
++ Many built into base R
++ Many many more available through different package libraries
++ Can create your own! (This will be covered later in the semester)
+
+
+
+Source: OOMPH course PHW251 - R for Public Health
+
 Calling built-in functions
 ========================================================
 - To call a function, type the function name, then the argument or
-arguments in parentheses. (Use a comma to separate the arguments, if
-                           more than one.)
+arguments in parentheses. Arguments are the data and/or options we want the function to work on.
+- Use a comma to separate the arguments, if more than one.
 
 ```r
 > sqrt(2)
@@ -380,7 +397,7 @@ Functions and variable assignment
 > y
 [1] 2
 ```
-- What do you observe?
+- What do you observe about the value of `y` after changing the value of `x`?
 
 Functions and variable assignment
 ========================================================
@@ -395,7 +412,7 @@ Getting help in the RStudio console
 ```r
 > sum
 ```
-- start typing, then hit `TAB` (or just wait a second)
+- start typing `sum`, then hit the `TAB` key (or just wait a second)
 - RStudio will display help on all functions that start `sum`.
 - Use (up arrow, down arrow) to move through
 the list.
@@ -409,7 +426,7 @@ Type `?name` for help on name. Example:
 ```r
 > ?log
 ```
-- This will show information about the `log` function (and related functions), including the name and meaning of the arguments and returned values.
+- This will show information about the `log` function (and related functions) in the Help pane, including the name and meaning of the arguments and returned values.
 - The help display is hyperlinked, so clicking on a blue link will take you to related material.
 - R documentation often describes a set of functions, such as all the ones related to logarithms, on a single help page.
 - Parts of the R documentation are rather obscure.
@@ -441,7 +458,7 @@ Answer: convert weights
 
 ```r
 > weights <- c(1.1, 2.2, 3.3)
-> ## this divides the weights, element-wise, by the conversion factor:
+> # this divides the weights, element-wise, by the conversion factor:
 > weights / 2.2
 [1] 0.5 1.0 1.5
 ```
@@ -538,7 +555,7 @@ Arguments by name
 ```r
 > seq(from = 1, to = 5)
 [1] 1 2 3 4 5
-> seq(to = 5, from = 1)
+> seq(to = 5, from = 1) # identical result
 [1] 1 2 3 4 5
 ```
 - Sometimes, arguments can be supplied by name using the syntax,
@@ -563,7 +580,7 @@ Warning: In seq.default(begin = 1, end = 5) :
  extra arguments 'begin', 'end' will be disregarded
 [1] 1
 ```
-- You have to use the correct argument name.
+- You have to use the correct argument names to get the correct results.
 
 
 How to find the names of a function's arguments
@@ -574,7 +591,7 @@ a built-in function.
 function.
 
 ```r
-> ## Try this:
+> # Try this:
 > ?seq
 ```
 
@@ -585,8 +602,7 @@ Packages
 - By default, when R starts up, the base packages
 (datasets, utils, grDevices, graphics, stats, methods) are loaded
 into the workspace for you.
-- When you _install_ a package, a copy is downloaded from a
-CRAN server to a directory on your local machine, but not loaded
+- When you _install_ a package, a copy is downloaded from a server to a directory on your local machine, but not loaded
 into the workspace.
 - When you _load_ a package, the contents the package are
 copied into the workspace.
@@ -658,8 +674,6 @@ messy and confusing.
 in the script pane (upper left), building up your analysis.
 - There, you can enter expressions, evaluate them, and save the
 contents to a .R file for later use.
-- Look at the RStudio ``Code'' menu for some useful keyboard
-commands.
 
 
 Script pane example
@@ -670,13 +684,17 @@ Script pane example
 - Then hit `Command-RETURN` (Mac), or `Ctrl-ENTER` (Windows).
 - That line is copied to the console pane and evaluated.
 - You can save the script to a file.
-- Explore the RStudio Code menu for other commands.
+- Explore the RStudio ``Code`` menu for other commands.
+
+***
+
+![](images/script.png)
 
 Adding comments
 ========================================================
 
 ```r
-> ## This is a comment
+> # This is a comment
 > 1 + 2 # add some numbers
 [1] 3
 ```
@@ -691,6 +709,8 @@ type: section
 
 Need to install the tidyverse set of packages
 ========================================================
+If you're working in R locally (installed on your computer), you will need to install the tidyverse package. If you're on DataHub it has already been installed.
+
 - Do this:
 
 ```r
@@ -710,7 +730,7 @@ x dplyr::lag()    masks stats::lag()
 ```
 - "tidyverse" is a coherent set of packages for operating a kind of data called the "data frame".
 - It is not built-in, so you need to install it (once), then load it each time you restart R.
-- Put `library("tidyverse")` at the top of every script file....
+- Put `library("tidyverse")` at the top of every script file.
 
 
 Data frame: a two-dimensional data structure
@@ -720,8 +740,7 @@ A data frame is one of the most powerful features in R.
 types of data, similar to an Excel spreadsheet.
 - Typically, each row in a data frame contains information about one
 instance of some (real-world) object.
-- Each column can be thought of as a variable, containing the values for the
-corresponding instances.
+- Each column can be thought of as a variable, containing the values for the corresponding instances.
 - All the values in one column should be of the same type (a number, a category, text, etc.), but
 different columns can be of different types.
 - Each column is actually a vector, so a data frame is like a list of vectors
@@ -785,14 +804,14 @@ Reading in flat files
 - `read_csv` (from the `readr` package, part of `tidyverse`) reads in data frames that are stored in `.csv` files (.csv = comma-separated values)
 - these files may be online (accessed via URL), or local, in which case the syntax is `read_csv("path/to/file/mtcars.csv")`
 - try `?read_csv` to learn a bit more
-- `.csv`s can also be exported from databases and saved locally to be read into R, although later we will learn how to communicate directly with a database to pull data into `R`.
+- `.csv`s can also be exported from spreadsheets and databases and then saved locally to be read into R.
 
 Making data frames
 ========================================================
 - use `tibble()` to make your own data frames from scratch in R
 
 ```r
-> my_data = tibble( # newlines don't do anything, just increase clarity
+> my_data = tibble( # newlines don't do anything, just increase code readability
 +   mrn = c(1, 2, 3, 4),
 +   age = c(33, 48, 8, 29)
 + )
@@ -828,7 +847,7 @@ Data frame properties
 
 Data frame properties
 ========================================================
-- `glimpse()` shows you a lot of information, `head()` returns the first `n` rows
+- `glimpse()` shows you a lot of information
 
 ```r
 > glimpse(my_data)
@@ -836,6 +855,10 @@ Rows: 4
 Columns: 2
 $ mrn <dbl> 1, 2, 3, 4
 $ age <dbl> 33, 48, 8, 29
+```
+- `head()` returns the first `n` rows
+
+```r
 > head(my_data, n=2)
 # A tibble: 2 × 2
     mrn   age
@@ -852,7 +875,6 @@ The rest of this section shows the basic data frame functions ("verbs") in the `
 - `select()` picks out columns according to their names
 - `arrange()` sorts the row by values in some column(s)
 - `mutate()` creates new columns, often based on operations on other columns
-- `summarize()` collapses many values in one or more columns down to one value per column
 
 These can all be used in conjunction with `group_by()` which changes the scope of each function from operating on the entire dataset to operating on it group-by-group. These six functions provide the verbs for a language of data manipulation. 
 
@@ -879,7 +901,7 @@ filter() subsets the rows of a data frame
 5  26       4 120.     91  4.43  2.14  16.7     0     1     5     2
 6  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
 ```
-- This produces (and prints out) a new tibble, which contains all the rows where the mpg value in that row is greater than or equal to 25.
+- This produces (and prints out) a new tibble (data frame), which contains all the rows where the mpg value in that row is greater than or equal to 25.
 - There are only 6 rows in this data frame.
 - There are still 11 columns.
 
@@ -913,7 +935,7 @@ Filtering out all rows
 
 Comparison operators
 =========================================================
-- `==` tests for equality (do not use `=`)
+- `==` tests for equality (do not use `=` which is for assignment)
 - `>` and `<` test for greater-than and less-than
 - `>=` and `<=` are greater-than-or-equal and less-than-or-equal
 - these can also be used directly on vectors outside of data frames
@@ -1064,11 +1086,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  10.4     8  460    215  3     5.42  17.8     0     0     3     4
-2  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
-3  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-4  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
-5  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+1  15.8     8 351     264  4.22  3.17  14.5     0     1     5     4
+2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
+3  19.2     6 168.    123  3.92  3.44  18.3     1     0     4     4
+4  15.5     8 318     150  2.76  3.52  16.9     0     0     3     2
+5  21       6 160     110  3.9   2.88  17.0     0     1     4     4
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1144,7 +1166,7 @@ select() subsets columns by name
 
 select() subsets columns by name
 =========================================================
-- `select()` can also be used to select everything **except for** certain columns
+- `select()` can also be used to select everything **except for** certain columns by using the minus character `-`
 
 ```r
 > select(mtc, -contains("m"), -hp)
@@ -1355,7 +1377,7 @@ mutate() creates new columns
 ```
 - This uses `mutate` to add a new column to which is the reciprocal of `mpg`.
 - The thing on the left of the `=` is a new name that you make up which you would like the new column to be called
-- The expresssion on the right of the `=` defines what will go into the new column
+- The expression on the right of the `=` defines what will go into the new column
 -mutate() can create multiple columns at the same time and use multiple columns to define a single new one
 
 mutate() can create multiple new columns at once
@@ -1407,34 +1429,6 @@ x non-numeric argument to binary operator
 ```
 - if you save the result into a column that already exists, it will be overwritten
 
-summarize() computes desired summaires across rows
-================================================================
-
-```r
-> summarize(mtc, mpg_avg=mean(mpg))
-# A tibble: 1 × 1
-  mpg_avg
-    <dbl>
-1    20.1
-```
-- `summarize()` boils down the data frame according to the conditions it gets. In this case, it creates a data frame with a single column called `mpg_avg` that contains the mean of the `mpg` column
-- Summaries can be very useful when you apply them to subgoups of the data, which we will soon see how to do.
-
-summarize() computes desired summaires across rows
-================================================================
-- you can also pass in multiple conditions that operate on multiple columns at the same time
-
-```r
-> summarize(mtc, # newlines not necessary, again just increase clarity
-+           mpg_avg = mean(mpg), 
-+           mpg_2x_max = max(2*mpg), 
-+           hp_mpg_ratio_min = min(hp/mpg))
-# A tibble: 1 × 3
-  mpg_avg mpg_2x_max hp_mpg_ratio_min
-    <dbl>      <dbl>            <dbl>
-1    20.1       67.8             1.71
-```
-
 dplyr verbs summary
 ========================================================
 
@@ -1442,7 +1436,6 @@ dplyr verbs summary
 - `select()` picks out columns according to their names
 - `arrange()` sorts the row by values in some column(s)
 - `mutate()` creates new columns, often based on operations on other columns
-- `summarize()` collapses many values in one or more columns down to one value per column
 
 All verbs work similarly:
 
@@ -1452,215 +1445,10 @@ All verbs work similarly:
 
 Together these properties make it easy to chain together multiple simple steps to achieve a complex result.
 
-Computing over groups
-==================================================================
-type: section
-
-
-group_by() groups data according to some variable(s)
-==================================================================
-First, let's load in some new data.
-
-```r
-> data1 <- read_csv("http://stanford.edu/~sbagley2/bios205/data/data1.csv")
-Error in open.connection(structure(4L, class = c("curl", "connection"), conn_id = <pointer: 0x26f>), : HTTP error 404.
-> data1
-Error in eval(expr, envir, enclos): object 'data1' not found
-```
-- `<chr>` is short for "character string", which means text data
-- Let's compute the mean weight for each gender.
-- There are two values of gender in this data, so there will be two groups.
-- The following builds a new version of the data frame that saves the grouping information:
-
-```r
-> data1_by_gender <- group_by(data1, gender)
-Error in group_by(data1, gender): object 'data1' not found
-```
-- We can now use the grouped data frame in further calculations.
-
-group_by() groups data according to some variable(s)
-==================================================================
-
-```r
-> data1_by_gender
-Error in eval(expr, envir, enclos): object 'data1_by_gender' not found
-```
-- The grouped data looks exactly the same, but under the hood, `R` knows that this is really two sub-data-frames (one for each group) instead of one.
-
-Grouped summary: computing the mean of each group
-===================================================================
-
-```r
-> summarize(data1_by_gender, mean_weight = mean(weight))
-Error in summarize(data1_by_gender, mean_weight = mean(weight)): object 'data1_by_gender' not found
-```
-- `summarize()` works the same as before, except now it returns two rows instead of one because there are two groups that were defined by `group_by(gender)`.
-- The result also always contains colunmns corresponding to the unique values of the grouping variable
-
-Grouping can also be applied across multiple variables
-===================================================================
-- This computes the mean weight and the mean age for each group:
-
-```r
-> data1_by_gender_and_shoesize = group_by(data1, gender, shoesize)
-Error in group_by(data1, gender, shoesize): object 'data1' not found
-> summarize(data1_by_gender_and_shoesize, 
-+           mean_weight = mean(weight), 
-+           mean_age = mean(age))
-Error in summarize(data1_by_gender_and_shoesize, mean_weight = mean(weight), : object 'data1_by_gender_and_shoesize' not found
-```
-- Now both `gender` and `shoesize` appear as columns in the result
-- There are 3 rows because there are 3 unique combinations of `gender` and `shoesize` in the original data
-
-Computing the number of rows in each group
-=====================================================================
-- The `n()` function counts the number of rows in each group:
-
-```r
-> summarize(data1_by_gender, count = n())
-Error in summarize(data1_by_gender, count = n()): object 'data1_by_gender' not found
-```
-
-
-Computing the number of distinct values of a column in each group
-=====================================================================
-- The `n_distinct()` function counts the number of distinct (unique) values in the specified column:
-
-```r
-> summarize(data1_by_gender, n_sizes = n_distinct(shoesize))
-Error in summarize(data1_by_gender, n_sizes = n_distinct(shoesize)): object 'data1_by_gender' not found
-```
-- Note: `distinct()` filters out any duplicate rows in a dataframe. The equivalent for vectors is `unique()`
-
-
-Exercise: count states in each region
-=====================================================================
-
-```r
-> state_data <- read_csv("http://stanford.edu/~sbagley2/bios205/data/state_data.csv")
-Error in open.connection(structure(5L, class = c("curl", "connection"), conn_id = <pointer: 0x279>), : HTTP error 404.
-> state_data
-Error in eval(expr, envir, enclos): object 'state_data' not found
-```
-- How many states are in each region?
-
-
-Answer: count states in each region
-=====================================================================
-
-```r
-> state_data_by_region <- group_by(state_data, region)
-Error in group_by(state_data, region): object 'state_data' not found
-> summarize(state_data_by_region, n_states = n())
-Error in summarize(state_data_by_region, n_states = n()): object 'state_data_by_region' not found
-```
-
-
-Challenge exercise: finding rows by group
-===================================================================
-`filter()` the grouped data in `data1_by_gender` to pick out the rows for the youngest male and female (hint: use `min()` and `==`).
-
-
-Answer: finding rows by group
-===================================================================
-
-```r
-> filter(data1_by_gender, age==min(age))
-Error in filter(data1_by_gender, age == min(age)): object 'data1_by_gender' not found
-```
-- This shows how filter can be applied to grouped data. Instead of applying the condition across all the data, it applies it group-by-group.
-
-Chaining: combining a sequence of function calls
-=================================================================
-type: section
-
-Both nesting and temporary variables can be ugly and hard to read
-=================================================================
-- In this expression, the result of `summarize` is used as an argument to `arrange`.
-- The operations are performed "inside out": first `summarize`, then `arrange`.
-
-```r
-> arrange(summarize(group_by(state_data, region), sd_area = sd(area)), sd_area)
-```
-- We could store the first result in a temporary variable:
-
-```r
-> state_data_by_region <- group_by(state_data, region)
-Error in group_by(state_data, region): object 'state_data' not found
-> region_area_sds <- summarize(state_data_by_region, sd_area = sd(area))
-Error in summarize(state_data_by_region, sd_area = sd(area)): object 'state_data_by_region' not found
-> arrange(region_area_sds, sd_area)
-Error in arrange(region_area_sds, sd_area): object 'region_area_sds' not found
-```
-
-
-Chaining using the pipe operator
-=================================================================
-- Or, we can use a new operator, `%>%`, to "pipe" the result from the first
-function call to the second function call.
-
-```r
-> state_data %>%
-+   group_by(region) %>%
-+   summarize(sd_area = sd(area)) %>%
-+   arrange(sd_area)
-Error in group_by(., region): object 'state_data' not found
-```
-
-- This makes explicit the flow of data through operations:
-  - Start with `state_data`
-  - group it by region
-  - summarize by region, computing `sd_area`
-  - arrange rows by `sd_area`
-- The code reads like instructions that a human could understand
-- putting the function calls on different lines also improves readability
-
-Pipe: details
-=================================================================
-
-```r
-> df1 %>% fun(x)
-```
-is converted into:
-
-```r
-> fun(df1, x)
-```
-- That is: the thing being piped in is used as the _first_ argument of `fun`.
-- The tidyverse functions are consistently designed so that the first argument is a data frame, and the result is a data frame, so piping always works as intended.
-
-Pipe: details
-=================================================================
-- However, the pipe works for all variables and functions, not just tidyverse functions
-
-```r
-> c(1,44,21,0,-4) %>%
-+     sum()
-[1] 62
-> sum(c(1,44,21,0,-4))
-[1] 62
-> 1 %>% `+`(1) # `+` is just a function that takes two arguments!
-[1] 2
-```
-
-Piping to another position
-=== 
-- The pipe typically pipes into the first argument of a function, but you can use the `.` syntax to send the argument elsewhere:
-
-```r
-> values = c(1,2,3,NA)
-> 
-> TRUE %>%
-+   mean(values, na.rm=.)
-[1] 2
-```
-- This is typically not done, but can be a handy shortcut in many situations
-
 dplyr cheatsheet
 ============================================================
-<div align="center">
-<img src="https://www.rstudio.com/wp-content/uploads/2018/08/data-transformation.png", height=1000, width=1400>
-</div>
+[Download the full cheatsheet here](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)
+![](images/dplyr.png)
 
 Visualization basics
 ============================================================
@@ -1688,7 +1476,7 @@ A simple scatterplot
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-102](tabular-data-figure/unnamed-chunk-102-1.png)
+![plot of chunk unnamed-chunk-84](tabular-data-figure/unnamed-chunk-84-1.png)
 - Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
 
 How to call ggplot
@@ -1717,7 +1505,7 @@ Change points to lines
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-105](tabular-data-figure/unnamed-chunk-105-1.png)
+![plot of chunk unnamed-chunk-87](tabular-data-figure/unnamed-chunk-87-1.png)
 - This is pretty ugly. Line plots are better for time series.
 
 
@@ -1731,7 +1519,7 @@ Fit straight line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-106](tabular-data-figure/unnamed-chunk-106-1.png)
+![plot of chunk unnamed-chunk-88](tabular-data-figure/unnamed-chunk-88-1.png)
 - `"lm"` means "linear model," which is a least-squares regression line.
 - The gray band is the confidence interval.
 
@@ -1746,38 +1534,49 @@ Fit smooth line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-107](tabular-data-figure/unnamed-chunk-107-1.png)
+![plot of chunk unnamed-chunk-89](tabular-data-figure/unnamed-chunk-89-1.png)
 - "loess" fits a collection of tiny regression lines, then glues them together.
 - This is a better approximation than a straight line for these data.
 
 
-Fit smooth line to points without standard error
-================================================================
+Plotting categorical variables
+====================================================================
+First, let's load in some new data.
 
 ```r
-> mtc %>% # with the pipe
-+ ggplot(aes(hp, mpg)) + 
-+   geom_point() + 
-+   geom_smooth(method="loess", se=FALSE)
-`geom_smooth()` using formula 'y ~ x'
-```
+> data1 <- read_csv("https://raw.githubusercontent.com/pre-142-training/r4ds-courses/fa8642362bf9aa1a6423988ea6d2816d7cb9c39f/data/data1.csv")
+Rows: 5 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): name, gender
+dbl (3): age, weight, shoesize
 
-![plot of chunk unnamed-chunk-108](tabular-data-figure/unnamed-chunk-108-1.png)
-- `se = FALSE` means do not plot the confidence band (using the standard error)
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+> data1
+# A tibble: 5 × 5
+  name   gender   age weight shoesize
+  <chr>  <chr>  <dbl>  <dbl>    <dbl>
+1 Emmet  F         10    1          5
+2 Jordan M         11    3          8
+3 Tala   F         20    1.5        5
+4 Parker M         25    4         10
+5 Riley  <NA>      66    5          9
+```
+- `<chr>` is short for "character string", which means text data
 
 Plotting categorical variables
 ====================================================================
-- `gender` is a discrete variable, with two values.
+
 
 ```r
 > data1 %>%
-+   group_by(gender) %>%
-+   summarize(mean_age=mean(age), mean_weight=mean(weight)) %>%
-+ ggplot(aes(gender, mean_weight)) + 
++   ggplot(aes(x = name, shoesize)) + 
 +   geom_col()
-Error in group_by(., gender): object 'data1' not found
 ```
-- `geom_col()` is used to make a bar plot. Height of bar is the value for that group.
+
+![plot of chunk unnamed-chunk-91](tabular-data-figure/unnamed-chunk-91-1.png)
+- `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
 
 The grammar of graphics
 ============================================================
@@ -1794,7 +1593,7 @@ The ggplot2 model (simplified version)
 ============================================================
 1. supply data frame (rows of observations, columns of variables)
 2. use `aes` to map from variables (columns in data frame) to
-aethetics (visual properties of the plot): x, y, color, size,
+aesthetics (visual properties of the plot): x, y, color, size,
 shape, and others.
 3. choose a `geom`. This determines the type of the plot: point (a
 scatterplot), line (line graph or line chart), bar (barplot), and
@@ -1808,9 +1607,9 @@ frame to the units used for display.
 
 ggplot2 cheatsheet
 ============================================================
-<div align="center">
-<img src="https://www.rstudio.com/wp-content/uploads/2018/08/data-visualization-2.1.png", height=1000, width=1400>
-</div>
+[Download the full cheatsheet here](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf)
+
+![](images/ggplot.png)
 
 Putting it together
 =================================================================
@@ -1831,7 +1630,7 @@ Answer: Is there a linear relationship between hp and 1/mpg?
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-110](tabular-data-figure/unnamed-chunk-110-1.png)
+![plot of chunk unnamed-chunk-92](tabular-data-figure/unnamed-chunk-92-1.png)
 - So, probably "yes"
 
 Answer: Is there a linear relationship between hp and 1/mpg?
@@ -1865,7 +1664,7 @@ Answer: orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-113](tabular-data-figure/unnamed-chunk-113-1.png)
+![plot of chunk unnamed-chunk-95](tabular-data-figure/unnamed-chunk-95-1.png)
 
 
 Exercise: more orange trees
@@ -1883,7 +1682,7 @@ Answer: more orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-114](tabular-data-figure/unnamed-chunk-114-1.png)
+![plot of chunk unnamed-chunk-96](tabular-data-figure/unnamed-chunk-96-1.png)
 
 
 Exercise: even more orange trees
@@ -1912,906 +1711,19 @@ Answer: even more orange trees
 # … with 25 more rows
 ```
 
+Review: Resources for this course
+========================================================
 
-Exercise: compute mean area per region
-=====================================================================
-Use the `state_data` data frame for this exercise.
-- What is the mean area for each region?
-- Sort the result by decreasing area.
-
-
-Answer: compute mean area per region
-=====================================================================
-
-```r
-> state_data %>%
-+   group_by(region) %>%
-+   summarize(mean_area = mean(area)) %>%
-+   arrange(desc(mean_area))
-Error in group_by(., region): object 'state_data' not found
-```
-
-
-Exercise: Sort the regions by area range
-=====================================================================
-- Sort the regions by the difference between the areas of the largest and smallest state in each region.
-
-
-Answer: Sort the regions by area range
-=====================================================================
-
-```r
-> state_data %>%
-+   group_by(region) %>%
-+   summarize(area_range = max(area) - min(area)) %>%
-+   arrange(area_range)
-Error in group_by(., region): object 'state_data' not found
-```
-
-
-Adding new column with data by group
-=====================================================================
-
-```r
-> state_data2 <- state_data %>%
-+   group_by(region) %>%
-+   mutate(region_mean = mean(area))
-Error in group_by(., region): object 'state_data' not found
-> state_data2
-Error in eval(expr, envir, enclos): object 'state_data2' not found
-```
-- This computes the mean area for each region, and places those values in a new column.
-- The `region_mean` column has 50 values, one for each state, depending on the region the state is in.
-
-
-Exercise: closest to region mean
-=====================================================================
-- Which state is closest to the mean of its region?
-
-
-Answer: closest to region mean
-=====================================================================
-
-```r
-> state_data2 %>%
-+     mutate(diff = abs(area-region_mean)) %>%
-+     filter(diff == min(diff))
-Error in mutate(., diff = abs(area - region_mean)): object 'state_data2' not found
-```
-
-- We should use `ungroup()` to undo the `group_by()` so that the `filter()` is applied across the whole data frame and not region-by-region
-
-
-```r
-> state_data2 %>%
-+     mutate(diff = abs(area-region_mean)) %>%
-+     ungroup() %>% 
-+     filter(diff == min(diff))
-Error in mutate(., diff = abs(area - region_mean)): object 'state_data2' not found
-```
-- Answer: Florida
-
-
-
-Exercise: smallest state in each region
-=====================================================================
-- What is the smallest state in each region?
-
-
-Answer: smallest state in each region
-=====================================================================
-
-```r
-> state_data %>%
-+     group_by(region) %>%
-+     filter(area == min(area))
-Error in group_by(., region): object 'state_data' not found
-```
-
-
-Relational data and joins
-============================================================
-type: section
-
-```r
-> # install.packages("nycflights13")
-> library(nycflights13)
-```
-
-
-Relational data
-=====================================================================
-class: small-code
-
-
-```r
-> head(flights)
-# A tibble: 6 × 19
-   year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-  <int> <int> <int>    <int>          <int>     <dbl>    <int>          <int>
-1  2013     1     1      517            515         2      830            819
-2  2013     1     1      533            529         4      850            830
-3  2013     1     1      542            540         2      923            850
-4  2013     1     1      544            545        -1     1004           1022
-5  2013     1     1      554            600        -6      812            837
-6  2013     1     1      554            558        -4      740            728
-# … with 11 more variables: arr_delay <dbl>, carrier <chr>, flight <int>,
-#   tailnum <chr>, origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>,
-#   hour <dbl>, minute <dbl>, time_hour <dttm>
-```
-
-```r
-> head(airports)
-# A tibble: 6 × 8
-  faa   name                             lat   lon   alt    tz dst   tzone      
-  <chr> <chr>                          <dbl> <dbl> <dbl> <dbl> <chr> <chr>      
-1 04G   Lansdowne Airport               41.1 -80.6  1044    -5 A     America/Ne…
-2 06A   Moton Field Municipal Airport   32.5 -85.7   264    -6 A     America/Ch…
-3 06C   Schaumburg Regional             42.0 -88.1   801    -6 A     America/Ch…
-4 06N   Randall Airport                 41.4 -74.4   523    -5 A     America/Ne…
-5 09J   Jekyll Island Airport           31.1 -81.4    11    -5 A     America/Ne…
-6 0A9   Elizabethton Municipal Airport  36.4 -82.2  1593    -5 A     America/Ne…
-```
+![](https://r4ds.had.co.nz/cover.png)
 
 ***
-
-
-```r
-> head(planes)
-# A tibble: 6 × 9
-  tailnum  year type           manufacturer   model  engines seats speed engine 
-  <chr>   <int> <chr>          <chr>          <chr>    <int> <int> <int> <chr>  
-1 N10156   2004 Fixed wing mu… EMBRAER        EMB-1…       2    55    NA Turbo-…
-2 N102UW   1998 Fixed wing mu… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
-3 N103US   1999 Fixed wing mu… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
-4 N104UW   1999 Fixed wing mu… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
-5 N10575   2002 Fixed wing mu… EMBRAER        EMB-1…       2    55    NA Turbo-…
-6 N105UW   1999 Fixed wing mu… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
-```
-
-```r
-> head(weather)
-# A tibble: 6 × 15
-  origin  year month   day  hour  temp  dewp humid wind_dir wind_speed wind_gust
-  <chr>  <int> <int> <int> <int> <dbl> <dbl> <dbl>    <dbl>      <dbl>     <dbl>
-1 EWR     2013     1     1     1  39.0  26.1  59.4      270      10.4         NA
-2 EWR     2013     1     1     2  39.0  27.0  61.6      250       8.06        NA
-3 EWR     2013     1     1     3  39.0  28.0  64.4      240      11.5         NA
-4 EWR     2013     1     1     4  39.9  28.0  62.2      250      12.7         NA
-5 EWR     2013     1     1     5  39.0  28.0  64.4      260      12.7         NA
-6 EWR     2013     1     1     6  37.9  28.0  67.2      240      11.5         NA
-# … with 4 more variables: precip <dbl>, pressure <dbl>, visib <dbl>,
-#   time_hour <dttm>
-```
-
-Relational data
-===
-
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/245292d1ea724f6c3fd8a92063dcd7bfb9758d02/5751b/diagrams/relational-nycflights.png">
-</div>
-
-- `flights` connects to `planes` via a single variable, `tailnum`.
-- `flights` connects to `airlines` through the `carrier` variable.
-- `flights` connects to `airports` in two ways: via the `origin` and `dest` variables.
-- `flights` connects to `weather` via `origin` (the location), and `year`, `month`, `day` and `hour` (the time).
-
-An example join
-===
-- Imagine we want to add the full airline name to some columns from `flights`
-
-```r
-> flights %>%
-+   select(tailnum, origin, dest, carrier) %>%
-+   inner_join(airlines, by="carrier")
-# A tibble: 336,776 × 5
-   tailnum origin dest  carrier name                    
-   <chr>   <chr>  <chr> <chr>   <chr>                   
- 1 N14228  EWR    IAH   UA      United Air Lines Inc.   
- 2 N24211  LGA    IAH   UA      United Air Lines Inc.   
- 3 N619AA  JFK    MIA   AA      American Airlines Inc.  
- 4 N804JB  JFK    BQN   B6      JetBlue Airways         
- 5 N668DN  LGA    ATL   DL      Delta Air Lines Inc.    
- 6 N39463  EWR    ORD   UA      United Air Lines Inc.   
- 7 N516JB  EWR    FLL   B6      JetBlue Airways         
- 8 N829AS  LGA    IAD   EV      ExpressJet Airlines Inc.
- 9 N593JB  JFK    MCO   B6      JetBlue Airways         
-10 N3ALAA  LGA    ORD   AA      American Airlines Inc.  
-# … with 336,766 more rows
-```
-
-Joins
-===
-
-```r
-> x <- tibble(
-+   key = c(1,2,3),
-+   val_x = c("x1","x2","x3")
-+ )
-> y <- tibble(
-+   key = c(1,2,4),
-+   val_y = c("y1","y2","y3")
-+ )
-```
-
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/108c0749d084c03103f8e1e8276c20e06357b124/5f113/diagrams/join-setup.png">
-</div>
-
-***
-
-
-```r
-> inner_join(x, y, by="key")
-# A tibble: 2 × 3
-    key val_x val_y
-  <dbl> <chr> <chr>
-1     1 x1    y1   
-2     2 x2    y2   
-```
-- An inner join matches pairs of observations when their keys are equal
-- the column that is joined on is specified with the named argument `by="column"`
-
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/3abea0b730526c3f053a3838953c35a0ccbe8980/7f29b/diagrams/join-inner.png">
-</div>
-
-Duplicate keys
-===
-
-```r
-> x <- tibble(
-+   key = c(1,2,2,3),
-+   val_x = c("x1","x2","x3","x4")
-+ )
-> y <- tibble(
-+   key = c(1,2,2,4),
-+   val_y = c("y1","y2","y3","y4")
-+ )
-```
-
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/d37530bbf7749f48c02684013ae72b2996b07e25/37510/diagrams/join-many-to-many.png">
-</div>
-
-***
-
-
-```r
-> inner_join(x, y, by="key")
-# A tibble: 5 × 3
-    key val_x val_y
-  <dbl> <chr> <chr>
-1     1 x1    y1   
-2     2 x2    y2   
-3     2 x2    y3   
-4     2 x3    y2   
-5     2 x3    y3   
-```
-
-When keys are duplicated, multiple rows can match multiple rows, so each possible combination is produced
-
-Specifying the keys
-===
-
-```r
-> inner_join(airports, flights, by="origin")
-Error: Join columns must be present in data.
-x Problem with `origin`.
-```
-- Why does this fail?
-
-Specifying the keys
-===
-- When keys have different names in different dataframes, the syntax to join is:
-
-```r
-> inner_join(airports, flights, by=c("faa"="origin"))
-# A tibble: 336,776 × 26
-   faa   name      lat   lon   alt    tz dst   tzone   year month   day dep_time
-   <chr> <chr>   <dbl> <dbl> <dbl> <dbl> <chr> <chr>  <int> <int> <int>    <int>
- 1 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      517
- 2 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      554
- 3 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      555
- 4 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      558
- 5 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      559
- 6 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      601
- 7 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      606
- 8 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      607
- 9 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      608
-10 EWR   Newark…  40.7 -74.2    18    -5 A     Ameri…  2013     1     1      615
-# … with 336,766 more rows, and 14 more variables: sched_dep_time <int>,
-#   dep_delay <dbl>, arr_time <int>, sched_arr_time <int>, arr_delay <dbl>,
-#   carrier <chr>, flight <int>, tailnum <chr>, dest <chr>, air_time <dbl>,
-#   distance <dbl>, hour <dbl>, minute <dbl>, time_hour <dttm>
-```
-
-Exercise: finding planes
-===
-Use joins to find the models of airplane that fly into Seattle Tacoma Intl.
-
-Answer: finding planes
-===
-Use joins to find the models of airplane that fly into Seattle Tacoma Intl.
-
-```r
-> airports %>%
-+   filter(name=="Seattle Tacoma Intl") %>%
-+   inner_join(flights, by=c("faa"="dest")) %>%
-+   inner_join(planes, by="tailnum") %>%
-+   select(model) %>%
-+   distinct()
-# A tibble: 24 × 1
-   model    
-   <chr>    
- 1 737-890  
- 2 737-832  
- 3 737-924ER
- 4 A320-232 
- 5 737-824  
- 6 757-231  
- 7 757-232  
- 8 757-2Q8  
- 9 767-332  
-10 757-222  
-# … with 14 more rows
-```
-
-Other joins
-===
-- A left join keeps all observations in `x`.
-- A right join keeps all observations in `y`.
-- A full join keeps all observations in `x` and `y`.
-
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/9c12ca9e12ed26a7c5d2aa08e36d2ac4fb593f1e/79980/diagrams/join-outer.png">
-</div>
-
-- Left join should be your default
-  - it looks up additional information in other tables
-  - preserves all rows in the table you're most interested in
-
-***
-
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/aeab386461820b029b7e7606ccff1286f623bae1/ef0d4/diagrams/join-venn.png">
-</div>
-
-Joining on multiple columns
-===
-- It is often desirable to find matches along more than one column
-
-```r
-> flights %>%
-+   select(tailnum, year:day, hour, origin) %>%
-+   left_join(weather, by=c("year", "month", "day", "hour", "origin")) %>% 
-+   head(3)
-# A tibble: 3 × 16
-  tailnum  year month   day  hour origin  temp  dewp humid wind_dir wind_speed
-  <chr>   <int> <int> <int> <dbl> <chr>  <dbl> <dbl> <dbl>    <dbl>      <dbl>
-1 N14228   2013     1     1     5 EWR     39.0  28.0  64.4      260       12.7
-2 N24211   2013     1     1     5 LGA     39.9  25.0  54.8      250       15.0
-3 N619AA   2013     1     1     5 JFK     39.0  27.0  61.6      260       15.0
-# … with 5 more variables: wind_gust <dbl>, precip <dbl>, pressure <dbl>,
-#   visib <dbl>, time_hour <dttm>
-```
-- This is also possible if the columns have different names
-
-```r
-> flights %>%
->   select(tailnum, year:day, hour, origin) %>%
->   rename(departure = origin) %>%
->   left_join(weather, by=c("year", "month", "day", "hour", "departure"="origin"))
-```
-
-Join problems
-===
-- Joins can be a source of subtle errors in your code
-- check for `NA`s in variables you are going to join on
-- make sure rows aren't being dropped if you don't intend to drop rows
-  - checking the number of rows before and after the join is not sufficient. If you have an inner join with duplicate keys in both tables, you might get unlucky as the number of dropped rows might exactly equal the number of duplicated rows
-- `anti_join()` and `semi_join()` are useful tools (filtering joins) to diagnose problems
-  - `anti_join()` keeps only the rows in `x` that *don't* have a match in `y`
-  - `semi_join()` keeps only the rows in `x` that *do* have a match in `y`
-
-Exercise: nonexistent planes
-====
-It appears some of the `tailnum`s in `flights` do not appear in `planes`. Is there something those flights have in common that might help us diagnose the issue? 
-
-Answer: nonexistent planes
-====
-
-```r
-> bad_flight_carrier_count = flights %>% 
-+   anti_join(planes, by="tailnum") %>%
-+   sample_n(10)
-```
-
-Answer: nonexistent planes
-====
-It appears some of the `tailnum`s in `flights` do not appear in `planes`. Is there something those flights have in common that might help us diagnose the issue?
-
-```r
-> bad_flight_carrier_count = flights %>% 
-+   anti_join(planes, by="tailnum") %>% 
-+   count(carrier) %>% 
-+   arrange(desc(n))
-> bad_flight_carrier_count
-# A tibble: 10 × 2
-   carrier     n
-   <chr>   <int>
- 1 MQ      25397
- 2 AA      22558
- 3 UA       1693
- 4 9E       1044
- 5 B6        830
- 6 US        699
- 7 FL        187
- 8 DL        110
- 9 F9         50
-10 WN         38
-```
-
-- `count(x)` is a shortcut for `group_by(x) %>% summarize(n=n())` 
-
-***
-
-Let's compare the counts of airlines with missing planes to the counts of airlines across all flight data
-
-```r
-> flight_carrier_count = flights %>% 
-+   count(carrier) %>% 
-+   arrange(desc(n))
-> flight_carrier_count
-# A tibble: 16 × 2
-   carrier     n
-   <chr>   <int>
- 1 UA      58665
- 2 B6      54635
- 3 EV      54173
- 4 DL      48110
- 5 AA      32729
- 6 MQ      26397
- 7 US      20536
- 8 9E      18460
- 9 WN      12275
-10 VX       5162
-11 FL       3260
-12 AS        714
-13 F9        685
-14 YV        601
-15 HA        342
-16 OO         32
-```
-
-Answer: nonexistent planes
-====
-We can already see the trend but let's clean it up a bit
-
-```r
-> flight_carrier_count %>%
->   left_join(bad_flight_carrier_count, 
->             by="carrier", 
->             suffix=c("_all", "_bad")) %>%
->   replace_na(list(n_bad=0)) %>% 
->   mutate(bad_ratio = n_bad/n_all) %>%
->   left_join(airlines, by="carrier") %>%
-> ggplot(aes(y=name, x=bad_ratio)) + 
->   geom_point()
-```
-
-***
-
-![plot of chunk unnamed-chunk-141](tabular-data-figure/unnamed-chunk-141-1.png)
-
-- Envoy Air and American Airlines are the culprits!
-
-More about ggplot2
-============================================================
-type: section
-
-Distinguishing groups in plots
-========================================================
-
-```r
-> head(orange, 3)
-# A tibble: 3 × 3
-  Tree    age circumference
-  <ord> <dbl>         <dbl>
-1 1       118            30
-2 1       484            58
-3 1       664            87
-```
-- The data frame `orange` contains data on five trees.
-
-Distinguishing groups in plots
-========================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) + 
-+   geom_point()
-```
-
-![plot of chunk unnamed-chunk-143](tabular-data-figure/unnamed-chunk-143-1.png)
-- If we plot it, we see the data from all the trees in a single
-plot, but would be better to visually distinguish the different trees
-
-Example of ggplot2 with color
-============================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) + 
-+   geom_point(aes(color = Tree))
-```
-
-![plot of chunk unnamed-chunk-144](tabular-data-figure/unnamed-chunk-144-1.png)
-
-
-Example of ggplot2 with color with larger dots
-============================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) + 
-+   geom_point(aes(color = Tree), size=3)
-```
-
-![plot of chunk unnamed-chunk-145](tabular-data-figure/unnamed-chunk-145-1.png)
-- the aesthetics (what's inside of `aes()`) tell ggplot how the columns of the data relate to what should go on the plot
-- things that don't relate to the data should go outisde of the call to `aes()`. e.g. `size=3` in this case.
-- aesthetics defined in `ggplot()` are passed down to the geoms
-
-Example of ggplot2 with plot shape
-============================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) + 
-+   geom_point(aes(shape = Tree), size=3)
-Warning: Using shapes for an ordinal variable is not advised
-```
-
-![plot of chunk unnamed-chunk-146](tabular-data-figure/unnamed-chunk-146-1.png)
-
-
-Example of ggplot2 with plot color and shape
-============================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) + 
-+   geom_point(aes(color = Tree, shape = Tree), size=3)
-Warning: Using shapes for an ordinal variable is not advised
-```
-
-![plot of chunk unnamed-chunk-147](tabular-data-figure/unnamed-chunk-147-1.png)
-
-
-Exercise: lines and colors
-========================================================
-Reproduce this plot
-
-![plot of chunk unnamed-chunk-148](tabular-data-figure/unnamed-chunk-148-1.png)
-
-Answer: lines and colors
-========================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) +
-+   geom_point(aes(color = Tree)) +
-+   geom_line(aes(color = Tree))
-```
-or
-
-```r
-> orange %>%
-+ ggplot(aes(age, circumference, color=Tree)) +
-+   geom_point() +
-+   geom_line()
-```
-
-![plot of chunk unnamed-chunk-150](tabular-data-figure/unnamed-chunk-150-1.png)
-- Recall that the aesthetics in `ggplot` are passed down to the geoms
-
-Using the loess smoother
-========================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) +
-+   geom_point() +
-+   facet_wrap(~ Tree) +
-+   geom_smooth(method = loess, se = FALSE)
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-151](tabular-data-figure/unnamed-chunk-151-1.png)
-
-Exercise: loess with color
-========================================================
-Reproduce the following plot:
-
-
-```
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-152](tabular-data-figure/unnamed-chunk-152-1.png)
-
-Answer: loess with color
-========================================================
-
-```r
-> ggplot(orange, aes(age, circumference, color=Tree)) +
-+   geom_point() +
-+   geom_smooth(method = loess, se = FALSE)
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-153](tabular-data-figure/unnamed-chunk-153-1.png)
-
-Aesthetics can be used within each plot element separately
-========================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) +
-+   geom_point(aes(shape=Tree)) +
-+   geom_smooth(aes(color=Tree), method = loess, se = FALSE)
-Warning: Using shapes for an ordinal variable is not advised
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-154](tabular-data-figure/unnamed-chunk-154-1.png)
-
-Facets: multiple aligned plots by group
-============================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) + 
-+   geom_point(size = 3) + 
-+   facet_wrap(~ Tree)
-```
-
-![plot of chunk unnamed-chunk-155](tabular-data-figure/unnamed-chunk-155-1.png)
-
-
-Alternative using facets
-========================================================
-
-```r
-> orange %>%
-+ ggplot(aes(age, circumference)) + 
-+   geom_point() + 
-+   geom_line() +
-+   facet_wrap(~ Tree)
-```
-
-![plot of chunk unnamed-chunk-156](tabular-data-figure/unnamed-chunk-156-1.png)
-
-
-Facet syntax
-========================================================
-- `facet_wrap(~ facet_variable)`: This puts the
-facets left-to-right, top-to-bottom, wrapping around.
-- `facet_grid(y-variable ~ .)`: This puts them in
-a vertically-aligned stack, by value of the y-variable.
-- `facet_grid(. ~ x-variable)`: This puts them in
-a horizontally-aligned stack, by value of the x-variable.
-
-
-Facet grid example 1
-========================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) +  
-+   geom_point() +
-+   facet_grid(. ~ Tree)
-```
-
-![plot of chunk unnamed-chunk-157](tabular-data-figure/unnamed-chunk-157-1.png)
-
-
-Facet grid example 2
-========================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) + 
-+   geom_point() +
-+   facet_grid(Tree ~ .)
-```
-
-![plot of chunk unnamed-chunk-158](tabular-data-figure/unnamed-chunk-158-1.png)
-
-
-Fitting straight lines
-========================================================
-- The data in each facet show a nearly linear relation between
-circumference and age.
-- R can calculate the least squares fit line and plot it atop
-the data points.
-
-
-Facet example with fitted lines (linear regression)
-========================================================
-
-```r
-> ggplot(orange, aes(age, circumference)) +
-+   geom_point() +
-+   facet_wrap(~ Tree) +
-+   geom_smooth(method = lm, se=FALSE)
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-159](tabular-data-figure/unnamed-chunk-159-1.png)
-
-
-Error bars
-============================================================
-- Let's add error bars to a plot. We'll use the state data, which has
-multiple area measurements for each of the four regions.
-
-Error bars, first plot
-=============================================================
-
-```r
-> ggplot(state_data, aes(region, area)) + 
-+   geom_point()
-Error in ggplot(state_data, aes(region, area)): object 'state_data' not found
-```
-
-Error bars, computing group mean and standard deviation
-============================================================
-
-```r
-> plot = state_data %>%
-+   group_by(region) %>%
-+   summarize(
-+     region_mean = mean(area),
-+     region_sd = sd(area)) %>%
-+ ggplot(aes(region, region_mean)) + 
-+   geom_point()
-Error in group_by(., region): object 'state_data' not found
-> plot
-function (x, y, ...) 
-UseMethod("plot")
-<bytecode: 0x7f86dc5722c0>
-<environment: namespace:base>
-```
-
-Error bars: plot the error bars
-============================================================
-
-```r
-> plot +
-+   geom_errorbar(aes(ymin = region_mean - region_sd,
-+                     ymax = region_mean + region_sd,
-+                     width = 0.3))
-NULL
-```
-
-
-ggplot2 and the + operator
-========================================================
-- `ggplot(...) + geom_point()` is a strange
-expression: it uses the `+` operator to add things (plots and
-plot specifications), which are not numbers.
-- This uses a feature called generic functions: the types
-of the arguments to `+` determine which piece of code, called a
-method, to run.
-- ggplot2 relies on this feature heavily.
-
-```r
-> p <- ggplot(mtc, aes(hp, mpg))
-> l <- geom_point()
-> p + l
-```
-- Note you can save parts of the graph specification and then add
-them together.
-- The graph will only be displayed when the third expression is
-evaluated.
-
-More on ggplot2
-===
-- Almost everything is customizable in ggplot. 
-- See R for Data Science ch. 28 for more on changing legends, colors, axis labels, etc.
-- There are thousands of examples online
-
-<div align="left">
-<img src="https://www.r-graph-gallery.com/wp-content/uploads/2017/12/327_Chloropleth_geoJSON_ggplot2_4.png", height=700, width=1400>
-</div>
-
-
-Reproducible analysis
-============================================================
-type: section
-
-
-Reproducible analysis
-========================================================
-
-The goal of reproducible analysis is to produce a computational
-artifact that others can view, scrutinize, test, and run, to convince
-themselves that your ideas are valid. (It's also good for you to be as
-skeptical of your work.) This means you should write code to be run
-more than once and by others.
-
-Doing so requires being organized in several ways:
-
-- Combining text with code (the focus of this section)
-- Project/directory organization
-- Version control
-
-The problem
-========================================================
-- You write text in a word processor.
-- You write code to compute with data and produce output and
-graphics.
-- These are performed using different software.
-- So when integrating both kinds of information into a notebook,
-report, or publication, it is very easy to make mistakes,
-copy/paste the wrong version, and have information out of sync.
-
-
-A solution
-========================================================
-- Write text and code in the same file.
-- Use special syntax to separate text from code.
-- Use special syntax for annotating the text with formatting
-operations (if desired).
-- RStudio can then:
-1. run the code blocks,
-2. insert the output and graphs at the correct spot in the text,
-3. then call a text processor for final formatting.
-- This whole process is called "knitting".
-- (live demo)
-- jupyter notebooks (outside of RStudio) are an alternative for doing the same thing
-
-
-R Markdown: The special syntax for formatting text
-========================================================
-- RStudio supports a simple and easy-to-use format called "R Markdown".
-- This is a very simple markup language:
-- use * or _ around italics.
-- use ** or __ around bold.
-- Markdown Quick Reference (RStudio internal help)
-- [Introduction to R Markdown](http://shiny.rstudio.com/articles/rmarkdown.html)
-- [R Markdown web page](http://rmarkdown.rstudio.com/)
-- [R Markdown Cheat Sheet](http://shiny.rstudio.com/articles/rm-cheatsheet.html)
-
-
-Wrap-up
-========================================================
-type: section
-
-Goals of this course
-========================================================
-By the end of the course you should be able to...
-
-- write neat R scripts and markdown reports in R studio
-- find, read, and understand package and function documentation 
-- read and write tabular data into R from flat files
-- perform basic manipulations on tabular data: subsetting, manipulating and summarizing data, and joining
-- visualize tabluar data using line and scatter plots along with color and facets
-
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/571b056757d68e6df81a3e3853f54d3c76ad6efc/32d37/diagrams/data-science.png" width=800 height=300>
-</div>
-
-Tidyverse
-========================================================
-<div align="center">
-<img src="https://pbs.twimg.com/media/DuRP1tVVAAEcpxO.jpg">
-</div>
-
-Resources for this course
-========================================================
-
-R for Data Science (R4DS): https://r4ds.had.co.nz
-<div align="center">
-<img src="https://r4ds.had.co.nz/cover.png">
-</div>
-
-***
+## [R for Data Science (R4DS) free online book by Hadley Wickham](https://r4ds.had.co.nz)
 
 - Fundamentals: ch 1, 4, 6
 - Input/output: ch 11
 - Data manipulation: ch 5, 13
 - Visualization: ch 3, 28
 
-Cheatsheets: https://www.rstudio.com/resources/cheatsheets/
+## [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+
+- Extremely useful reference guides for functions used in this course
