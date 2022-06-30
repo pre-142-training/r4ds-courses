@@ -653,8 +653,7 @@ A data frame is one of the most powerful features in R.
 types of data, similar to an Excel spreadsheet.
 - Typically, each row in a data frame contains information about one
 instance of some (real-world) object.
-- Each column can be thought of as a variable, containing the values for the
-corresponding instances.
+- Each column can be thought of as a variable, containing the values for the corresponding instances.
 - All the values in one column should be of the same type (a number, a category, text, etc.), but
 different columns can be of different types.
 - Each column is actually a vector, so a data frame is like a list of vectors
@@ -689,13 +688,13 @@ mtc = read_csv("https://tinyurl.com/mtcars-csv")
 - `read_csv` (from the `readr` package, part of `tidyverse`) reads in data frames that are stored in `.csv` files (.csv = comma-separated values)
 - these files may be online (accessed via URL), or local, in which case the syntax is `read_csv("path/to/file/mtcars.csv")`
 - try `?read_csv` to learn a bit more
-- `.csv`s can also be exported from databases and saved locally to be read into R, although later we will learn how to communicate directly with a database to pull data into `R`.
+- `.csv`s can also be exported from spreadsheets and databases and then saved locally to be read into R.
 
 Making data frames
 ========================================================
 - use `tibble()` to make your own data frames from scratch in R
 ```{r}
-my_data = tibble( # newlines don't do anything, just increase clarity
+my_data = tibble( # newlines don't do anything, just increase code readability
   mrn = c(1, 2, 3, 4),
   age = c(33, 48, 8, 29)
 )
@@ -718,9 +717,12 @@ names(my_data)
 
 Data frame properties
 ========================================================
-- `glimpse()` shows you a lot of information, `head()` returns the first `n` rows
+- `glimpse()` shows you a lot of information
 ```{r}
 glimpse(my_data)
+```
+- `head()` returns the first `n` rows
+```{r}
 head(my_data, n=2)
 ```
 

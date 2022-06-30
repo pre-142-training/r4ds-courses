@@ -748,8 +748,7 @@ A data frame is one of the most powerful features in R.
 types of data, similar to an Excel spreadsheet.
 - Typically, each row in a data frame contains information about one
 instance of some (real-world) object.
-- Each column can be thought of as a variable, containing the values for the
-corresponding instances.
+- Each column can be thought of as a variable, containing the values for the corresponding instances.
 - All the values in one column should be of the same type (a number, a category, text, etc.), but
 different columns can be of different types.
 - Each column is actually a vector, so a data frame is like a list of vectors
@@ -813,14 +812,14 @@ Reading in flat files
 - `read_csv` (from the `readr` package, part of `tidyverse`) reads in data frames that are stored in `.csv` files (.csv = comma-separated values)
 - these files may be online (accessed via URL), or local, in which case the syntax is `read_csv("path/to/file/mtcars.csv")`
 - try `?read_csv` to learn a bit more
-- `.csv`s can also be exported from databases and saved locally to be read into R, although later we will learn how to communicate directly with a database to pull data into `R`.
+- `.csv`s can also be exported from spreadsheets and databases and then saved locally to be read into R.
 
 Making data frames
 ========================================================
 - use `tibble()` to make your own data frames from scratch in R
 
 ```r
-> my_data = tibble( # newlines don't do anything, just increase clarity
+> my_data = tibble( # newlines don't do anything, just increase code readability
 +   mrn = c(1, 2, 3, 4),
 +   age = c(33, 48, 8, 29)
 + )
@@ -856,7 +855,7 @@ Data frame properties
 
 Data frame properties
 ========================================================
-- `glimpse()` shows you a lot of information, `head()` returns the first `n` rows
+- `glimpse()` shows you a lot of information
 
 ```r
 > glimpse(my_data)
@@ -864,6 +863,10 @@ Rows: 4
 Columns: 2
 $ mrn <dbl> 1, 2, 3, 4
 $ age <dbl> 33, 48, 8, 29
+```
+- `head()` returns the first `n` rows
+
+```r
 > head(my_data, n=2)
 # A tibble: 2 × 2
     mrn   age
@@ -1092,11 +1095,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
-2  19.7     6  145    175  3.62  2.77  15.5     0     1     5     6
-3  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1
-4  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
-5  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+1  17.3     8 276.    180  3.07  3.73  17.6     0     0     3     3
+2  13.3     8 350     245  3.73  3.84  15.4     0     0     3     4
+3  10.4     8 460     215  3     5.42  17.8     0     0     3     4
+4  18.1     6 225     105  2.76  3.46  20.2     1     0     3     1
+5  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1491,7 +1494,7 @@ First, let's load in some new data.
 
 ```r
 > data1 <- read_csv("http://stanford.edu/~sbagley2/bios205/data/data1.csv")
-Error in open.connection(structure(4L, class = c("curl", "connection"), conn_id = <pointer: 0x271>), : HTTP error 404.
+Error in open.connection(structure(4L, class = c("curl", "connection"), conn_id = <pointer: 0x26f>), : HTTP error 404.
 > data1
 Error in eval(expr, envir, enclos): object 'data1' not found
 ```
@@ -1566,7 +1569,7 @@ Exercise: count states in each region
 
 ```r
 > state_data <- read_csv("http://stanford.edu/~sbagley2/bios205/data/state_data.csv")
-Error in open.connection(structure(5L, class = c("curl", "connection"), conn_id = <pointer: 0x27b>), : HTTP error 404.
+Error in open.connection(structure(5L, class = c("curl", "connection"), conn_id = <pointer: 0x279>), : HTTP error 404.
 > state_data
 Error in eval(expr, envir, enclos): object 'state_data' not found
 ```
@@ -1716,7 +1719,7 @@ A simple scatterplot
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-102](tabular-data-figure/unnamed-chunk-102-1.png)
+![plot of chunk unnamed-chunk-103](tabular-data-figure/unnamed-chunk-103-1.png)
 - Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
 
 How to call ggplot
@@ -1745,7 +1748,7 @@ Change points to lines
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-105](tabular-data-figure/unnamed-chunk-105-1.png)
+![plot of chunk unnamed-chunk-106](tabular-data-figure/unnamed-chunk-106-1.png)
 - This is pretty ugly. Line plots are better for time series.
 
 
@@ -1759,7 +1762,7 @@ Fit straight line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-106](tabular-data-figure/unnamed-chunk-106-1.png)
+![plot of chunk unnamed-chunk-107](tabular-data-figure/unnamed-chunk-107-1.png)
 - `"lm"` means "linear model," which is a least-squares regression line.
 - The gray band is the confidence interval.
 
@@ -1774,7 +1777,7 @@ Fit smooth line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-107](tabular-data-figure/unnamed-chunk-107-1.png)
+![plot of chunk unnamed-chunk-108](tabular-data-figure/unnamed-chunk-108-1.png)
 - "loess" fits a collection of tiny regression lines, then glues them together.
 - This is a better approximation than a straight line for these data.
 
@@ -1790,7 +1793,7 @@ Fit smooth line to points without standard error
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-108](tabular-data-figure/unnamed-chunk-108-1.png)
+![plot of chunk unnamed-chunk-109](tabular-data-figure/unnamed-chunk-109-1.png)
 - `se = FALSE` means do not plot the confidence band (using the standard error)
 
 Plotting categorical variables
@@ -1859,7 +1862,7 @@ Answer: Is there a linear relationship between hp and 1/mpg?
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-110](tabular-data-figure/unnamed-chunk-110-1.png)
+![plot of chunk unnamed-chunk-111](tabular-data-figure/unnamed-chunk-111-1.png)
 - So, probably "yes"
 
 Answer: Is there a linear relationship between hp and 1/mpg?
@@ -1893,7 +1896,7 @@ Answer: orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-113](tabular-data-figure/unnamed-chunk-113-1.png)
+![plot of chunk unnamed-chunk-114](tabular-data-figure/unnamed-chunk-114-1.png)
 
 
 Exercise: more orange trees
@@ -1911,7 +1914,7 @@ Answer: more orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-114](tabular-data-figure/unnamed-chunk-114-1.png)
+![plot of chunk unnamed-chunk-115](tabular-data-figure/unnamed-chunk-115-1.png)
 
 
 Exercise: even more orange trees
@@ -2430,7 +2433,7 @@ We can already see the trend but let's clean it up a bit
 
 ***
 
-![plot of chunk unnamed-chunk-141](tabular-data-figure/unnamed-chunk-141-1.png)
+![plot of chunk unnamed-chunk-142](tabular-data-figure/unnamed-chunk-142-1.png)
 
 - Envoy Air and American Airlines are the culprits!
 
@@ -2460,7 +2463,7 @@ Distinguishing groups in plots
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-143](tabular-data-figure/unnamed-chunk-143-1.png)
+![plot of chunk unnamed-chunk-144](tabular-data-figure/unnamed-chunk-144-1.png)
 - If we plot it, we see the data from all the trees in a single
 plot, but would be better to visually distinguish the different trees
 
@@ -2472,7 +2475,7 @@ Example of ggplot2 with color
 +   geom_point(aes(color = Tree))
 ```
 
-![plot of chunk unnamed-chunk-144](tabular-data-figure/unnamed-chunk-144-1.png)
+![plot of chunk unnamed-chunk-145](tabular-data-figure/unnamed-chunk-145-1.png)
 
 
 Example of ggplot2 with color with larger dots
@@ -2483,7 +2486,7 @@ Example of ggplot2 with color with larger dots
 +   geom_point(aes(color = Tree), size=3)
 ```
 
-![plot of chunk unnamed-chunk-145](tabular-data-figure/unnamed-chunk-145-1.png)
+![plot of chunk unnamed-chunk-146](tabular-data-figure/unnamed-chunk-146-1.png)
 - the aesthetics (what's inside of `aes()`) tell ggplot how the columns of the data relate to what should go on the plot
 - things that don't relate to the data should go outisde of the call to `aes()`. e.g. `size=3` in this case.
 - aesthetics defined in `ggplot()` are passed down to the geoms
@@ -2497,7 +2500,7 @@ Example of ggplot2 with plot shape
 Warning: Using shapes for an ordinal variable is not advised
 ```
 
-![plot of chunk unnamed-chunk-146](tabular-data-figure/unnamed-chunk-146-1.png)
+![plot of chunk unnamed-chunk-147](tabular-data-figure/unnamed-chunk-147-1.png)
 
 
 Example of ggplot2 with plot color and shape
@@ -2509,14 +2512,14 @@ Example of ggplot2 with plot color and shape
 Warning: Using shapes for an ordinal variable is not advised
 ```
 
-![plot of chunk unnamed-chunk-147](tabular-data-figure/unnamed-chunk-147-1.png)
+![plot of chunk unnamed-chunk-148](tabular-data-figure/unnamed-chunk-148-1.png)
 
 
 Exercise: lines and colors
 ========================================================
 Reproduce this plot
 
-![plot of chunk unnamed-chunk-148](tabular-data-figure/unnamed-chunk-148-1.png)
+![plot of chunk unnamed-chunk-149](tabular-data-figure/unnamed-chunk-149-1.png)
 
 Answer: lines and colors
 ========================================================
@@ -2535,7 +2538,7 @@ or
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-150](tabular-data-figure/unnamed-chunk-150-1.png)
+![plot of chunk unnamed-chunk-151](tabular-data-figure/unnamed-chunk-151-1.png)
 - Recall that the aesthetics in `ggplot` are passed down to the geoms
 
 Using the loess smoother
@@ -2549,7 +2552,7 @@ Using the loess smoother
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-151](tabular-data-figure/unnamed-chunk-151-1.png)
+![plot of chunk unnamed-chunk-152](tabular-data-figure/unnamed-chunk-152-1.png)
 
 Exercise: loess with color
 ========================================================
@@ -2560,7 +2563,7 @@ Reproduce the following plot:
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-152](tabular-data-figure/unnamed-chunk-152-1.png)
+![plot of chunk unnamed-chunk-153](tabular-data-figure/unnamed-chunk-153-1.png)
 
 Answer: loess with color
 ========================================================
@@ -2572,7 +2575,7 @@ Answer: loess with color
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-153](tabular-data-figure/unnamed-chunk-153-1.png)
+![plot of chunk unnamed-chunk-154](tabular-data-figure/unnamed-chunk-154-1.png)
 
 Aesthetics can be used within each plot element separately
 ========================================================
@@ -2585,7 +2588,7 @@ Warning: Using shapes for an ordinal variable is not advised
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-154](tabular-data-figure/unnamed-chunk-154-1.png)
+![plot of chunk unnamed-chunk-155](tabular-data-figure/unnamed-chunk-155-1.png)
 
 Facets: multiple aligned plots by group
 ============================================================
@@ -2596,7 +2599,7 @@ Facets: multiple aligned plots by group
 +   facet_wrap(~ Tree)
 ```
 
-![plot of chunk unnamed-chunk-155](tabular-data-figure/unnamed-chunk-155-1.png)
+![plot of chunk unnamed-chunk-156](tabular-data-figure/unnamed-chunk-156-1.png)
 
 
 Alternative using facets
@@ -2610,7 +2613,7 @@ Alternative using facets
 +   facet_wrap(~ Tree)
 ```
 
-![plot of chunk unnamed-chunk-156](tabular-data-figure/unnamed-chunk-156-1.png)
+![plot of chunk unnamed-chunk-157](tabular-data-figure/unnamed-chunk-157-1.png)
 
 
 Facet syntax
@@ -2632,7 +2635,7 @@ Facet grid example 1
 +   facet_grid(. ~ Tree)
 ```
 
-![plot of chunk unnamed-chunk-157](tabular-data-figure/unnamed-chunk-157-1.png)
+![plot of chunk unnamed-chunk-158](tabular-data-figure/unnamed-chunk-158-1.png)
 
 
 Facet grid example 2
@@ -2644,7 +2647,7 @@ Facet grid example 2
 +   facet_grid(Tree ~ .)
 ```
 
-![plot of chunk unnamed-chunk-158](tabular-data-figure/unnamed-chunk-158-1.png)
+![plot of chunk unnamed-chunk-159](tabular-data-figure/unnamed-chunk-159-1.png)
 
 
 Fitting straight lines
@@ -2666,7 +2669,7 @@ Facet example with fitted lines (linear regression)
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-159](tabular-data-figure/unnamed-chunk-159-1.png)
+![plot of chunk unnamed-chunk-160](tabular-data-figure/unnamed-chunk-160-1.png)
 
 
 Error bars
@@ -2698,7 +2701,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7fa45f957470>
+<bytecode: 0x7fe799025990>
 <environment: namespace:base>
 ```
 
