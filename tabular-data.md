@@ -204,7 +204,7 @@ evaluation.
 > 0:(10 + 1)
  [1]  0  1  2  3  4  5  6  7  8  9 10 11
 ```
-- Optional: check out [a list of R operators and their precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html).
+- ADVANCED: check out [a complete list of R operators and their precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html).
 
 Variables
 ========================================================
@@ -256,7 +256,6 @@ to type this using one key combination.
 - `=` is easier to type.
 - You will see both used throughout R and user code.
 
-
 ```r
 > x <- 10
 > x
@@ -265,7 +264,7 @@ to type this using one key combination.
 > x
 [1] 20
 ```
-
+- We suggest you stick to the arrow `<-` to reduce confusion with the comparison operator `==` (more on that later).
 
 Assignment has no undo
 ========================================================
@@ -315,10 +314,10 @@ disputes over the right way to do this can get heated.
 ```r
 stringlength
 string.length
-StringLength
+StringLength (CamelCase)
 stringLength
-string_length (underbar)
-string-length (hyphen)
+string_length (underbar or snake_case)
+string-length (hyphen or kebab-case)
 ```
 - To be consistent with the packages we will use, I recommend snake_case where you separate lowercase words with _
 - Note that R itself uses several of these conventions.
@@ -1074,11 +1073,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-2  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
-3  19.2     6 168.    123  3.92  3.44  18.3     1     0     4     4
-4  15.5     8 318     150  2.76  3.52  16.9     0     0     3     2
-5  15.2     8 276.    180  3.07  3.78  18       0     0     3     3
+1  15       8  301    335  3.54  3.57  14.6     0     1     5     8
+2  27.3     4   79     66  4.08  1.94  18.9     1     1     4     1
+3  19.7     6  145    175  3.62  2.77  15.5     0     1     5     6
+4  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+5  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -2680,7 +2679,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7f9da299ee68>
+<bytecode: 0x7fad6c140558>
 <environment: namespace:base>
 ```
 

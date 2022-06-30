@@ -185,7 +185,7 @@ evaluation.
 (0:10) + 1
 0:(10 + 1)
 ```
-- Optional: check out [a list of R operators and their precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html).
+- ADVANCED: check out [a complete list of R operators and their precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html).
 
 Variables
 ========================================================
@@ -232,14 +232,13 @@ space between `<` and `-`. (What would happen?)
 to type this using one key combination.
 - `=` is easier to type.
 - You will see both used throughout R and user code.
-
 ```{r}
 x <- 10
 x
 x = 20
 x
 ```
-
+- We suggest you stick to the arrow `<-` to reduce confusion with the comparison operator `==` (more on that later).
 
 Assignment has no undo
 ========================================================
@@ -284,10 +283,10 @@ disputes over the right way to do this can get heated.
 ```{r, prompt=FALSE,eval=FALSE,tidy=FALSE}
 stringlength
 string.length
-StringLength
+StringLength (CamelCase)
 stringLength
-string_length (underbar)
-string-length (hyphen)
+string_length (underbar or snake_case)
+string-length (hyphen or kebab-case)
 ```
 - To be consistent with the packages we will use, I recommend snake_case where you separate lowercase words with _
 - Note that R itself uses several of these conventions.
