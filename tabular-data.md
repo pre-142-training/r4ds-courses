@@ -129,14 +129,18 @@ R is a scientific calculator
 ========================================================
 
 ```r
-> 1 + 2 * 3
+> 1 + 2 * 3 # R respects order of operations
 [1] 7
-> log(10)
-[1] 2.302585
-> 4 * atan(1)
-[1] 3.141593
+> 3/4
+[1] 0.75
 > 6^3
 [1] 216
+> log(10) # natural log
+[1] 2.302585
+> log10(10) # log base 10
+[1] 1
+> sqrt(16)
+[1] 4
 ```
 
 Vectors
@@ -157,16 +161,18 @@ Vectors
 - The colon `:` is a handy shortcut to create a vector that is
 a sequence of integers from the first number to the second number
 (inclusive).
-- Many R functions and operators automatically work with
-multi-element vector arguments.
+- Many R functions and operators automatically work when you input with
+multi-element vectors.
 - Long vectors wrap around. (Your screen may have a different width than what is shown here.)
 - Look at the `[ ]` notation. The second output line starts
-with 23, which is the 24^th element of the vector.
+with 26, which is the 26^th element of the vector.
 - This notation will help you figure out where you are in a long vector.
 
 Elementwise operations on a vector
 ========================================================
-  - This multiplies each element of `1:10` by the corresponding
+  - An operation is elementwise (or element-wise) if the action you perform on a vector produces a vector with the same dimensions as the original.
+ 
+  - The code below multiplies each element of `1:10` by the corresponding
 element of `1:10`, that is, it squares each element.
 
 ```r
@@ -1064,11 +1070,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  10.4     8  460    215  3     5.42  17.8     0     0     3     4
-2  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
-3  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-4  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
-5  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+1  10.4     8 472     205  2.93  5.25  18.0     0     0     3     4
+2  19.2     6 168.    123  3.92  3.44  18.3     1     0     4     4
+3  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
+4  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
+5  15.2     8 276.    180  3.07  3.78  18       0     0     3     3
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1463,7 +1469,7 @@ First, let's load in some new data.
 
 ```r
 > data1 <- read_csv("http://stanford.edu/~sbagley2/bios205/data/data1.csv")
-Error in open.connection(structure(4L, class = c("curl", "connection"), conn_id = <pointer: 0x26f>), : HTTP error 404.
+Error in open.connection(structure(4L, class = c("curl", "connection"), conn_id = <pointer: 0x271>), : HTTP error 404.
 > data1
 Error in eval(expr, envir, enclos): object 'data1' not found
 ```
@@ -1538,7 +1544,7 @@ Exercise: count states in each region
 
 ```r
 > state_data <- read_csv("http://stanford.edu/~sbagley2/bios205/data/state_data.csv")
-Error in open.connection(structure(5L, class = c("curl", "connection"), conn_id = <pointer: 0x279>), : HTTP error 404.
+Error in open.connection(structure(5L, class = c("curl", "connection"), conn_id = <pointer: 0x27b>), : HTTP error 404.
 > state_data
 Error in eval(expr, envir, enclos): object 'state_data' not found
 ```
@@ -2670,7 +2676,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7f86dc5722c0>
+<bytecode: 0x7fa718153f20>
 <environment: namespace:base>
 ```
 

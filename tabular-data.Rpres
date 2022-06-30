@@ -130,10 +130,12 @@ type: section
 R is a scientific calculator
 ========================================================
 ```{r}
-1 + 2 * 3
-log(10)
-4 * atan(1)
+1 + 2 * 3 # R respects order of operations
+3/4
 6^3
+log(10) # natural log
+log10(10) # log base 10
+sqrt(16)
 ```
 
 Vectors
@@ -149,16 +151,18 @@ c(2.1, -4, 22)
 - The colon `:` is a handy shortcut to create a vector that is
 a sequence of integers from the first number to the second number
 (inclusive).
-- Many R functions and operators automatically work with
-multi-element vector arguments.
+- Many R functions and operators automatically work when you input with
+multi-element vectors.
 - Long vectors wrap around. (Your screen may have a different width than what is shown here.)
 - Look at the `[ ]` notation. The second output line starts
-with 23, which is the 24^th element of the vector.
+with 26, which is the 26^th element of the vector.
 - This notation will help you figure out where you are in a long vector.
 
 Elementwise operations on a vector
 ========================================================
-  - This multiplies each element of `1:10` by the corresponding
+  - An operation is elementwise (or element-wise) if the action you perform on a vector produces a vector with the same dimensions as the original.
+ 
+  - The code below multiplies each element of `1:10` by the corresponding
 element of `1:10`, that is, it squares each element.
 ```{r}
 (1:10)*(1:10)
