@@ -493,7 +493,7 @@ Arguments by name
 ========================================================
 ```{r}
 seq(from = 1, to = 5)
-seq(to = 5, from = 1)
+seq(to = 5, from = 1) # identical result
 ```
 - Sometimes, arguments can be supplied by name using the syntax,
 variable `=` value.
@@ -511,7 +511,7 @@ seq(1, 5)
 seq(from = 1, to = 5)
 seq(begin = 1, end = 5)
 ```
-- You have to use the correct argument name.
+- You have to use the correct argument names to get the correct results.
 
 
 How to find the names of a function's arguments
@@ -521,7 +521,7 @@ a built-in function.
 - Answer: the arguments are listed in the R documentation of the
 function.
 ```{r eval=FALSE,tidy=FALSE}
-## Try this:
+# Try this:
 ?seq
 ```
 
@@ -532,8 +532,7 @@ Packages
 - By default, when R starts up, the base packages
 (datasets, utils, grDevices, graphics, stats, methods) are loaded
 into the workspace for you.
-- When you _install_ a package, a copy is downloaded from a
-CRAN server to a directory on your local machine, but not loaded
+- When you _install_ a package, a copy is downloaded from a server to a directory on your local machine, but not loaded
 into the workspace.
 - When you _load_ a package, the contents the package are
 copied into the workspace.

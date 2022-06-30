@@ -563,7 +563,7 @@ Arguments by name
 ```r
 > seq(from = 1, to = 5)
 [1] 1 2 3 4 5
-> seq(to = 5, from = 1)
+> seq(to = 5, from = 1) # identical result
 [1] 1 2 3 4 5
 ```
 - Sometimes, arguments can be supplied by name using the syntax,
@@ -588,7 +588,7 @@ Warning: In seq.default(begin = 1, end = 5) :
  extra arguments 'begin', 'end' will be disregarded
 [1] 1
 ```
-- You have to use the correct argument name.
+- You have to use the correct argument names to get the correct results.
 
 
 How to find the names of a function's arguments
@@ -599,7 +599,7 @@ a built-in function.
 function.
 
 ```r
-> ## Try this:
+> # Try this:
 > ?seq
 ```
 
@@ -610,8 +610,7 @@ Packages
 - By default, when R starts up, the base packages
 (datasets, utils, grDevices, graphics, stats, methods) are loaded
 into the workspace for you.
-- When you _install_ a package, a copy is downloaded from a
-CRAN server to a directory on your local machine, but not loaded
+- When you _install_ a package, a copy is downloaded from a server to a directory on your local machine, but not loaded
 into the workspace.
 - When you _load_ a package, the contents the package are
 copied into the workspace.
@@ -1089,11 +1088,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  21.4     4  121    109  4.11  2.78  18.6     1     1     4     2
-2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-3  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
-4  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
-5  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+1  27.3     4   79     66  4.08  1.94  18.9     1     1     4     1
+2  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+3  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+4  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+5  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -2695,7 +2694,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7f79573a56b8>
+<bytecode: 0x7ff1d9975590>
 <environment: namespace:base>
 ```
 
