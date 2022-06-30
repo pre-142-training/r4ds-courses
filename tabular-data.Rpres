@@ -285,8 +285,8 @@ stringlength
 string.length
 StringLength (CamelCase)
 stringLength
-string_length (underbar or snake_case)
-string-length (hyphen or kebab-case)
+string_length (underscore or underbar a.k.a. snake_case)
+string-length (hyphen a.k.a. kebab-case)
 ```
 - To be consistent with the packages we will use, I recommend snake_case where you separate lowercase words with _
 - Note that R itself uses several of these conventions.
@@ -310,8 +310,8 @@ Exercise: birth year
 Answer: birth year
 ===
 ```{r}
-my_age_end_of_year = 29
-this_year = 2019
+my_age_end_of_year = 31
+this_year = 2022
 my_birth_year = this_year - my_age_end_of_year
 my_birth_year
 ```
