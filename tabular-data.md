@@ -189,10 +189,10 @@ could use exponentiation:
 
 Operator precedence: the rules
 ========================================================
-- R does not evaluate strictly left to right. Instead,
-operators have their own precedence, a kind of priority for
+- R does not evaluate strictly left to right.
+- R respects the traditional mathematical order of operations ([PEMDAS](https://www.purplemath.com/modules/orderops.htm)), but R has special operators that have their own precedence, a kind of priority for
 evaluation.
-- The sequence operator : has a higher precedence than addition +.
+- For example, the sequence operator `:` has a higher precedence than addition `+`.
 
 ```r
 > 1 + 0:10
@@ -204,7 +204,7 @@ evaluation.
 > 0:(10 + 1)
  [1]  0  1  2  3  4  5  6  7  8  9 10 11
 ```
-
+- Optional: check out [a list of R operators and their precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html).
 
 Variables
 ========================================================
@@ -222,6 +222,10 @@ names to things.
 - R prints no result from this assignment, but what you entered
 causes a side effect: R has stored the association between
 x and 10. (Look at the Environment pane.)
+
+***
+
+![](images/environment.png)
 
 
 Using the value of a variable
@@ -1070,10 +1074,10 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  10.4     8 472     205  2.93  5.25  18.0     0     0     3     4
-2  19.2     6 168.    123  3.92  3.44  18.3     1     0     4     4
-3  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
-4  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
+1  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
+2  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
+3  19.2     6 168.    123  3.92  3.44  18.3     1     0     4     4
+4  15.5     8 318     150  2.76  3.52  16.9     0     0     3     2
 5  15.2     8 276.    180  3.07  3.78  18       0     0     3     3
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
@@ -2676,7 +2680,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7fa718153f20>
+<bytecode: 0x7f9da299ee68>
 <environment: namespace:base>
 ```
 

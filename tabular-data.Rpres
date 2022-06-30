@@ -175,17 +175,17 @@ could use exponentiation:
 
 Operator precedence: the rules
 ========================================================
-- R does not evaluate strictly left to right. Instead,
-operators have their own precedence, a kind of priority for
+- R does not evaluate strictly left to right.
+- R respects the traditional mathematical order of operations ([PEMDAS](https://www.purplemath.com/modules/orderops.htm)), but R has special operators that have their own precedence, a kind of priority for
 evaluation.
-- The sequence operator : has a higher precedence than addition +.
+- For example, the sequence operator `:` has a higher precedence than addition `+`.
 ```{r}
 1 + 0:10
 0:10 + 1 # which operator gets executed first?
 (0:10) + 1
 0:(10 + 1)
 ```
-
+- Optional: check out [a list of R operators and their precedence](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Syntax.html).
 
 Variables
 ========================================================
@@ -202,6 +202,10 @@ names to things.
 - R prints no result from this assignment, but what you entered
 causes a side effect: R has stored the association between
 x and 10. (Look at the Environment pane.)
+
+***
+
+![](images/environment.png)
 
 
 Using the value of a variable
