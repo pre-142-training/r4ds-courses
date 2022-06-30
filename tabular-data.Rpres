@@ -1079,7 +1079,7 @@ Plotting categorical variables
 ====================================================================
 First, let's load in some new data.
 ```{r}
-data1 <- read_csv("data1")
+data1 <- read_csv("https://raw.githubusercontent.com/pre-142-training/r4ds-courses/b7a34a0b69945dabf5b671851f99295dc55fe5a8/data/data1.csv")
 data1
 ```
 - `<chr>` is short for "character string", which means text data
@@ -1087,12 +1087,10 @@ data1
 - `gender` is a discrete variable, with two values.
 ```{r}
 data1 %>%
-  group_by(gender) %>%
-  summarize(mean_age=mean(age), mean_weight=mean(weight)) %>%
-ggplot(aes(gender, mean_weight)) + 
+  ggplot(aes(x = name, shoesize)) + 
   geom_col()
 ```
-- `geom_col()` is used to make a bar plot. Height of bar is the value for that group.
+- `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
 
 The grammar of graphics
 ============================================================

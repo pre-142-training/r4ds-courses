@@ -1094,11 +1094,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-2  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-3  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
-4  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
-5  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+1  15       8  301    335  3.54  3.57  14.6     0     1     5     8
+2  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
+3  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+4  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+5  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1552,10 +1552,23 @@ Plotting categorical variables
 First, let's load in some new data.
 
 ```r
-> data1 <- read_csv("data1")
-Error: 'data1' does not exist in current working directory ('/Users/David/Documents/GitHub/r4ds-courses').
+> data1 <- read_csv("https://raw.githubusercontent.com/pre-142-training/r4ds-courses/b7a34a0b69945dabf5b671851f99295dc55fe5a8/data/data1.csv")
+Rows: 4 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): name, gender
+dbl (3): age, weight, shoesize
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 > data1
-Error in eval(expr, envir, enclos): object 'data1' not found
+# A tibble: 4 × 5
+  name  gender   age weight shoesize
+  <chr> <chr>  <dbl>  <dbl>    <dbl>
+1 Alice F         10    1          5
+2 Bob   M         11    3          8
+3 Carol F         20    1.5        5
+4 Dave  M         25    4         10
 ```
 - `<chr>` is short for "character string", which means text data
 
@@ -1563,13 +1576,12 @@ Error in eval(expr, envir, enclos): object 'data1' not found
 
 ```r
 > data1 %>%
-+   group_by(gender) %>%
-+   summarize(mean_age=mean(age), mean_weight=mean(weight)) %>%
-+ ggplot(aes(gender, mean_weight)) + 
++   ggplot(aes(x = name, shoesize)) + 
 +   geom_col()
-Error in group_by(., gender): object 'data1' not found
 ```
-- `geom_col()` is used to make a bar plot. Height of bar is the value for that group.
+
+![plot of chunk unnamed-chunk-91](tabular-data-figure/unnamed-chunk-91-1.png)
+- `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
 
 The grammar of graphics
 ============================================================
@@ -2462,7 +2474,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7fb87f08d418>
+<bytecode: 0x7fd8b240aad0>
 <environment: namespace:base>
 ```
 
