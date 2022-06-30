@@ -1094,11 +1094,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  15       8  301    335  3.54  3.57  14.6     0     1     5     8
-2  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
-3  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
-4  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-5  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+1  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
+2  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+4  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+5  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1552,8 +1552,8 @@ Plotting categorical variables
 First, let's load in some new data.
 
 ```r
-> data1 <- read_csv("https://raw.githubusercontent.com/pre-142-training/r4ds-courses/b7a34a0b69945dabf5b671851f99295dc55fe5a8/data/data1.csv")
-Rows: 4 Columns: 5
+> data1 <- read_csv("https://raw.githubusercontent.com/pre-142-training/r4ds-courses/fa8642362bf9aa1a6423988ea6d2816d7cb9c39f/data/data1.csv")
+Rows: 5 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
 chr (2): name, gender
@@ -1562,17 +1562,20 @@ dbl (3): age, weight, shoesize
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 > data1
-# A tibble: 4 × 5
-  name  gender   age weight shoesize
-  <chr> <chr>  <dbl>  <dbl>    <dbl>
-1 Alice F         10    1          5
-2 Bob   M         11    3          8
-3 Carol F         20    1.5        5
-4 Dave  M         25    4         10
+# A tibble: 5 × 5
+  name   gender   age weight shoesize
+  <chr>  <chr>  <dbl>  <dbl>    <dbl>
+1 Emmet  F         10    1          5
+2 Jordan M         11    3          8
+3 Tala   F         20    1.5        5
+4 Parker M         25    4         10
+5 Riley  <NA>      66    5          9
 ```
 - `<chr>` is short for "character string", which means text data
 
-- `gender` is a discrete variable, with two values.
+Plotting categorical variables
+====================================================================
+
 
 ```r
 > data1 %>%
@@ -1598,7 +1601,7 @@ The ggplot2 model (simplified version)
 ============================================================
 1. supply data frame (rows of observations, columns of variables)
 2. use `aes` to map from variables (columns in data frame) to
-aethetics (visual properties of the plot): x, y, color, size,
+aesthetics (visual properties of the plot): x, y, color, size,
 shape, and others.
 3. choose a `geom`. This determines the type of the plot: point (a
 scatterplot), line (line graph or line chart), bar (barplot), and
@@ -1612,9 +1615,9 @@ frame to the units used for display.
 
 ggplot2 cheatsheet
 ============================================================
-<div align="center">
-<img src="https://www.rstudio.com/wp-content/uploads/2018/08/data-visualization-2.1.png", height=1000, width=1400>
-</div>
+[Download the full cheatsheet here](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf)
+
+![](images/ggplot.png)
 
 Putting it together
 =================================================================
@@ -2474,7 +2477,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7fd8b240aad0>
+<bytecode: 0x7fc83e04de68>
 <environment: namespace:base>
 ```
 

@@ -1078,13 +1078,15 @@ ggplot(mtc, aes(hp, mpg)) +
 Plotting categorical variables
 ====================================================================
 First, let's load in some new data.
-```{r}
-data1 <- read_csv("https://raw.githubusercontent.com/pre-142-training/r4ds-courses/b7a34a0b69945dabf5b671851f99295dc55fe5a8/data/data1.csv")
+```{r, warn=F}
+data1 <- read_csv("https://raw.githubusercontent.com/pre-142-training/r4ds-courses/fa8642362bf9aa1a6423988ea6d2816d7cb9c39f/data/data1.csv")
 data1
 ```
 - `<chr>` is short for "character string", which means text data
 
-- `gender` is a discrete variable, with two values.
+Plotting categorical variables
+====================================================================
+
 ```{r}
 data1 %>%
   ggplot(aes(x = name, shoesize)) + 
@@ -1107,7 +1109,7 @@ The ggplot2 model (simplified version)
 ============================================================
 1. supply data frame (rows of observations, columns of variables)
 2. use `aes` to map from variables (columns in data frame) to
-aethetics (visual properties of the plot): x, y, color, size,
+aesthetics (visual properties of the plot): x, y, color, size,
 shape, and others.
 3. choose a `geom`. This determines the type of the plot: point (a
 scatterplot), line (line graph or line chart), bar (barplot), and
@@ -1121,9 +1123,9 @@ frame to the units used for display.
 
 ggplot2 cheatsheet
 ============================================================
-<div align="center">
-<img src="https://www.rstudio.com/wp-content/uploads/2018/08/data-visualization-2.1.png", height=1000, width=1400>
-</div>
+[Download the full cheatsheet here](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf)
+
+![](images/ggplot.png)
 
 Putting it together
 =================================================================
