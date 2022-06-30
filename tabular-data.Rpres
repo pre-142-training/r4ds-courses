@@ -361,7 +361,7 @@ y
 x <- 10
 y
 ```
-- What do you observe?
+- What do you observe about the value of `y` after changing the value of `x`?
 
 Functions and variable assignment
 ========================================================
