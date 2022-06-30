@@ -599,8 +599,6 @@ messy and confusing.
 in the script pane (upper left), building up your analysis.
 - There, you can enter expressions, evaluate them, and save the
 contents to a .R file for later use.
-- Look at the RStudio ``Code'' menu for some useful keyboard
-commands.
 
 
 Script pane example
@@ -611,12 +609,16 @@ Script pane example
 - Then hit `Command-RETURN` (Mac), or `Ctrl-ENTER` (Windows).
 - That line is copied to the console pane and evaluated.
 - You can save the script to a file.
-- Explore the RStudio Code menu for other commands.
+- Explore the RStudio ``Code`` menu for other commands.
+
+***
+
+![](images/script.png)
 
 Adding comments
 ========================================================
 ```{r}
-## This is a comment
+# This is a comment
 1 + 2 # add some numbers
 ```
 - Use a `#` to start a comment.
@@ -630,6 +632,8 @@ type: section
 
 Need to install the tidyverse set of packages
 ========================================================
+If you're working in R locally (installed on your computer), you will need to install the tidyverse package. If you're on DataHub it has already been installed.
+
 - Do this:
 ```{r eval=FALSE}
 install.packages("tidyverse")
@@ -639,7 +643,7 @@ library("tidyverse")
 ```
 - "tidyverse" is a coherent set of packages for operating a kind of data called the "data frame".
 - It is not built-in, so you need to install it (once), then load it each time you restart R.
-- Put `library("tidyverse")` at the top of every script file....
+- Put `library("tidyverse")` at the top of every script file.
 
 
 Data frame: a two-dimensional data structure

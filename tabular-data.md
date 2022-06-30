@@ -682,8 +682,6 @@ messy and confusing.
 in the script pane (upper left), building up your analysis.
 - There, you can enter expressions, evaluate them, and save the
 contents to a .R file for later use.
-- Look at the RStudio ``Code'' menu for some useful keyboard
-commands.
 
 
 Script pane example
@@ -694,13 +692,17 @@ Script pane example
 - Then hit `Command-RETURN` (Mac), or `Ctrl-ENTER` (Windows).
 - That line is copied to the console pane and evaluated.
 - You can save the script to a file.
-- Explore the RStudio Code menu for other commands.
+- Explore the RStudio ``Code`` menu for other commands.
+
+***
+
+![](images/script.png)
 
 Adding comments
 ========================================================
 
 ```r
-> ## This is a comment
+> # This is a comment
 > 1 + 2 # add some numbers
 [1] 3
 ```
@@ -715,6 +717,8 @@ type: section
 
 Need to install the tidyverse set of packages
 ========================================================
+If you're working in R locally (installed on your computer), you will need to install the tidyverse package. If you're on DataHub it has already been installed.
+
 - Do this:
 
 ```r
@@ -734,7 +738,7 @@ x dplyr::lag()    masks stats::lag()
 ```
 - "tidyverse" is a coherent set of packages for operating a kind of data called the "data frame".
 - It is not built-in, so you need to install it (once), then load it each time you restart R.
-- Put `library("tidyverse")` at the top of every script file....
+- Put `library("tidyverse")` at the top of every script file.
 
 
 Data frame: a two-dimensional data structure
@@ -1088,11 +1092,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  27.3     4   79     66  4.08  1.94  18.9     1     1     4     1
-2  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-3  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
-4  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-5  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+1  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+2  19.7     6  145    175  3.62  2.77  15.5     0     1     5     6
+3  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1
+4  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+5  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -2694,7 +2698,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7ff1d9975590>
+<bytecode: 0x7fa45f957470>
 <environment: namespace:base>
 ```
 
