@@ -1075,18 +1075,15 @@ ggplot(mtc, aes(hp, mpg)) +
 - This is a better approximation than a straight line for these data.
 
 
-Fit smooth line to points without standard error
-================================================================
-```{r}
-mtc %>% # with the pipe
-ggplot(aes(hp, mpg)) + 
-  geom_point() + 
-  geom_smooth(method="loess", se=FALSE)
-```
-- `se = FALSE` means do not plot the confidence band (using the standard error)
-
 Plotting categorical variables
 ====================================================================
+First, let's load in some new data.
+```{r}
+data1 <- read_csv("data1")
+data1
+```
+- `<chr>` is short for "character string", which means text data
+
 - `gender` is a discrete variable, with two values.
 ```{r}
 data1 %>%

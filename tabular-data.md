@@ -1094,11 +1094,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-2  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
-3  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
-4  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
-5  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+1  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+2  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+3  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
+4  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+5  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1547,22 +1547,18 @@ Fit smooth line to points
 - This is a better approximation than a straight line for these data.
 
 
-Fit smooth line to points without standard error
-================================================================
-
-```r
-> mtc %>% # with the pipe
-+ ggplot(aes(hp, mpg)) + 
-+   geom_point() + 
-+   geom_smooth(method="loess", se=FALSE)
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-90](tabular-data-figure/unnamed-chunk-90-1.png)
-- `se = FALSE` means do not plot the confidence band (using the standard error)
-
 Plotting categorical variables
 ====================================================================
+First, let's load in some new data.
+
+```r
+> data1 <- read_csv("data1")
+Error: 'data1' does not exist in current working directory ('/Users/David/Documents/GitHub/r4ds-courses').
+> data1
+Error in eval(expr, envir, enclos): object 'data1' not found
+```
+- `<chr>` is short for "character string", which means text data
+
 - `gender` is a discrete variable, with two values.
 
 ```r
@@ -2466,7 +2462,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7fe2666b1400>
+<bytecode: 0x7fb87f08d418>
 <environment: namespace:base>
 ```
 
