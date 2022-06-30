@@ -883,7 +883,6 @@ The rest of this section shows the basic data frame functions ("verbs") in the `
 - `select()` picks out columns according to their names
 - `arrange()` sorts the row by values in some column(s)
 - `mutate()` creates new columns, often based on operations on other columns
-- `summarize()` collapses many values in one or more columns down to one value per column
 
 These can all be used in conjunction with `group_by()` which changes the scope of each function from operating on the entire dataset to operating on it group-by-group. These six functions provide the verbs for a language of data manipulation. 
 
@@ -910,7 +909,7 @@ filter() subsets the rows of a data frame
 5  26       4 120.     91  4.43  2.14  16.7     0     1     5     2
 6  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
 ```
-- This produces (and prints out) a new tibble, which contains all the rows where the mpg value in that row is greater than or equal to 25.
+- This produces (and prints out) a new tibble (data frame), which contains all the rows where the mpg value in that row is greater than or equal to 25.
 - There are only 6 rows in this data frame.
 - There are still 11 columns.
 
@@ -944,7 +943,7 @@ Filtering out all rows
 
 Comparison operators
 =========================================================
-- `==` tests for equality (do not use `=`)
+- `==` tests for equality (do not use `=` which is for assignment)
 - `>` and `<` test for greater-than and less-than
 - `>=` and `<=` are greater-than-or-equal and less-than-or-equal
 - these can also be used directly on vectors outside of data frames
@@ -1095,11 +1094,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  17.3     8 276.    180  3.07  3.73  17.6     0     0     3     3
-2  13.3     8 350     245  3.73  3.84  15.4     0     0     3     4
-3  10.4     8 460     215  3     5.42  17.8     0     0     3     4
-4  18.1     6 225     105  2.76  3.46  20.2     1     0     3     1
-5  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
+1  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+2  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+3  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+4  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+5  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1175,7 +1174,7 @@ select() subsets columns by name
 
 select() subsets columns by name
 =========================================================
-- `select()` can also be used to select everything **except for** certain columns
+- `select()` can also be used to select everything **except for** certain columns by using the minus character `-`
 
 ```r
 > select(mtc, -contains("m"), -hp)
@@ -1386,7 +1385,7 @@ mutate() creates new columns
 ```
 - This uses `mutate` to add a new column to which is the reciprocal of `mpg`.
 - The thing on the left of the `=` is a new name that you make up which you would like the new column to be called
-- The expresssion on the right of the `=` defines what will go into the new column
+- The expression on the right of the `=` defines what will go into the new column
 -mutate() can create multiple columns at the same time and use multiple columns to define a single new one
 
 mutate() can create multiple new columns at once
@@ -1438,34 +1437,6 @@ x non-numeric argument to binary operator
 ```
 - if you save the result into a column that already exists, it will be overwritten
 
-summarize() computes desired summaires across rows
-================================================================
-
-```r
-> summarize(mtc, mpg_avg=mean(mpg))
-# A tibble: 1 × 1
-  mpg_avg
-    <dbl>
-1    20.1
-```
-- `summarize()` boils down the data frame according to the conditions it gets. In this case, it creates a data frame with a single column called `mpg_avg` that contains the mean of the `mpg` column
-- Summaries can be very useful when you apply them to subgoups of the data, which we will soon see how to do.
-
-summarize() computes desired summaires across rows
-================================================================
-- you can also pass in multiple conditions that operate on multiple columns at the same time
-
-```r
-> summarize(mtc, # newlines not necessary, again just increase clarity
-+           mpg_avg = mean(mpg), 
-+           mpg_2x_max = max(2*mpg), 
-+           hp_mpg_ratio_min = min(hp/mpg))
-# A tibble: 1 × 3
-  mpg_avg mpg_2x_max hp_mpg_ratio_min
-    <dbl>      <dbl>            <dbl>
-1    20.1       67.8             1.71
-```
-
 dplyr verbs summary
 ========================================================
 
@@ -1473,7 +1444,6 @@ dplyr verbs summary
 - `select()` picks out columns according to their names
 - `arrange()` sorts the row by values in some column(s)
 - `mutate()` creates new columns, often based on operations on other columns
-- `summarize()` collapses many values in one or more columns down to one value per column
 
 All verbs work similarly:
 
@@ -1483,215 +1453,10 @@ All verbs work similarly:
 
 Together these properties make it easy to chain together multiple simple steps to achieve a complex result.
 
-Computing over groups
-==================================================================
-type: section
-
-
-group_by() groups data according to some variable(s)
-==================================================================
-First, let's load in some new data.
-
-```r
-> data1 <- read_csv("http://stanford.edu/~sbagley2/bios205/data/data1.csv")
-Error in open.connection(structure(4L, class = c("curl", "connection"), conn_id = <pointer: 0x26f>), : HTTP error 404.
-> data1
-Error in eval(expr, envir, enclos): object 'data1' not found
-```
-- `<chr>` is short for "character string", which means text data
-- Let's compute the mean weight for each gender.
-- There are two values of gender in this data, so there will be two groups.
-- The following builds a new version of the data frame that saves the grouping information:
-
-```r
-> data1_by_gender <- group_by(data1, gender)
-Error in group_by(data1, gender): object 'data1' not found
-```
-- We can now use the grouped data frame in further calculations.
-
-group_by() groups data according to some variable(s)
-==================================================================
-
-```r
-> data1_by_gender
-Error in eval(expr, envir, enclos): object 'data1_by_gender' not found
-```
-- The grouped data looks exactly the same, but under the hood, `R` knows that this is really two sub-data-frames (one for each group) instead of one.
-
-Grouped summary: computing the mean of each group
-===================================================================
-
-```r
-> summarize(data1_by_gender, mean_weight = mean(weight))
-Error in summarize(data1_by_gender, mean_weight = mean(weight)): object 'data1_by_gender' not found
-```
-- `summarize()` works the same as before, except now it returns two rows instead of one because there are two groups that were defined by `group_by(gender)`.
-- The result also always contains colunmns corresponding to the unique values of the grouping variable
-
-Grouping can also be applied across multiple variables
-===================================================================
-- This computes the mean weight and the mean age for each group:
-
-```r
-> data1_by_gender_and_shoesize = group_by(data1, gender, shoesize)
-Error in group_by(data1, gender, shoesize): object 'data1' not found
-> summarize(data1_by_gender_and_shoesize, 
-+           mean_weight = mean(weight), 
-+           mean_age = mean(age))
-Error in summarize(data1_by_gender_and_shoesize, mean_weight = mean(weight), : object 'data1_by_gender_and_shoesize' not found
-```
-- Now both `gender` and `shoesize` appear as columns in the result
-- There are 3 rows because there are 3 unique combinations of `gender` and `shoesize` in the original data
-
-Computing the number of rows in each group
-=====================================================================
-- The `n()` function counts the number of rows in each group:
-
-```r
-> summarize(data1_by_gender, count = n())
-Error in summarize(data1_by_gender, count = n()): object 'data1_by_gender' not found
-```
-
-
-Computing the number of distinct values of a column in each group
-=====================================================================
-- The `n_distinct()` function counts the number of distinct (unique) values in the specified column:
-
-```r
-> summarize(data1_by_gender, n_sizes = n_distinct(shoesize))
-Error in summarize(data1_by_gender, n_sizes = n_distinct(shoesize)): object 'data1_by_gender' not found
-```
-- Note: `distinct()` filters out any duplicate rows in a dataframe. The equivalent for vectors is `unique()`
-
-
-Exercise: count states in each region
-=====================================================================
-
-```r
-> state_data <- read_csv("http://stanford.edu/~sbagley2/bios205/data/state_data.csv")
-Error in open.connection(structure(5L, class = c("curl", "connection"), conn_id = <pointer: 0x279>), : HTTP error 404.
-> state_data
-Error in eval(expr, envir, enclos): object 'state_data' not found
-```
-- How many states are in each region?
-
-
-Answer: count states in each region
-=====================================================================
-
-```r
-> state_data_by_region <- group_by(state_data, region)
-Error in group_by(state_data, region): object 'state_data' not found
-> summarize(state_data_by_region, n_states = n())
-Error in summarize(state_data_by_region, n_states = n()): object 'state_data_by_region' not found
-```
-
-
-Challenge exercise: finding rows by group
-===================================================================
-`filter()` the grouped data in `data1_by_gender` to pick out the rows for the youngest male and female (hint: use `min()` and `==`).
-
-
-Answer: finding rows by group
-===================================================================
-
-```r
-> filter(data1_by_gender, age==min(age))
-Error in filter(data1_by_gender, age == min(age)): object 'data1_by_gender' not found
-```
-- This shows how filter can be applied to grouped data. Instead of applying the condition across all the data, it applies it group-by-group.
-
-Chaining: combining a sequence of function calls
-=================================================================
-type: section
-
-Both nesting and temporary variables can be ugly and hard to read
-=================================================================
-- In this expression, the result of `summarize` is used as an argument to `arrange`.
-- The operations are performed "inside out": first `summarize`, then `arrange`.
-
-```r
-> arrange(summarize(group_by(state_data, region), sd_area = sd(area)), sd_area)
-```
-- We could store the first result in a temporary variable:
-
-```r
-> state_data_by_region <- group_by(state_data, region)
-Error in group_by(state_data, region): object 'state_data' not found
-> region_area_sds <- summarize(state_data_by_region, sd_area = sd(area))
-Error in summarize(state_data_by_region, sd_area = sd(area)): object 'state_data_by_region' not found
-> arrange(region_area_sds, sd_area)
-Error in arrange(region_area_sds, sd_area): object 'region_area_sds' not found
-```
-
-
-Chaining using the pipe operator
-=================================================================
-- Or, we can use a new operator, `%>%`, to "pipe" the result from the first
-function call to the second function call.
-
-```r
-> state_data %>%
-+   group_by(region) %>%
-+   summarize(sd_area = sd(area)) %>%
-+   arrange(sd_area)
-Error in group_by(., region): object 'state_data' not found
-```
-
-- This makes explicit the flow of data through operations:
-  - Start with `state_data`
-  - group it by region
-  - summarize by region, computing `sd_area`
-  - arrange rows by `sd_area`
-- The code reads like instructions that a human could understand
-- putting the function calls on different lines also improves readability
-
-Pipe: details
-=================================================================
-
-```r
-> df1 %>% fun(x)
-```
-is converted into:
-
-```r
-> fun(df1, x)
-```
-- That is: the thing being piped in is used as the _first_ argument of `fun`.
-- The tidyverse functions are consistently designed so that the first argument is a data frame, and the result is a data frame, so piping always works as intended.
-
-Pipe: details
-=================================================================
-- However, the pipe works for all variables and functions, not just tidyverse functions
-
-```r
-> c(1,44,21,0,-4) %>%
-+     sum()
-[1] 62
-> sum(c(1,44,21,0,-4))
-[1] 62
-> 1 %>% `+`(1) # `+` is just a function that takes two arguments!
-[1] 2
-```
-
-Piping to another position
-=== 
-- The pipe typically pipes into the first argument of a function, but you can use the `.` syntax to send the argument elsewhere:
-
-```r
-> values = c(1,2,3,NA)
-> 
-> TRUE %>%
-+   mean(values, na.rm=.)
-[1] 2
-```
-- This is typically not done, but can be a handy shortcut in many situations
-
 dplyr cheatsheet
 ============================================================
-<div align="center">
-<img src="https://www.rstudio.com/wp-content/uploads/2018/08/data-transformation.png", height=1000, width=1400>
-</div>
+[Download the full cheatsheet here](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)
+![](images/dplyr.png)
 
 Visualization basics
 ============================================================
@@ -1719,7 +1484,7 @@ A simple scatterplot
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-103](tabular-data-figure/unnamed-chunk-103-1.png)
+![plot of chunk unnamed-chunk-84](tabular-data-figure/unnamed-chunk-84-1.png)
 - Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
 
 How to call ggplot
@@ -1748,7 +1513,7 @@ Change points to lines
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-106](tabular-data-figure/unnamed-chunk-106-1.png)
+![plot of chunk unnamed-chunk-87](tabular-data-figure/unnamed-chunk-87-1.png)
 - This is pretty ugly. Line plots are better for time series.
 
 
@@ -1762,7 +1527,7 @@ Fit straight line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-107](tabular-data-figure/unnamed-chunk-107-1.png)
+![plot of chunk unnamed-chunk-88](tabular-data-figure/unnamed-chunk-88-1.png)
 - `"lm"` means "linear model," which is a least-squares regression line.
 - The gray band is the confidence interval.
 
@@ -1777,7 +1542,7 @@ Fit smooth line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-108](tabular-data-figure/unnamed-chunk-108-1.png)
+![plot of chunk unnamed-chunk-89](tabular-data-figure/unnamed-chunk-89-1.png)
 - "loess" fits a collection of tiny regression lines, then glues them together.
 - This is a better approximation than a straight line for these data.
 
@@ -1793,7 +1558,7 @@ Fit smooth line to points without standard error
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-109](tabular-data-figure/unnamed-chunk-109-1.png)
+![plot of chunk unnamed-chunk-90](tabular-data-figure/unnamed-chunk-90-1.png)
 - `se = FALSE` means do not plot the confidence band (using the standard error)
 
 Plotting categorical variables
@@ -1862,7 +1627,7 @@ Answer: Is there a linear relationship between hp and 1/mpg?
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-111](tabular-data-figure/unnamed-chunk-111-1.png)
+![plot of chunk unnamed-chunk-92](tabular-data-figure/unnamed-chunk-92-1.png)
 - So, probably "yes"
 
 Answer: Is there a linear relationship between hp and 1/mpg?
@@ -1896,7 +1661,7 @@ Answer: orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-114](tabular-data-figure/unnamed-chunk-114-1.png)
+![plot of chunk unnamed-chunk-95](tabular-data-figure/unnamed-chunk-95-1.png)
 
 
 Exercise: more orange trees
@@ -1914,7 +1679,7 @@ Answer: more orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-115](tabular-data-figure/unnamed-chunk-115-1.png)
+![plot of chunk unnamed-chunk-96](tabular-data-figure/unnamed-chunk-96-1.png)
 
 
 Exercise: even more orange trees
@@ -2433,7 +2198,7 @@ We can already see the trend but let's clean it up a bit
 
 ***
 
-![plot of chunk unnamed-chunk-142](tabular-data-figure/unnamed-chunk-142-1.png)
+![plot of chunk unnamed-chunk-123](tabular-data-figure/unnamed-chunk-123-1.png)
 
 - Envoy Air and American Airlines are the culprits!
 
@@ -2463,7 +2228,7 @@ Distinguishing groups in plots
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-144](tabular-data-figure/unnamed-chunk-144-1.png)
+![plot of chunk unnamed-chunk-125](tabular-data-figure/unnamed-chunk-125-1.png)
 - If we plot it, we see the data from all the trees in a single
 plot, but would be better to visually distinguish the different trees
 
@@ -2475,7 +2240,7 @@ Example of ggplot2 with color
 +   geom_point(aes(color = Tree))
 ```
 
-![plot of chunk unnamed-chunk-145](tabular-data-figure/unnamed-chunk-145-1.png)
+![plot of chunk unnamed-chunk-126](tabular-data-figure/unnamed-chunk-126-1.png)
 
 
 Example of ggplot2 with color with larger dots
@@ -2486,7 +2251,7 @@ Example of ggplot2 with color with larger dots
 +   geom_point(aes(color = Tree), size=3)
 ```
 
-![plot of chunk unnamed-chunk-146](tabular-data-figure/unnamed-chunk-146-1.png)
+![plot of chunk unnamed-chunk-127](tabular-data-figure/unnamed-chunk-127-1.png)
 - the aesthetics (what's inside of `aes()`) tell ggplot how the columns of the data relate to what should go on the plot
 - things that don't relate to the data should go outisde of the call to `aes()`. e.g. `size=3` in this case.
 - aesthetics defined in `ggplot()` are passed down to the geoms
@@ -2500,7 +2265,7 @@ Example of ggplot2 with plot shape
 Warning: Using shapes for an ordinal variable is not advised
 ```
 
-![plot of chunk unnamed-chunk-147](tabular-data-figure/unnamed-chunk-147-1.png)
+![plot of chunk unnamed-chunk-128](tabular-data-figure/unnamed-chunk-128-1.png)
 
 
 Example of ggplot2 with plot color and shape
@@ -2512,14 +2277,14 @@ Example of ggplot2 with plot color and shape
 Warning: Using shapes for an ordinal variable is not advised
 ```
 
-![plot of chunk unnamed-chunk-148](tabular-data-figure/unnamed-chunk-148-1.png)
+![plot of chunk unnamed-chunk-129](tabular-data-figure/unnamed-chunk-129-1.png)
 
 
 Exercise: lines and colors
 ========================================================
 Reproduce this plot
 
-![plot of chunk unnamed-chunk-149](tabular-data-figure/unnamed-chunk-149-1.png)
+![plot of chunk unnamed-chunk-130](tabular-data-figure/unnamed-chunk-130-1.png)
 
 Answer: lines and colors
 ========================================================
@@ -2538,7 +2303,7 @@ or
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-151](tabular-data-figure/unnamed-chunk-151-1.png)
+![plot of chunk unnamed-chunk-132](tabular-data-figure/unnamed-chunk-132-1.png)
 - Recall that the aesthetics in `ggplot` are passed down to the geoms
 
 Using the loess smoother
@@ -2552,7 +2317,7 @@ Using the loess smoother
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-152](tabular-data-figure/unnamed-chunk-152-1.png)
+![plot of chunk unnamed-chunk-133](tabular-data-figure/unnamed-chunk-133-1.png)
 
 Exercise: loess with color
 ========================================================
@@ -2563,7 +2328,7 @@ Reproduce the following plot:
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-153](tabular-data-figure/unnamed-chunk-153-1.png)
+![plot of chunk unnamed-chunk-134](tabular-data-figure/unnamed-chunk-134-1.png)
 
 Answer: loess with color
 ========================================================
@@ -2575,7 +2340,7 @@ Answer: loess with color
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-154](tabular-data-figure/unnamed-chunk-154-1.png)
+![plot of chunk unnamed-chunk-135](tabular-data-figure/unnamed-chunk-135-1.png)
 
 Aesthetics can be used within each plot element separately
 ========================================================
@@ -2588,7 +2353,7 @@ Warning: Using shapes for an ordinal variable is not advised
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-155](tabular-data-figure/unnamed-chunk-155-1.png)
+![plot of chunk unnamed-chunk-136](tabular-data-figure/unnamed-chunk-136-1.png)
 
 Facets: multiple aligned plots by group
 ============================================================
@@ -2599,7 +2364,7 @@ Facets: multiple aligned plots by group
 +   facet_wrap(~ Tree)
 ```
 
-![plot of chunk unnamed-chunk-156](tabular-data-figure/unnamed-chunk-156-1.png)
+![plot of chunk unnamed-chunk-137](tabular-data-figure/unnamed-chunk-137-1.png)
 
 
 Alternative using facets
@@ -2613,7 +2378,7 @@ Alternative using facets
 +   facet_wrap(~ Tree)
 ```
 
-![plot of chunk unnamed-chunk-157](tabular-data-figure/unnamed-chunk-157-1.png)
+![plot of chunk unnamed-chunk-138](tabular-data-figure/unnamed-chunk-138-1.png)
 
 
 Facet syntax
@@ -2635,7 +2400,7 @@ Facet grid example 1
 +   facet_grid(. ~ Tree)
 ```
 
-![plot of chunk unnamed-chunk-158](tabular-data-figure/unnamed-chunk-158-1.png)
+![plot of chunk unnamed-chunk-139](tabular-data-figure/unnamed-chunk-139-1.png)
 
 
 Facet grid example 2
@@ -2647,7 +2412,7 @@ Facet grid example 2
 +   facet_grid(Tree ~ .)
 ```
 
-![plot of chunk unnamed-chunk-159](tabular-data-figure/unnamed-chunk-159-1.png)
+![plot of chunk unnamed-chunk-140](tabular-data-figure/unnamed-chunk-140-1.png)
 
 
 Fitting straight lines
@@ -2669,7 +2434,7 @@ Facet example with fitted lines (linear regression)
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-160](tabular-data-figure/unnamed-chunk-160-1.png)
+![plot of chunk unnamed-chunk-141](tabular-data-figure/unnamed-chunk-141-1.png)
 
 
 Error bars
@@ -2701,7 +2466,7 @@ Error in group_by(., region): object 'state_data' not found
 > plot
 function (x, y, ...) 
 UseMethod("plot")
-<bytecode: 0x7fe799025990>
+<bytecode: 0x7fe2666b1400>
 <environment: namespace:base>
 ```
 
