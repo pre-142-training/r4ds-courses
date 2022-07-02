@@ -276,7 +276,7 @@ Exercise: find the missing values
 > # install.packages(nycflights13)
 > library(nycflights13)
 ```
-Count the number of missing values in the `arr_delay` column of the `flights` data frame. Use pipes (`%>%`).
+Count the number of missing values in the `arr_delay` column of the `flights` data frame.
 
 ```r
 > head(flights)
@@ -294,25 +294,19 @@ Count the number of missing values in the `arr_delay` column of the `flights` da
 #   hour <dbl>, minute <dbl>, time_hour <dttm>
 ```
 
-Answer: find the missing values
+Answer: Count the number of missing values
 ========================================================
 
 ```r
-> flights %>%
-+   pull(arr_delay) %>%
-+   is.na() %>%
-+   sum()
+> arr_delay <- pull(flights, arr_delay) # get the vector of arr_delay values
+> head(arr_delay) # look at the first few items in the vector
+[1]  11  20  33 -18 -25  12
+> head(is.na(arr_delay)) # is.na() produces a logical vector
+[1] FALSE FALSE FALSE FALSE FALSE FALSE
+> sum(is.na(arr_delay)) # sum the logical vector
 [1] 9430
-> 
-> flights %>%
-+   mutate(arr_delay_NA = is.na(arr_delay)) %>%
-+   summarize(arr_delay_NA_count = sum(arr_delay_NA))
-# A tibble: 1 × 1
-  arr_delay_NA_count
-               <int>
-1               9430
 ```
-What is the difference in output between these two?
+When you add up a logical vector, TRUE = 1 and FALSE = 0, so `sum()` effectively counts all TRUE values.
 
 Type coercion
 ========================================================
@@ -380,12 +374,12 @@ Matrices
 
 ```r
 > my_example_matrix
-           [,1]       [,2]       [,3]       [,4]       [,5]
-[1,] -0.5383934  0.4210667  0.5990130 -0.5931885 -0.4572766
-[2,]  0.8088378 -0.3106540 -0.1214971 -1.0680267  1.4467271
-[3,] -0.6830946  0.8791592 -1.3916613 -0.6981642 -0.9225866
-[4,]  1.2703738  0.6000906 -1.6085817  0.2790138  0.4270135
-[5,] -0.4508540 -0.7627213 -0.1228301  0.8990654 -0.3422961
+           [,1]        [,2]       [,3]       [,4]       [,5]
+[1,] -0.9293488  1.60424124 -0.6388718  0.1015947 -2.6356428
+[2,]  1.2985205  0.55557617  1.4360920 -1.5060235 -0.2303515
+[3,] -1.3390024  0.21372656  1.0248272  0.5114486  0.2714632
+[4,]  0.5188303 -1.69977489 -0.3060797  1.1546117  1.8983933
+[5,] -1.1146241 -0.03837233  1.0074058 -1.5768882  0.2176367
 ```
 
 - All the usual vector rules apply- in particular, all entries of the matrix must be of the same type
@@ -549,27 +543,27 @@ Similar syntax is used for 2D entities
 
 ```r
 > my_example_matrix[1:3, c(2,2)]
-           [,1]       [,2]
-[1,]  0.4210667  0.4210667
-[2,] -0.3106540 -0.3106540
-[3,]  0.8791592  0.8791592
+          [,1]      [,2]
+[1,] 1.6042412 1.6042412
+[2,] 0.5555762 0.5555762
+[3,] 0.2137266 0.2137266
 ```
 - the general pattern is `matrix[row_index, column_index]`.
 - leaving either blank returns all rows or columns
 
 ```r
 > my_example_matrix[1:3,]
-           [,1]       [,2]       [,3]       [,4]       [,5]
-[1,] -0.5383934  0.4210667  0.5990130 -0.5931885 -0.4572766
-[2,]  0.8088378 -0.3106540 -0.1214971 -1.0680267  1.4467271
-[3,] -0.6830946  0.8791592 -1.3916613 -0.6981642 -0.9225866
+           [,1]      [,2]       [,3]       [,4]       [,5]
+[1,] -0.9293488 1.6042412 -0.6388718  0.1015947 -2.6356428
+[2,]  1.2985205 0.5555762  1.4360920 -1.5060235 -0.2303515
+[3,] -1.3390024 0.2137266  1.0248272  0.5114486  0.2714632
 > my_example_matrix[,c(T,T,F,F,T)]
-           [,1]       [,2]       [,3]
-[1,] -0.5383934  0.4210667 -0.4572766
-[2,]  0.8088378 -0.3106540  1.4467271
-[3,] -0.6830946  0.8791592 -0.9225866
-[4,]  1.2703738  0.6000906  0.4270135
-[5,] -0.4508540 -0.7627213 -0.3422961
+           [,1]        [,2]       [,3]
+[1,] -0.9293488  1.60424124 -2.6356428
+[2,]  1.2985205  0.55557617 -0.2303515
+[3,] -1.3390024  0.21372656  0.2714632
+[4,]  0.5188303 -1.69977489  1.8983933
+[5,] -1.1146241 -0.03837233  0.2176367
 ```
 
 Comparing tidyverse vs. vector indexing
@@ -587,9 +581,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3 1.73  
-2   0.1 1.18  
-3  12   0.0678
+1   0.3 -0.497
+2   0.1 -0.504
+3  12   -1.01 
 ```
 **Vector indexing**
 
@@ -598,9 +592,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3 1.73  
-2   0.1 1.18  
-3  12   0.0678
+1   0.3 -0.497
+2   0.1 -0.504
+3  12   -1.01 
 ```
 - What are the advantages/disadvantages of each?
 
@@ -1293,7 +1287,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 11:34:15 2022-07-02
+1 2022-07-02 11:42:39 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 

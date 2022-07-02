@@ -224,24 +224,20 @@ Exercise: find the missing values
 # install.packages(nycflights13)
 library(nycflights13)
 ```
-Count the number of missing values in the `arr_delay` column of the `flights` data frame. Use pipes (`%>%`).
+Count the number of missing values in the `arr_delay` column of the `flights` data frame.
 ```{r}
 head(flights)
 ```
 
-Answer: find the missing values
+Answer: Count the number of missing values
 ========================================================
 ```{r}
-flights %>%
-  pull(arr_delay) %>%
-  is.na() %>%
-  sum()
-
-flights %>%
-  mutate(arr_delay_NA = is.na(arr_delay)) %>%
-  summarize(arr_delay_NA_count = sum(arr_delay_NA))
+arr_delay <- pull(flights, arr_delay) # get the vector of arr_delay values
+head(arr_delay) # look at the first few items in the vector
+head(is.na(arr_delay)) # is.na() produces a logical vector
+sum(is.na(arr_delay)) # sum the logical vector
 ```
-What is the difference in output between these two?
+When you add up a logical vector, TRUE = 1 and FALSE = 0, so `sum()` effectively counts all TRUE values.
 
 Type coercion
 ========================================================
