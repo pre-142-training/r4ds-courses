@@ -147,7 +147,7 @@ c(0, 1)/0
 - Numeric vectors can be any number or one of three special values: 
   - `Inf` (1/0 = Infinite)
   - `NaN` (0/0 = "Not a Number")
-  - `NA` (missing)
+  - `NA` (missing or "Not Available")
 - R uses scientific notation so `6.023e23` evaluates as `6.023 * 10^23` 
 
 Floating point numbers
@@ -189,7 +189,7 @@ Working with missing values
 ```{r}
 mean(c(1, 2, NA, 4))
 mean(c(1, 2, NA, 4), na.rm = TRUE)
-mean(c(1, 2, 4))
+mean(c(1, 2, 4)) # identical to the previous result
 ```
 For R functions that aggregate results over an entire
 vector, R can either:
@@ -198,11 +198,10 @@ vector, R can either:
   2. or leave out the `NA` values, and process the rest
 
 Many functions let you control `NA` processing.
-- In the second example, R leaves `NA` out of the numerator and denominator in
-the calculation of the mean value.
+- In the second example, R leaves `NA` out of the numerator and denominator in the calculation of the mean value.
 - `rm` is short for "remove," so `na.rm` means "first remove the NA's
 from the input, and then proceed."
-- the syntax for doing this annoyingly often varies from function to function
+- The syntax for doing this annoyingly often varies from function to function.
 
 
 How to test for NA
@@ -216,14 +215,14 @@ is.na(x)
 - You shouldn't use `==` to check if a value is `NA`. (Why not?)
 - Use `is.na` instead.
 - In R, `NULL` is a special value representing a empty or
-absent object. It has its own type. It is often used as a placeholder for named arguments in function definitions
-- So: `NULL` is not `NA`. `NULL` is an
-empty/absent value. `NA` is a missing value.
+absent object. It has its own type. It is often used as a placeholder for named arguments in function definitions.
+- So: `NULL` is not `NA`. `NULL` is an empty/absent value. `NA` is a missing value.
 
 Exercise: find the missing values
 ========================================================
 ```{r}
-library(nycflights13) # install.packages(nycflights13)
+# install.packages(nycflights13)
+library(nycflights13)
 ```
 Count the number of missing values in the `arr_delay` column of the `flights` data frame. Use pipes (`%>%`).
 ```{r}

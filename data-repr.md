@@ -182,7 +182,7 @@ Numeric vectors
 - Numeric vectors can be any number or one of three special values: 
   - `Inf` (1/0 = Infinite)
   - `NaN` (0/0 = "Not a Number")
-  - `NA` (missing)
+  - `NA` (missing or "Not Available")
 - R uses scientific notation so `6.023e23` evaluates as `6.023 * 10^23` 
 
 Floating point numbers
@@ -235,7 +235,7 @@ Working with missing values
 [1] NA
 > mean(c(1, 2, NA, 4), na.rm = TRUE)
 [1] 2.333333
-> mean(c(1, 2, 4))
+> mean(c(1, 2, 4)) # identical to the previous result
 [1] 2.333333
 ```
 For R functions that aggregate results over an entire
@@ -245,11 +245,10 @@ vector, R can either:
   2. or leave out the `NA` values, and process the rest
 
 Many functions let you control `NA` processing.
-- In the second example, R leaves `NA` out of the numerator and denominator in
-the calculation of the mean value.
+- In the second example, R leaves `NA` out of the numerator and denominator in the calculation of the mean value.
 - `rm` is short for "remove," so `na.rm` means "first remove the NA's
 from the input, and then proceed."
-- the syntax for doing this annoyingly often varies from function to function
+- The syntax for doing this annoyingly often varies from function to function.
 
 
 How to test for NA
@@ -267,15 +266,15 @@ How to test for NA
 - You shouldn't use `==` to check if a value is `NA`. (Why not?)
 - Use `is.na` instead.
 - In R, `NULL` is a special value representing a empty or
-absent object. It has its own type. It is often used as a placeholder for named arguments in function definitions
-- So: `NULL` is not `NA`. `NULL` is an
-empty/absent value. `NA` is a missing value.
+absent object. It has its own type. It is often used as a placeholder for named arguments in function definitions.
+- So: `NULL` is not `NA`. `NULL` is an empty/absent value. `NA` is a missing value.
 
 Exercise: find the missing values
 ========================================================
 
 ```r
-> library(nycflights13) # install.packages(nycflights13)
+> # install.packages(nycflights13)
+> library(nycflights13)
 ```
 Count the number of missing values in the `arr_delay` column of the `flights` data frame. Use pipes (`%>%`).
 
@@ -381,12 +380,12 @@ Matrices
 
 ```r
 > my_example_matrix
-          [,1]       [,2]       [,3]        [,4]       [,5]
-[1,] 0.2460850 -1.1212792 -0.0592662  1.03654400 -0.1438539
-[2,] 0.8608306  0.6636584 -1.2151542  0.52213620 -2.2630461
-[3,] 0.1623988 -2.0878678  0.9514193  0.09158835  0.2883596
-[4,] 0.2060544 -0.3351940 -2.0457301 -0.02387673 -0.3399027
-[5,] 1.0434037  0.7201353  1.2722752  0.69420757  0.5073698
+           [,1]       [,2]       [,3]       [,4]       [,5]
+[1,] -0.5383934  0.4210667  0.5990130 -0.5931885 -0.4572766
+[2,]  0.8088378 -0.3106540 -0.1214971 -1.0680267  1.4467271
+[3,] -0.6830946  0.8791592 -1.3916613 -0.6981642 -0.9225866
+[4,]  1.2703738  0.6000906 -1.6085817  0.2790138  0.4270135
+[5,] -0.4508540 -0.7627213 -0.1228301  0.8990654 -0.3422961
 ```
 
 - All the usual vector rules apply- in particular, all entries of the matrix must be of the same type
@@ -551,26 +550,26 @@ Similar syntax is used for 2D entities
 ```r
 > my_example_matrix[1:3, c(2,2)]
            [,1]       [,2]
-[1,] -1.1212792 -1.1212792
-[2,]  0.6636584  0.6636584
-[3,] -2.0878678 -2.0878678
+[1,]  0.4210667  0.4210667
+[2,] -0.3106540 -0.3106540
+[3,]  0.8791592  0.8791592
 ```
 - the general pattern is `matrix[row_index, column_index]`.
 - leaving either blank returns all rows or columns
 
 ```r
 > my_example_matrix[1:3,]
-          [,1]       [,2]       [,3]       [,4]       [,5]
-[1,] 0.2460850 -1.1212792 -0.0592662 1.03654400 -0.1438539
-[2,] 0.8608306  0.6636584 -1.2151542 0.52213620 -2.2630461
-[3,] 0.1623988 -2.0878678  0.9514193 0.09158835  0.2883596
+           [,1]       [,2]       [,3]       [,4]       [,5]
+[1,] -0.5383934  0.4210667  0.5990130 -0.5931885 -0.4572766
+[2,]  0.8088378 -0.3106540 -0.1214971 -1.0680267  1.4467271
+[3,] -0.6830946  0.8791592 -1.3916613 -0.6981642 -0.9225866
 > my_example_matrix[,c(T,T,F,F,T)]
-          [,1]       [,2]       [,3]
-[1,] 0.2460850 -1.1212792 -0.1438539
-[2,] 0.8608306  0.6636584 -2.2630461
-[3,] 0.1623988 -2.0878678  0.2883596
-[4,] 0.2060544 -0.3351940 -0.3399027
-[5,] 1.0434037  0.7201353  0.5073698
+           [,1]       [,2]       [,3]
+[1,] -0.5383934  0.4210667 -0.4572766
+[2,]  0.8088378 -0.3106540  1.4467271
+[3,] -0.6830946  0.8791592 -0.9225866
+[4,]  1.2703738  0.6000906  0.4270135
+[5,] -0.4508540 -0.7627213 -0.3422961
 ```
 
 Comparing tidyverse vs. vector indexing
@@ -588,9 +587,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3  0.204
-2   0.1 -1.30 
-3  12   -0.242
+1   0.3 1.73  
+2   0.1 1.18  
+3  12   0.0678
 ```
 **Vector indexing**
 
@@ -599,9 +598,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3  0.204
-2   0.1 -1.30 
-3  12   -0.242
+1   0.3 1.73  
+2   0.1 1.18  
+3  12   0.0678
 ```
 - What are the advantages/disadvantages of each?
 
@@ -1294,7 +1293,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 11:28:20 2022-07-02
+1 2022-07-02 11:34:15 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
