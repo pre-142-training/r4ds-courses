@@ -84,8 +84,8 @@ orange %>%
   summarize(mean_circ = mean(circumference))
 ```
 
-- However, each column in a dataframe is actually a **vector** and the functions we use inside `summarize()` and `mutate()` operate on these vectors. 
-- So if  we want to write our own functions to use with data frames, we should understand a little bit about these basic objects
+- However, each column in a dataframe is actually a **vector** and the functions used inside `summarize()` and `mutate()` (`round()` and `mean()`) operate on these vectors. 
+- Since we'll be manipulating data frames all the time in biostats, we should understand a little bit about these basic building blocks.
 
 Vector basics
 ========================================================
@@ -118,9 +118,10 @@ c(shoesize, c(4, 8, 10, 10))
 
 Logical vectors
 ========================================================
+`%%` is the modulus operator, also known as the remainder operator. It gives you the remainder left over when you divide the thing to the left of the `%%` by the thing to the right of the `%%`.
 ```{r}
-1:10 %% 3 == 0
-c(TRUE, TRUE, FALSE, NA)
+1:10 %% 3 == 0 # which numbers in the sequence 1:10 are divisible by 3?
+c(TRUE, TRUE, FALSE, NA) 
 ```
 - logical vectors can only be one of three values: `TRUE`, `FALSE`, or `NA`.
 
@@ -141,6 +142,7 @@ Numeric vectors
 ========================================================
 ```{r}
 sqrt(1:10)
+c(0, 1)/0
 ```
 - Numeric vectors can be any number or one of three special values: `Inf` (1/0), `NaN` (0/0), and `NA` (missing)
 - R uses scientific notation so `6.023e23` evaluates as `6.023 * 10^23` 

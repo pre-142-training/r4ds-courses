@@ -96,8 +96,8 @@ Why care about vectors?
 5             4     175. 
 ```
 
-- However, each column in a dataframe is actually a **vector** and the functions we use inside `summarize()` and `mutate()` operate on these vectors. 
-- So if  we want to write our own functions to use with data frames, we should understand a little bit about these basic objects
+- However, each column in a dataframe is actually a **vector** and the functions used inside `summarize()` and `mutate()` (`round()` and `mean()`) operate on these vectors. 
+- Since we'll be manipulating data frames all the time in biostats, we should understand a little bit about these basic building blocks.
 
 Vector basics
 ========================================================
@@ -142,11 +142,12 @@ Vector basics
 
 Logical vectors
 ========================================================
+`%%` is the modulus operator, also known as the remainder operator. It gives you the remainder left over when you divide the thing to the left of the `%%` by the thing to the right of the `%%`.
 
 ```r
-> 1:10 %% 3 == 0
+> 1:10 %% 3 == 0 # which numbers in the sequence 1:10 are divisible by 3?
  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE
-> c(TRUE, TRUE, FALSE, NA)
+> c(TRUE, TRUE, FALSE, NA) 
 [1]  TRUE  TRUE FALSE    NA
 ```
 - logical vectors can only be one of three values: `TRUE`, `FALSE`, or `NA`.
@@ -175,6 +176,8 @@ Numeric vectors
 > sqrt(1:10)
  [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
  [9] 3.000000 3.162278
+> c(0, 1)/0
+[1] NaN Inf
 ```
 - Numeric vectors can be any number or one of three special values: `Inf` (1/0), `NaN` (0/0), and `NA` (missing)
 - R uses scientific notation so `6.023e23` evaluates as `6.023 * 10^23` 
@@ -410,12 +413,12 @@ Matrices
 
 ```r
 > my_example_matrix
-            [,1]       [,2]       [,3]       [,4]       [,5]
-[1,]  0.19470298 -0.2888783 -0.2322156  0.9866510 -0.5894900
-[2,]  0.64855744 -1.2845420  1.3686146 -0.5208300  0.6235730
-[3,] -0.99133244  0.2359735  1.5938076  0.6133272  0.5351335
-[4,] -0.01649474 -0.9300180  1.6722601 -0.4691956 -1.3522139
-[5,]  1.30222960 -1.2241838  0.8170562 -0.2255465  0.6195549
+             [,1]       [,2]       [,3]       [,4]        [,5]
+[1,] -1.150789570 -0.5827511  0.5147377  0.2510782 -0.08574578
+[2,]  0.537994191  0.7816482  1.3439130 -0.4455612  1.06576208
+[3,]  0.008985339 -0.7369870 -0.3235707 -0.1314189 -0.18379346
+[4,] -0.521610029  1.5554006  0.6392858  0.7113244  0.51721579
+[5,]  0.084634303  0.4939631 -0.7615341 -0.5265662 -0.16830859
 ```
 
 - All the usual vector rules apply- in particular, all entries of the matrix must be of the same type
@@ -580,26 +583,26 @@ Similar syntax is used for 2D entities
 ```r
 > my_example_matrix[1:3, c(2,2)]
            [,1]       [,2]
-[1,] -0.2888783 -0.2888783
-[2,] -1.2845420 -1.2845420
-[3,]  0.2359735  0.2359735
+[1,] -0.5827511 -0.5827511
+[2,]  0.7816482  0.7816482
+[3,] -0.7369870 -0.7369870
 ```
 - the general pattern is `matrix[row_index, column_index]`.
 - leaving either blank returns all rows or columns
 
 ```r
 > my_example_matrix[1:3,]
-           [,1]       [,2]       [,3]       [,4]       [,5]
-[1,]  0.1947030 -0.2888783 -0.2322156  0.9866510 -0.5894900
-[2,]  0.6485574 -1.2845420  1.3686146 -0.5208300  0.6235730
-[3,] -0.9913324  0.2359735  1.5938076  0.6133272  0.5351335
+             [,1]       [,2]       [,3]       [,4]        [,5]
+[1,] -1.150789570 -0.5827511  0.5147377  0.2510782 -0.08574578
+[2,]  0.537994191  0.7816482  1.3439130 -0.4455612  1.06576208
+[3,]  0.008985339 -0.7369870 -0.3235707 -0.1314189 -0.18379346
 > my_example_matrix[,c(T,T,F,F,T)]
-            [,1]       [,2]       [,3]
-[1,]  0.19470298 -0.2888783 -0.5894900
-[2,]  0.64855744 -1.2845420  0.6235730
-[3,] -0.99133244  0.2359735  0.5351335
-[4,] -0.01649474 -0.9300180 -1.3522139
-[5,]  1.30222960 -1.2241838  0.6195549
+             [,1]       [,2]        [,3]
+[1,] -1.150789570 -0.5827511 -0.08574578
+[2,]  0.537994191  0.7816482  1.06576208
+[3,]  0.008985339 -0.7369870 -0.18379346
+[4,] -0.521610029  1.5554006  0.51721579
+[5,]  0.084634303  0.4939631 -0.16830859
 ```
 
 Comparing tidyverse vs. vector indexing
@@ -617,9 +620,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3 -0.539
-2   0.1 -0.809
-3  12   -0.849
+1   0.3  0.223
+2   0.1  0.136
+3  12   -1.05 
 ```
 **Vector indexing**
 
@@ -628,9 +631,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3 -0.539
-2   0.1 -0.809
-3  12   -0.849
+1   0.3  0.223
+2   0.1  0.136
+3  12   -1.05 
 ```
 - What are the advantages/disadvantages of each?
 
@@ -1323,7 +1326,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 11:02:14 2022-07-02
+1 2022-07-02 11:18:50 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
