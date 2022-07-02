@@ -237,33 +237,21 @@ head(arr_delay) # look at the first few items in the vector
 head(is.na(arr_delay)) # is.na() produces a logical vector
 sum(is.na(arr_delay)) # sum the logical vector
 ```
-When you add up a logical vector, TRUE = 1 and FALSE = 0, so `sum()` effectively counts all TRUE values.
+When you add up all the elements in a logical vector, TRUE = 1 and FALSE = 0, so `sum()` effectively counts all TRUE values.
 
 Type coercion
 ========================================================
-- some vector types can be easily converted to other types:
+- Some vector types can be easily converted to other types:
 ```{r}
 as.character(shoesize)
 ```
-- see `as.character()`, `as.logical()`, `as.numeric()`, etc.
-- coercion most often happens implicitly when you use a vector in a context that is expecting a specific type:
+- See `as.character()`, `as.logical()`, `as.numeric()`, etc.
+- Coercion most often happens in the background when you use a vector in a context that is expecting a specific type:
 ```{r}
 shoe_gt_8 = shoesize > 8
 typeof(shoe_gt_8)
 sum(shoe_gt_8) # under the hood, sum(as.numeric(shoe_gt_8))
 mean(shoe_gt_8) # under the hood, mean(as.numeric(shoe_gt_8))
-```
-
-Type coercion
-========================================================
-- Implicit coercion also happens if you try and combine two vectors of different types
-```{r}
-(A <- c(TRUE, 1L))
-typeof(A)
-(B <- c(1L, 1.5))
-typeof(B)
-(C <- c(1.5, "a"))
-typeof(C)
 ```
 
 Testing type
@@ -277,10 +265,11 @@ Use these to see if something is a vector or of the desired type. They all retur
 - is_list()
 - is_vector()
 ```{r}
-is_double(0.14) # neat
-typeof(TRUE) == "logical" # not neat
+is_double(0.14)
+is_logical(TRUE)
+is_logical(0.14)
 ```
-- these functions are imported by `tidyverse`. Base R has its own equivalents but they are not well designed and sometimes produce surprising results. 
+- These functions are imported by `tidyverse`. Base R has its own equivalents but they are not well designed and sometimes produce surprising results. 
 
 Matrices
 ========================================================

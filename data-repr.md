@@ -306,18 +306,18 @@ Answer: Count the number of missing values
 > sum(is.na(arr_delay)) # sum the logical vector
 [1] 9430
 ```
-When you add up a logical vector, TRUE = 1 and FALSE = 0, so `sum()` effectively counts all TRUE values.
+When you add up all the elements in a logical vector, TRUE = 1 and FALSE = 0, so `sum()` effectively counts all TRUE values.
 
 Type coercion
 ========================================================
-- some vector types can be easily converted to other types:
+- Some vector types can be easily converted to other types:
 
 ```r
 > as.character(shoesize)
 [1] "9"  "12" "6"  "10" "10" "16" "8"  "4" 
 ```
-- see `as.character()`, `as.logical()`, `as.numeric()`, etc.
-- coercion most often happens implicitly when you use a vector in a context that is expecting a specific type:
+- See `as.character()`, `as.logical()`, `as.numeric()`, etc.
+- Coercion most often happens in the background when you use a vector in a context that is expecting a specific type:
 
 ```r
 > shoe_gt_8 = shoesize > 8
@@ -327,25 +327,6 @@ Type coercion
 [1] 5
 > mean(shoe_gt_8) # under the hood, mean(as.numeric(shoe_gt_8))
 [1] 0.625
-```
-
-Type coercion
-========================================================
-- Implicit coercion also happens if you try and combine two vectors of different types
-
-```r
-> (A <- c(TRUE, 1L))
-[1] 1 1
-> typeof(A)
-[1] "integer"
-> (B <- c(1L, 1.5))
-[1] 1.0 1.5
-> typeof(B)
-[1] "double"
-> (C <- c(1.5, "a"))
-[1] "1.5" "a"  
-> typeof(C)
-[1] "character"
 ```
 
 Testing type
@@ -360,12 +341,14 @@ Use these to see if something is a vector or of the desired type. They all retur
 - is_vector()
 
 ```r
-> is_double(0.14) # neat
+> is_double(0.14)
 [1] TRUE
-> typeof(TRUE) == "logical" # not neat
+> is_logical(TRUE)
 [1] TRUE
+> is_logical(0.14)
+[1] FALSE
 ```
-- these functions are imported by `tidyverse`. Base R has its own equivalents but they are not well designed and sometimes produce surprising results. 
+- These functions are imported by `tidyverse`. Base R has its own equivalents but they are not well designed and sometimes produce surprising results. 
 
 Matrices
 ========================================================
@@ -374,12 +357,12 @@ Matrices
 
 ```r
 > my_example_matrix
-           [,1]        [,2]       [,3]       [,4]       [,5]
-[1,] -0.9293488  1.60424124 -0.6388718  0.1015947 -2.6356428
-[2,]  1.2985205  0.55557617  1.4360920 -1.5060235 -0.2303515
-[3,] -1.3390024  0.21372656  1.0248272  0.5114486  0.2714632
-[4,]  0.5188303 -1.69977489 -0.3060797  1.1546117  1.8983933
-[5,] -1.1146241 -0.03837233  1.0074058 -1.5768882  0.2176367
+           [,1]       [,2]       [,3]         [,4]       [,5]
+[1,] -0.9550246  0.1925680 -1.1152054 -0.248601473  2.2485060
+[2,] -0.3562240 -0.1123552  0.3333414 -0.136754921 -0.4185435
+[3,] -1.4721724  0.8916387  1.1711265  1.150874175 -1.2058049
+[4,] -0.1566092 -0.6645938 -1.4152207 -0.183074047 -1.8855180
+[5,] -1.1121547  0.3431050  0.9460081 -0.007559438  0.1175070
 ```
 
 - All the usual vector rules apply- in particular, all entries of the matrix must be of the same type
@@ -543,27 +526,27 @@ Similar syntax is used for 2D entities
 
 ```r
 > my_example_matrix[1:3, c(2,2)]
-          [,1]      [,2]
-[1,] 1.6042412 1.6042412
-[2,] 0.5555762 0.5555762
-[3,] 0.2137266 0.2137266
+           [,1]       [,2]
+[1,]  0.1925680  0.1925680
+[2,] -0.1123552 -0.1123552
+[3,]  0.8916387  0.8916387
 ```
 - the general pattern is `matrix[row_index, column_index]`.
 - leaving either blank returns all rows or columns
 
 ```r
 > my_example_matrix[1:3,]
-           [,1]      [,2]       [,3]       [,4]       [,5]
-[1,] -0.9293488 1.6042412 -0.6388718  0.1015947 -2.6356428
-[2,]  1.2985205 0.5555762  1.4360920 -1.5060235 -0.2303515
-[3,] -1.3390024 0.2137266  1.0248272  0.5114486  0.2714632
+           [,1]       [,2]       [,3]       [,4]       [,5]
+[1,] -0.9550246  0.1925680 -1.1152054 -0.2486015  2.2485060
+[2,] -0.3562240 -0.1123552  0.3333414 -0.1367549 -0.4185435
+[3,] -1.4721724  0.8916387  1.1711265  1.1508742 -1.2058049
 > my_example_matrix[,c(T,T,F,F,T)]
-           [,1]        [,2]       [,3]
-[1,] -0.9293488  1.60424124 -2.6356428
-[2,]  1.2985205  0.55557617 -0.2303515
-[3,] -1.3390024  0.21372656  0.2714632
-[4,]  0.5188303 -1.69977489  1.8983933
-[5,] -1.1146241 -0.03837233  0.2176367
+           [,1]       [,2]       [,3]
+[1,] -0.9550246  0.1925680  2.2485060
+[2,] -0.3562240 -0.1123552 -0.4185435
+[3,] -1.4721724  0.8916387 -1.2058049
+[4,] -0.1566092 -0.6645938 -1.8855180
+[5,] -1.1121547  0.3431050  0.1175070
 ```
 
 Comparing tidyverse vs. vector indexing
@@ -581,9 +564,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3 -0.497
-2   0.1 -0.504
-3  12   -1.01 
+1   0.3  1.82 
+2   0.1 -0.414
+3  12   -0.554
 ```
 **Vector indexing**
 
@@ -592,9 +575,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3 -0.497
-2   0.1 -0.504
-3  12   -1.01 
+1   0.3  1.82 
+2   0.1 -0.414
+3  12   -0.554
 ```
 - What are the advantages/disadvantages of each?
 
@@ -1141,7 +1124,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-89](data-repr-figure/unnamed-chunk-89-1.png)
+![plot of chunk unnamed-chunk-88](data-repr-figure/unnamed-chunk-88-1.png)
 
 Ordering factor levels
 ===
@@ -1154,7 +1137,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-90](data-repr-figure/unnamed-chunk-90-1.png)
+![plot of chunk unnamed-chunk-89](data-repr-figure/unnamed-chunk-89-1.png)
 - `fct_reorder()` takes in a factor vector and a numeric vector that is used to sort the levels
 
 Ordering factor levels
@@ -1171,7 +1154,7 @@ Ordering factor levels
 +   geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-91](data-repr-figure/unnamed-chunk-91-1.png)
+![plot of chunk unnamed-chunk-90](data-repr-figure/unnamed-chunk-90-1.png)
 
 Recoding factor levels
 ===
@@ -1260,7 +1243,7 @@ How have the proportions of people identifying as Democrat, Republican, and Inde
 +   scale_fill_manual(values = party_colors)
 ```
 
-![plot of chunk unnamed-chunk-95](data-repr-figure/unnamed-chunk-95-1.png)
+![plot of chunk unnamed-chunk-94](data-repr-figure/unnamed-chunk-94-1.png)
 
 Dates and times
 === 
@@ -1287,7 +1270,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 11:42:39 2022-07-02
+1 2022-07-02 11:48:07 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
@@ -1436,7 +1419,7 @@ Plotting with dates
 +   geom_freqpoly(binwidth = 600) # 600 s = 10 minutes
 ```
 
-![plot of chunk unnamed-chunk-106](data-repr-figure/unnamed-chunk-106-1.png)
+![plot of chunk unnamed-chunk-105](data-repr-figure/unnamed-chunk-105-1.png)
 
 Accessing dttm elements
 ===
@@ -1450,7 +1433,7 @@ Accessing dttm elements
 +     geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-107](data-repr-figure/unnamed-chunk-107-1.png)
+![plot of chunk unnamed-chunk-106](data-repr-figure/unnamed-chunk-106-1.png)
 
 Accessing dttm elements
 ===
@@ -1469,7 +1452,7 @@ Accessing dttm elements
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-108](data-repr-figure/unnamed-chunk-108-1.png)
+![plot of chunk unnamed-chunk-107](data-repr-figure/unnamed-chunk-107-1.png)
 
 Date-time arithmetic
 ===
