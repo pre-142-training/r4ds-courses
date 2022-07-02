@@ -144,52 +144,26 @@ Numeric vectors
 sqrt(1:10)
 c(0, 1)/0
 ```
-- Numeric vectors can be any number or one of three special values: `Inf` (1/0), `NaN` (0/0), and `NA` (missing)
+- Numeric vectors can be any number or one of three special values: 
+  - `Inf` (1/0 = Infinite)
+  - `NaN` (0/0 = "Not a Number")
+  - `NA` (missing)
 - R uses scientific notation so `6.023e23` evaluates as `6.023 * 10^23` 
 
 Floating point numbers
 ========================================================
-  ```{r tidy=FALSE}
+```{r tidy=FALSE}
 9.87
 pi
 ```
-- numeric vectors are typically doubles (sometimes integer)
+- Numeric vectors are typically doubles (sometimes integer)
 - "double" means double-precision floating point.
 - These are the computer representation of real numbers, that is,
 numbers that necessarily have digits to the right of the decimal
 point.
-- integers take less space to store so they are preferable sometimes
-
-- ADVANCED: R assumes the numbers you type are floating point, even if you
-do not use a decimal point. R tries to avoid printing decimal points
+- ADVANCED: Integers take less space to store so they are preferable sometimes.
+- ADVANCED: R assumes the numbers you type are floating point, even if you do not use a decimal point. R tries to avoid printing decimal points
 when it can.
-
-The perils of floating point
-========================================================
-```{r}
-## is 4 equal to the square of the square root of 4?
-4 == sqrt(4)^2
-## is 2 equal to the square of the square root of 2?
-2 == sqrt(2)^2
-## is 1 equal to 1 plus some small number?
-1 == 1 + 0.00000000000000000000001
-```
-- It is exceptionally difficult to get a computer to manipulate
-approximations to real numbers correctly.
-- This is very rarely a problem, but you can use `near()` from `dplyr` to stand in for `==` when you only need equality up to a certain precision
-```{r}
-# .Machine$double.eps is the smallest number R can represent
-near(sqrt(2) ^ 2, 2, tol = .Machine$double.eps^0.5)
-```
-
-Other types
-========================================================
-
-We will discuss some of these other types in more detail later:
-
-- strings
-- factors (categories)
-- date-times
 
 
 NA represents missing values

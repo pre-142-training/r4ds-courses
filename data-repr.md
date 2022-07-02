@@ -179,61 +179,29 @@ Numeric vectors
 > c(0, 1)/0
 [1] NaN Inf
 ```
-- Numeric vectors can be any number or one of three special values: `Inf` (1/0), `NaN` (0/0), and `NA` (missing)
+- Numeric vectors can be any number or one of three special values: 
+  - `Inf` (1/0 = Infinite)
+  - `NaN` (0/0 = "Not a Number")
+  - `NA` (missing)
 - R uses scientific notation so `6.023e23` evaluates as `6.023 * 10^23` 
 
 Floating point numbers
 ========================================================
-  
-  ```r
-  > 9.87
-  [1] 9.87
-  > pi
-  [1] 3.141593
-  ```
-- numeric vectors are typically doubles (sometimes integer)
+
+```r
+> 9.87
+[1] 9.87
+> pi
+[1] 3.141593
+```
+- Numeric vectors are typically doubles (sometimes integer)
 - "double" means double-precision floating point.
 - These are the computer representation of real numbers, that is,
 numbers that necessarily have digits to the right of the decimal
 point.
-- integers take less space to store so they are preferable sometimes
-
-- ADVANCED: R assumes the numbers you type are floating point, even if you
-do not use a decimal point. R tries to avoid printing decimal points
+- ADVANCED: Integers take less space to store so they are preferable sometimes.
+- ADVANCED: R assumes the numbers you type are floating point, even if you do not use a decimal point. R tries to avoid printing decimal points
 when it can.
-
-The perils of floating point
-========================================================
-
-```r
-> ## is 4 equal to the square of the square root of 4?
-> 4 == sqrt(4)^2
-[1] TRUE
-> ## is 2 equal to the square of the square root of 2?
-> 2 == sqrt(2)^2
-[1] FALSE
-> ## is 1 equal to 1 plus some small number?
-> 1 == 1 + 0.00000000000000000000001
-[1] TRUE
-```
-- It is exceptionally difficult to get a computer to manipulate
-approximations to real numbers correctly.
-- This is very rarely a problem, but you can use `near()` from `dplyr` to stand in for `==` when you only need equality up to a certain precision
-
-```r
-> # .Machine$double.eps is the smallest number R can represent
-> near(sqrt(2) ^ 2, 2, tol = .Machine$double.eps^0.5)
-[1] TRUE
-```
-
-Other types
-========================================================
-
-We will discuss some of these other types in more detail later:
-
-- strings
-- factors (categories)
-- date-times
 
 
 NA represents missing values
@@ -413,12 +381,12 @@ Matrices
 
 ```r
 > my_example_matrix
-             [,1]       [,2]       [,3]       [,4]        [,5]
-[1,] -1.150789570 -0.5827511  0.5147377  0.2510782 -0.08574578
-[2,]  0.537994191  0.7816482  1.3439130 -0.4455612  1.06576208
-[3,]  0.008985339 -0.7369870 -0.3235707 -0.1314189 -0.18379346
-[4,] -0.521610029  1.5554006  0.6392858  0.7113244  0.51721579
-[5,]  0.084634303  0.4939631 -0.7615341 -0.5265662 -0.16830859
+          [,1]       [,2]       [,3]        [,4]       [,5]
+[1,] 0.2460850 -1.1212792 -0.0592662  1.03654400 -0.1438539
+[2,] 0.8608306  0.6636584 -1.2151542  0.52213620 -2.2630461
+[3,] 0.1623988 -2.0878678  0.9514193  0.09158835  0.2883596
+[4,] 0.2060544 -0.3351940 -2.0457301 -0.02387673 -0.3399027
+[5,] 1.0434037  0.7201353  1.2722752  0.69420757  0.5073698
 ```
 
 - All the usual vector rules apply- in particular, all entries of the matrix must be of the same type
@@ -583,26 +551,26 @@ Similar syntax is used for 2D entities
 ```r
 > my_example_matrix[1:3, c(2,2)]
            [,1]       [,2]
-[1,] -0.5827511 -0.5827511
-[2,]  0.7816482  0.7816482
-[3,] -0.7369870 -0.7369870
+[1,] -1.1212792 -1.1212792
+[2,]  0.6636584  0.6636584
+[3,] -2.0878678 -2.0878678
 ```
 - the general pattern is `matrix[row_index, column_index]`.
 - leaving either blank returns all rows or columns
 
 ```r
 > my_example_matrix[1:3,]
-             [,1]       [,2]       [,3]       [,4]        [,5]
-[1,] -1.150789570 -0.5827511  0.5147377  0.2510782 -0.08574578
-[2,]  0.537994191  0.7816482  1.3439130 -0.4455612  1.06576208
-[3,]  0.008985339 -0.7369870 -0.3235707 -0.1314189 -0.18379346
+          [,1]       [,2]       [,3]       [,4]       [,5]
+[1,] 0.2460850 -1.1212792 -0.0592662 1.03654400 -0.1438539
+[2,] 0.8608306  0.6636584 -1.2151542 0.52213620 -2.2630461
+[3,] 0.1623988 -2.0878678  0.9514193 0.09158835  0.2883596
 > my_example_matrix[,c(T,T,F,F,T)]
-             [,1]       [,2]        [,3]
-[1,] -1.150789570 -0.5827511 -0.08574578
-[2,]  0.537994191  0.7816482  1.06576208
-[3,]  0.008985339 -0.7369870 -0.18379346
-[4,] -0.521610029  1.5554006  0.51721579
-[5,]  0.084634303  0.4939631 -0.16830859
+          [,1]       [,2]       [,3]
+[1,] 0.2460850 -1.1212792 -0.1438539
+[2,] 0.8608306  0.6636584 -2.2630461
+[3,] 0.1623988 -2.0878678  0.2883596
+[4,] 0.2060544 -0.3351940 -0.3399027
+[5,] 1.0434037  0.7201353  0.5073698
 ```
 
 Comparing tidyverse vs. vector indexing
@@ -620,9 +588,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3  0.223
-2   0.1  0.136
-3  12   -1.05 
+1   0.3  0.204
+2   0.1 -1.30 
+3  12   -0.242
 ```
 **Vector indexing**
 
@@ -631,9 +599,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3  0.223
-2   0.1  0.136
-3  12   -1.05 
+1   0.3  0.204
+2   0.1 -1.30 
+3  12   -0.242
 ```
 - What are the advantages/disadvantages of each?
 
@@ -1180,7 +1148,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-91](data-repr-figure/unnamed-chunk-91-1.png)
+![plot of chunk unnamed-chunk-89](data-repr-figure/unnamed-chunk-89-1.png)
 
 Ordering factor levels
 ===
@@ -1193,7 +1161,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-92](data-repr-figure/unnamed-chunk-92-1.png)
+![plot of chunk unnamed-chunk-90](data-repr-figure/unnamed-chunk-90-1.png)
 - `fct_reorder()` takes in a factor vector and a numeric vector that is used to sort the levels
 
 Ordering factor levels
@@ -1210,7 +1178,7 @@ Ordering factor levels
 +   geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-93](data-repr-figure/unnamed-chunk-93-1.png)
+![plot of chunk unnamed-chunk-91](data-repr-figure/unnamed-chunk-91-1.png)
 
 Recoding factor levels
 ===
@@ -1299,7 +1267,7 @@ How have the proportions of people identifying as Democrat, Republican, and Inde
 +   scale_fill_manual(values = party_colors)
 ```
 
-![plot of chunk unnamed-chunk-97](data-repr-figure/unnamed-chunk-97-1.png)
+![plot of chunk unnamed-chunk-95](data-repr-figure/unnamed-chunk-95-1.png)
 
 Dates and times
 === 
@@ -1326,7 +1294,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 11:18:50 2022-07-02
+1 2022-07-02 11:28:20 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
@@ -1475,7 +1443,7 @@ Plotting with dates
 +   geom_freqpoly(binwidth = 600) # 600 s = 10 minutes
 ```
 
-![plot of chunk unnamed-chunk-108](data-repr-figure/unnamed-chunk-108-1.png)
+![plot of chunk unnamed-chunk-106](data-repr-figure/unnamed-chunk-106-1.png)
 
 Accessing dttm elements
 ===
@@ -1489,7 +1457,7 @@ Accessing dttm elements
 +     geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-109](data-repr-figure/unnamed-chunk-109-1.png)
+![plot of chunk unnamed-chunk-107](data-repr-figure/unnamed-chunk-107-1.png)
 
 Accessing dttm elements
 ===
@@ -1508,7 +1476,7 @@ Accessing dttm elements
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-110](data-repr-figure/unnamed-chunk-110-1.png)
+![plot of chunk unnamed-chunk-108](data-repr-figure/unnamed-chunk-108-1.png)
 
 Date-time arithmetic
 ===
