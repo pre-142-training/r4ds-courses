@@ -1,10 +1,12 @@
 Data Representation
 ========================================================
-author: Alejandro Schuler, based on R for Data Science by Hadley Wickham
-date: 2019
+author: Alejandro Schuler and David Connell
+date: 2022
 transition: none
 width: 1680
 height: 1050
+
+Based on [R for Data Science by Hadley Wickham](https://r4ds.had.co.nz/)
 
 ```{r include=FALSE}
 ## better font size for slides
@@ -24,28 +26,25 @@ Goals of this course
 By the end of the course you should be able to...
 
 - create and index vectors of different types
-- efficiently manipulate strings, factors, and date-time vectors
-- tightly control the intake of tabular data
+- efficiently manipulate factors and vectors
 
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/571b056757d68e6df81a3e3853f54d3c76ad6efc/32d37/diagrams/data-science.png" width=800 height=300>
-</div>
+![](images/data-science.png)
 
 Resources for this course
 ========================================================
 
-R for Data Science (R4DS): https://r4ds.had.co.nz
-<div align="center">
-<img src="https://r4ds.had.co.nz/cover.png">
-</div>
+![](https://r4ds.had.co.nz/cover.png)
 
 ***
+## [R for Data Science (R4DS) free online book by Hadley Wickham](https://r4ds.had.co.nz)
 
 - Vectors/lists: ch 20
-- Strings, factors, date-times: ch 14, 15, 16
+- Factors: ch 15
 - Reading data: ch 11
 
-Cheatsheets: https://www.rstudio.com/resources/cheatsheets/
+## [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+
+- Extremely useful reference guides for functions used in this course
 
 Vectors and data types
 ========================================================

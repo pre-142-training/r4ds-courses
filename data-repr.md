@@ -1,10 +1,12 @@
 Data Representation
 ========================================================
-author: Alejandro Schuler, based on R for Data Science by Hadley Wickham
-date: 2019
+author: Alejandro Schuler and David Connell
+date: 2022
 transition: none
 width: 1680
 height: 1050
+
+Based on [R for Data Science by Hadley Wickham](https://r4ds.had.co.nz/)
 
 
 
@@ -18,28 +20,25 @@ Goals of this course
 By the end of the course you should be able to...
 
 - create and index vectors of different types
-- efficiently manipulate strings, factors, and date-time vectors
-- tightly control the intake of tabular data
+- efficiently manipulate factors and vectors
 
-<div align="center">
-<img src="https://d33wubrfki0l68.cloudfront.net/571b056757d68e6df81a3e3853f54d3c76ad6efc/32d37/diagrams/data-science.png" width=800 height=300>
-</div>
+![](images/data-science.png)
 
 Resources for this course
 ========================================================
 
-R for Data Science (R4DS): https://r4ds.had.co.nz
-<div align="center">
-<img src="https://r4ds.had.co.nz/cover.png">
-</div>
+![](https://r4ds.had.co.nz/cover.png)
 
 ***
+## [R for Data Science (R4DS) free online book by Hadley Wickham](https://r4ds.had.co.nz)
 
 - Vectors/lists: ch 20
-- Strings, factors, date-times: ch 14, 15, 16
+- Factors: ch 15
 - Reading data: ch 11
 
-Cheatsheets: https://www.rstudio.com/resources/cheatsheets/
+## [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+
+- Extremely useful reference guides for functions used in this course
 
 Vectors and data types
 ========================================================
@@ -51,14 +50,14 @@ As usual, let's load the tidyverse before proceeding
 
 ```r
 > library(tidyverse)
-── Attaching packages ──────────────────────────────── tidyverse 1.2.1.9000 ──
-✔ tibble  2.0.1       ✔ dplyr   0.8.0.1
-✔ tidyr   0.8.2       ✔ stringr 1.4.0  
-✔ readr   1.3.1       ✔ forcats 0.3.0  
-✔ purrr   0.3.0       
-── Conflicts ──────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
+── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+✓ tibble  3.1.5     ✓ dplyr   1.0.7
+✓ tidyr   1.1.4     ✓ stringr 1.4.0
+✓ readr   2.0.2     ✓ forcats 0.5.1
+✓ purrr   0.3.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
 ```
 
 Vector basics
@@ -89,7 +88,7 @@ Why care about vectors?
 +   mutate(approx_age_yr = round(age_yrs)) %>%
 +   group_by(approx_age_yr) %>%
 +   summarize(mean_circ = mean(circumference))
-# A tibble: 5 x 2
+# A tibble: 5 × 2
   approx_age_yr mean_circ
           <dbl>     <dbl>
 1             0      31  
@@ -176,8 +175,8 @@ Numeric vectors
 
 ```r
 > sqrt(1:10)
- [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751
- [8] 2.828427 3.000000 3.162278
+ [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
+ [9] 3.000000 3.162278
 ```
 - Numeric vectors can be any number or one of three special values: `Inf` (1/0), `NaN` (0/0), and `NA` (missing)
 - R uses scientific notation so `6.023e23` evaluates as `6.023 * 10^23` 
@@ -313,19 +312,18 @@ Count the number of missing values in the `arr_delay` column of the `flights` da
 
 ```r
 > head(flights)
-# A tibble: 6 x 19
-   year month   day dep_time sched_dep_time dep_delay arr_time
-  <int> <int> <int>    <int>          <int>     <dbl>    <int>
-1  2013     1     1      517            515         2      830
-2  2013     1     1      533            529         4      850
-3  2013     1     1      542            540         2      923
-4  2013     1     1      544            545        -1     1004
-5  2013     1     1      554            600        -6      812
-6  2013     1     1      554            558        -4      740
-# … with 12 more variables: sched_arr_time <int>, arr_delay <dbl>,
-#   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
-#   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>,
-#   time_hour <dttm>
+# A tibble: 6 × 19
+   year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+  <int> <int> <int>    <int>          <int>     <dbl>    <int>          <int>
+1  2013     1     1      517            515         2      830            819
+2  2013     1     1      533            529         4      850            830
+3  2013     1     1      542            540         2      923            850
+4  2013     1     1      544            545        -1     1004           1022
+5  2013     1     1      554            600        -6      812            837
+6  2013     1     1      554            558        -4      740            728
+# … with 11 more variables: arr_delay <dbl>, carrier <chr>, flight <int>,
+#   tailnum <chr>, origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>,
+#   hour <dbl>, minute <dbl>, time_hour <dttm>
 ```
 
 Answer: find the missing values
@@ -341,7 +339,7 @@ Answer: find the missing values
 > flights %>%
 +   mutate(arr_delay_NA = is.na(arr_delay)) %>%
 +   summarize(arr_delay_NA_count = sum(arr_delay_NA))
-# A tibble: 1 x 1
+# A tibble: 1 × 1
   arr_delay_NA_count
                <int>
 1               9430
@@ -414,12 +412,12 @@ Matrices
 
 ```r
 > my_example_matrix
-           [,1]       [,2]       [,3]       [,4]       [,5]
-[1,] -0.1705276  2.0346228  1.2582609 -0.4339435 -0.6185047
-[2,]  0.1674869  0.2377977 -0.4842643 -0.3902494 -0.6700841
-[3,]  0.7105252 -0.9722003 -1.6917808  1.5833169 -0.9401041
-[4,]  0.2674724  1.0969980  1.9126580  1.5018373 -0.3843736
-[5,]  0.4126720  1.1492229  0.8527023  2.5953698 -0.5729117
+            [,1]       [,2]       [,3]         [,4]       [,5]
+[1,]  0.09260677 -1.8138012  0.5381625  0.003993654 -2.3443094
+[2,]  1.19268647  1.4462740  2.3754720 -0.478356698 -2.1973380
+[3,]  0.64076448 -0.9214701 -0.9192990 -0.236215081 -0.3200104
+[4,] -0.20640860 -0.9247835  1.3082182  1.368718003  0.7041216
+[5,]  1.39554663  0.8290346 -1.1620227 -1.147804803 -1.8197131
 ```
 
 - All the usual vector rules apply- in particular, all entries of the matrix must be of the same type
@@ -447,23 +445,22 @@ Exercise: coercing a data frame to matrix
 > # install.packages(nycflights13)
 > library(nycflights13)
 > (flights = as_tibble(flights))
-# A tibble: 336,776 x 19
-    year month   day dep_time sched_dep_time dep_delay arr_time
-   <int> <int> <int>    <int>          <int>     <dbl>    <int>
- 1  2013     1     1      517            515         2      830
- 2  2013     1     1      533            529         4      850
- 3  2013     1     1      542            540         2      923
- 4  2013     1     1      544            545        -1     1004
- 5  2013     1     1      554            600        -6      812
- 6  2013     1     1      554            558        -4      740
- 7  2013     1     1      555            600        -5      913
- 8  2013     1     1      557            600        -3      709
- 9  2013     1     1      557            600        -3      838
-10  2013     1     1      558            600        -2      753
-# … with 336,766 more rows, and 12 more variables: sched_arr_time <int>,
-#   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
-#   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
-#   minute <dbl>, time_hour <dttm>
+# A tibble: 336,776 × 19
+    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+   <int> <int> <int>    <int>          <int>     <dbl>    <int>          <int>
+ 1  2013     1     1      517            515         2      830            819
+ 2  2013     1     1      533            529         4      850            830
+ 3  2013     1     1      542            540         2      923            850
+ 4  2013     1     1      544            545        -1     1004           1022
+ 5  2013     1     1      554            600        -6      812            837
+ 6  2013     1     1      554            558        -4      740            728
+ 7  2013     1     1      555            600        -5      913            854
+ 8  2013     1     1      557            600        -3      709            723
+ 9  2013     1     1      557            600        -3      838            846
+10  2013     1     1      558            600        -2      753            745
+# … with 336,766 more rows, and 11 more variables: arr_delay <dbl>,
+#   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
+#   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>, time_hour <dttm>
 ```
 
 Convert `flights` into a matrix and find out what type it is. Does this make sense?
@@ -585,26 +582,26 @@ Similar syntax is used for 2D entities
 ```r
 > my_example_matrix[1:3, c(2,2)]
            [,1]       [,2]
-[1,]  2.0346228  2.0346228
-[2,]  0.2377977  0.2377977
-[3,] -0.9722003 -0.9722003
+[1,] -1.8138012 -1.8138012
+[2,]  1.4462740  1.4462740
+[3,] -0.9214701 -0.9214701
 ```
 - the general pattern is `matrix[row_index, column_index]`.
 - leaving either blank returns all rows or columns
 
 ```r
 > my_example_matrix[1:3,]
-           [,1]       [,2]       [,3]       [,4]       [,5]
-[1,] -0.1705276  2.0346228  1.2582609 -0.4339435 -0.6185047
-[2,]  0.1674869  0.2377977 -0.4842643 -0.3902494 -0.6700841
-[3,]  0.7105252 -0.9722003 -1.6917808  1.5833169 -0.9401041
+           [,1]       [,2]       [,3]         [,4]       [,5]
+[1,] 0.09260677 -1.8138012  0.5381625  0.003993654 -2.3443094
+[2,] 1.19268647  1.4462740  2.3754720 -0.478356698 -2.1973380
+[3,] 0.64076448 -0.9214701 -0.9192990 -0.236215081 -0.3200104
 > my_example_matrix[,c(T,T,F,F,T)]
-           [,1]       [,2]       [,3]
-[1,] -0.1705276  2.0346228 -0.6185047
-[2,]  0.1674869  0.2377977 -0.6700841
-[3,]  0.7105252 -0.9722003 -0.9401041
-[4,]  0.2674724  1.0969980 -0.3843736
-[5,]  0.4126720  1.1492229 -0.5729117
+            [,1]       [,2]       [,3]
+[1,]  0.09260677 -1.8138012 -2.3443094
+[2,]  1.19268647  1.4462740 -2.1973380
+[3,]  0.64076448 -0.9214701 -0.3200104
+[4,] -0.20640860 -0.9247835  0.7041216
+[5,]  1.39554663  0.8290346 -1.8197131
 ```
 
 Comparing tidyverse vs. vector indexing
@@ -619,23 +616,23 @@ Comparing tidyverse vs. vector indexing
 > df %>% 
 +   filter(x>0) %>%
 +   select(x,y)
-# A tibble: 3 x 2
-      x      y
-  <dbl>  <dbl>
-1   0.3 -0.848
-2   0.1  0.363
-3  12    0.206
+# A tibble: 3 × 2
+      x       y
+  <dbl>   <dbl>
+1   0.3  1.38  
+2   0.1 -0.0806
+3  12   -0.627 
 ```
 **Vector indexing**
 
 ```r
 > df[df$x>0, c(1,2)] # df$x takes the column x from the data frame df (details later)
-# A tibble: 3 x 2
-      x      y
-  <dbl>  <dbl>
-1   0.3 -0.848
-2   0.1  0.363
-3  12    0.206
+# A tibble: 3 × 2
+      x       y
+  <dbl>   <dbl>
+1   0.3  1.38  
+2   0.1 -0.0806
+3  12   -0.627 
 ```
 - What are the advantages/disadvantages of each?
 
@@ -811,7 +808,7 @@ Answer: find rows according to string match
 +   i = seq_along(word) # seq_along(x) is the same as 1:length(x)
 + ) %>%
 +   filter(str_detect(word, "tr"))
-# A tibble: 26 x 2
+# A tibble: 26 × 2
    word          i
    <chr>     <int>
  1 centre      136
@@ -845,7 +842,7 @@ Counting the number of matches
 +   mutate(count_e = str_count(word, "e")) %>%
 +   arrange(desc(count_e)) %>%
 +   head()
-# A tibble: 6 x 3
+# A tibble: 6 × 3
   word           i count_e
   <chr>      <int>   <int>
 1 experience   292       4
@@ -1141,19 +1138,19 @@ Example: gss_cat
 
 ```r
 > gss_cat
-# A tibble: 21,483 x 9
-    year marital     age race  rincome   partyid    relig   denom   tvhours
-   <int> <fct>     <int> <fct> <fct>     <fct>      <fct>   <fct>     <int>
- 1  2000 Never ma…    26 White $8000 to… Ind,near … Protes… Southe…      12
- 2  2000 Divorced     48 White $8000 to… Not str r… Protes… Baptis…      NA
- 3  2000 Widowed      67 White Not appl… Independe… Protes… No den…       2
- 4  2000 Never ma…    39 White Not appl… Ind,near … Orthod… Not ap…       4
- 5  2000 Divorced     25 White Not appl… Not str d… None    Not ap…       1
- 6  2000 Married      25 White $20000 -… Strong de… Protes… Southe…      NA
- 7  2000 Never ma…    36 White $25000 o… Not str r… Christ… Not ap…       3
- 8  2000 Divorced     44 White $7000 to… Ind,near … Protes… Luther…      NA
- 9  2000 Married      44 White $25000 o… Not str d… Protes… Other         0
-10  2000 Married      47 White $25000 o… Strong re… Protes… Southe…       3
+# A tibble: 21,483 × 9
+    year marital         age race  rincome        partyid  relig  denom  tvhours
+   <int> <fct>         <int> <fct> <fct>          <fct>    <fct>  <fct>    <int>
+ 1  2000 Never married    26 White $8000 to 9999  Ind,nea… Prote… South…      12
+ 2  2000 Divorced         48 White $8000 to 9999  Not str… Prote… Bapti…      NA
+ 3  2000 Widowed          67 White Not applicable Indepen… Prote… No de…       2
+ 4  2000 Never married    39 White Not applicable Ind,nea… Ortho… Not a…       4
+ 5  2000 Divorced         25 White Not applicable Not str… None   Not a…       1
+ 6  2000 Married          25 White $20000 - 24999 Strong … Prote… South…      NA
+ 7  2000 Never married    36 White $25000 or more Not str… Chris… Not a…       3
+ 8  2000 Divorced         44 White $7000 to 7999  Ind,nea… Prote… Luthe…      NA
+ 9  2000 Married          44 White $25000 or more Not str… Prote… Other        0
+10  2000 Married          47 White $25000 or more Strong … Prote… South…       3
 # … with 21,473 more rows
 ```
 
@@ -1222,7 +1219,7 @@ Recoding factor levels
 +   group_by(partyid) %>%
 +   summarize(count=n()) %>%
 +   arrange(desc(count))
-# A tibble: 10 x 2
+# A tibble: 10 × 2
    partyid            count
    <fct>              <int>
  1 Independent         4119
@@ -1254,11 +1251,10 @@ Recoding factor levels
 +   )) %>%
 +   pull(partyid) %>%
 +   levels()
- [1] "No answer"             "Don't know"           
- [3] "Other party"           "Republican, strong"   
- [5] "Republican, weak"      "Independent, near rep"
- [7] "Independent"           "Independent, near dem"
- [9] "Democrat, weak"        "Democrat, strong"     
+ [1] "No answer"             "Don't know"            "Other party"          
+ [4] "Republican, strong"    "Republican, weak"      "Independent, near rep"
+ [7] "Independent"           "Independent, near dem" "Democrat, weak"       
+[10] "Democrat, strong"     
 ```
 - Levels that you don't mention are left alone
 - You can code multiple old levels to one new level (also see `?fct_collapse`)
@@ -1281,6 +1277,7 @@ How have the proportions of people identifying as Democrat, Republican, and Inde
 +   group_by(partyid, year) %>%
 +   summarize(count = n()) %>%
 +   mutate(proportion = count/sum(count)) 
+`summarise()` has grouped output by 'partyid'. You can override using the `.groups` argument.
 > 
 > party_colors = c(
 +   "Democrat" = "blue",
@@ -1316,19 +1313,19 @@ Date and time objects in R
 > library(lubridate) # install.package("lubridate")
 
 Attaching package: 'lubridate'
-The following object is masked from 'package:base':
+The following objects are masked from 'package:base':
 
-    date
+    date, intersect, setdiff, union
 ```
 - The data types that we will work with are `date` and `dttm` (date-time, also unhelpfully called POSIXct elsewhere in R).
 
 ```r
 > tibble(date_time = now(), # a date-time (dttm), prints as a string
 +        date = today()) # a date, also prints as a string
-# A tibble: 1 x 2
+# A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2019-02-16 15:13:27 2019-02-16
+1 2022-07-02 08:19:07 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
@@ -1368,7 +1365,7 @@ Creating dates from components
 ```r
 > flights %>% 
 +   select(year, month, day, hour, minute)
-# A tibble: 336,776 x 5
+# A tibble: 336,776 × 5
     year month   day  hour minute
    <int> <int> <int> <dbl>  <dbl>
  1  2013     1     1     5     15
@@ -1392,7 +1389,7 @@ Creating dates from components
 > flights %>% 
 +   select(year, month, day, hour, minute) %>% 
 +   mutate(departure = make_datetime(year, month, day, hour, minute))
-# A tibble: 336,776 x 6
+# A tibble: 336,776 × 6
     year month   day  hour minute departure          
    <int> <int> <int> <dbl>  <dbl> <dttm>             
  1  2013     1     1     5     15 2013-01-01 05:15:00
@@ -1453,7 +1450,7 @@ Creating dates from components
 +   ) %>% 
 +   select(ends_with("time"), origin, dest, ends_with("delay"))
 > head(flights_dt)
-# A tibble: 6 x 9
+# A tibble: 6 × 9
   dep_time            sched_dep_time      arr_time           
   <dttm>              <dttm>              <dttm>             
 1 2013-01-01 05:17:00 2013-01-01 05:15:00 2013-01-01 08:30:00
@@ -1462,8 +1459,8 @@ Creating dates from components
 4 2013-01-01 05:44:00 2013-01-01 05:45:00 2013-01-01 10:04:00
 5 2013-01-01 05:54:00 2013-01-01 06:00:00 2013-01-01 08:12:00
 6 2013-01-01 05:54:00 2013-01-01 05:58:00 2013-01-01 07:40:00
-# … with 6 more variables: sched_arr_time <dttm>, air_time <dbl>,
-#   origin <chr>, dest <chr>, dep_delay <dbl>, arr_delay <dbl>
+# … with 6 more variables: sched_arr_time <dttm>, air_time <dbl>, origin <chr>,
+#   dest <chr>, dep_delay <dbl>, arr_delay <dbl>
 ```
 
 Plotting with dates
@@ -1526,14 +1523,14 @@ Durations
 ```r
 > usa_age <- today() - ymd(17760704)
 > usa_age
-Time difference of 88615 days
+Time difference of 89847 days
 ```
 - Subtracting `dttm`s in R gives something called a `difftime`, which ambiguously represents differences in weeks, days, hours, or seconds. A `duration` always uses seconds so it is preferable.
 - You can conver to a duration with `as.duration()`
 
 ```r
 > as.duration(usa_age)
-[1] "7656336000s (~242.61 years)"
+[1] "7762780800s (~245.99 years)"
 ```
 - `dseconds()`, `dminutes()`, `dhours()`, `ddays()`, `dweeks()`, and `dyears()` make durations of the given length of time and are vectorized
 
@@ -1551,7 +1548,7 @@ Duration arithmetic
 
 ```r
 > 2 * (as.duration(usa_age) + dyears(1) + dweeks(12) + dhours(15))
-[1] "15390367200s (~487.69 years)"
+[1] "15603300000s (~494.44 years)"
 ```
 - Or added and subtracted from `ddtm`s
 
@@ -1579,8 +1576,7 @@ Periods
 > days(194)
 [1] "194d 0H 0M 0S"
 > weeks(5:9)
-[1] "35d 0H 0M 0S" "42d 0H 0M 0S" "49d 0H 0M 0S" "56d 0H 0M 0S"
-[5] "63d 0H 0M 0S"
+[1] "35d 0H 0M 0S" "42d 0H 0M 0S" "49d 0H 0M 0S" "56d 0H 0M 0S" "63d 0H 0M 0S"
 ```
 - Question: Why is there `months()` but no `dmonths()`?
 
@@ -1590,7 +1586,7 @@ Period arithmetic
 
 ```r
 > 2 * (dyears(1) + dweeks(12) + dhours(15))
-[1] "77695200s (~2.46 years)"
+[1] "77738400s (~2.46 years)"
 ```
 - Or added and subtracted from `ddtm`s
 
@@ -1617,7 +1613,7 @@ Example using periods
 > flights_dt %>% 
 +   filter(arr_time < dep_time)  %>% 
 +   head()
-# A tibble: 6 x 9
+# A tibble: 6 × 9
   dep_time            sched_dep_time      arr_time           
   <dttm>              <dttm>              <dttm>             
 1 2013-01-01 21:02:00 2013-01-01 21:08:00 2013-01-01 01:46:00
@@ -1626,8 +1622,8 @@ Example using periods
 4 2013-01-01 22:17:00 2013-01-01 21:30:00 2013-01-01 01:40:00
 5 2013-01-01 22:29:00 2013-01-01 21:59:00 2013-01-01 01:49:00
 6 2013-01-01 23:26:00 2013-01-01 21:30:00 2013-01-01 01:31:00
-# … with 6 more variables: sched_arr_time <dttm>, air_time <dbl>,
-#   origin <chr>, dest <chr>, dep_delay <dbl>, arr_delay <dbl>
+# … with 6 more variables: sched_arr_time <dttm>, air_time <dbl>, origin <chr>,
+#   dest <chr>, dep_delay <dbl>, arr_delay <dbl>
 ```
 - These are overnight
 - We used the same date information for both the departure and the arrival times, but these flights arrived on the following day. 
@@ -1652,7 +1648,7 @@ Intervals
 
 ```r
 > mdy("July 4 1776") %--% today()
-[1] 1776-07-04 UTC--2019-02-16 UTC
+[1] 1776-07-04 UTC--2022-07-02 UTC
 ```
 - You can use %within% to see if a date or `dttm` falls in the interval
 
@@ -1660,7 +1656,7 @@ Intervals
 > flights_dt %>% 
 +   filter(dep_time %within% (mdy("feb 15 2013") %--% mdy("feb 25 2013"))) %>% 
 +   head()
-# A tibble: 6 x 10
+# A tibble: 6 × 10
   dep_time            sched_dep_time      arr_time           
   <dttm>              <dttm>              <dttm>             
 1 2013-02-15 04:54:00 2013-02-15 05:00:00 2013-02-15 06:47:00
@@ -1669,9 +1665,8 @@ Intervals
 4 2013-02-15 05:36:00 2013-02-15 05:45:00 2013-02-15 10:33:00
 5 2013-02-15 05:40:00 2013-02-15 05:40:00 2013-02-15 08:55:00
 6 2013-02-15 05:49:00 2013-02-15 06:00:00 2013-02-15 06:43:00
-# … with 7 more variables: sched_arr_time <dttm>, air_time <dbl>,
-#   origin <chr>, dest <chr>, dep_delay <dbl>, arr_delay <dbl>,
-#   overnight <lgl>
+# … with 7 more variables: sched_arr_time <dttm>, air_time <dbl>, origin <chr>,
+#   dest <chr>, dep_delay <dbl>, arr_delay <dbl>, overnight <lgl>
 ```
 
 Exercise: first days of the month
@@ -1689,9 +1684,9 @@ Create a vector of dates giving the first day of every month in 2015. Create a v
  [6] "2015-01-07" "2015-01-08" "2015-01-09" "2015-01-10" "2015-01-11"
 [11] "2015-01-12" "2015-01-13"
 > make_date(year(today()), 1, 1) + month(1:12)
- [1] "2019-01-02" "2019-01-03" "2019-01-04" "2019-01-05" "2019-01-06"
- [6] "2019-01-07" "2019-01-08" "2019-01-09" "2019-01-10" "2019-01-11"
-[11] "2019-01-12" "2019-01-13"
+ [1] "2022-01-02" "2022-01-03" "2022-01-04" "2022-01-05" "2022-01-06"
+ [6] "2022-01-07" "2022-01-08" "2022-01-09" "2022-01-10" "2022-01-11"
+[11] "2022-01-12" "2022-01-13"
 ```
 
 Fancy:
@@ -1701,9 +1696,9 @@ Fancy:
 +   year() %>%
 +   make_date(1,1) + 
 +   month(1:12)
- [1] "2019-01-02" "2019-01-03" "2019-01-04" "2019-01-05" "2019-01-06"
- [6] "2019-01-07" "2019-01-08" "2019-01-09" "2019-01-10" "2019-01-11"
-[11] "2019-01-12" "2019-01-13"
+ [1] "2022-01-02" "2022-01-03" "2022-01-04" "2022-01-05" "2022-01-06"
+ [6] "2022-01-07" "2022-01-08" "2022-01-09" "2022-01-10" "2022-01-11"
+[11] "2022-01-12" "2022-01-13"
 ```
 
 lubridate cheat sheet
@@ -1725,20 +1720,14 @@ Rationale
 ```r
 > file = readr_example("challenge.csv")
 > challenge = read_csv(file)
-Parsed with column specification:
-cols(
-  x = col_double(),
-  y = col_logical()
-)
-Warning: 1000 parsing failures.
- row col           expected     actual                                                                                         file
-1001   y 1/0/T/F/TRUE/FALSE 2015-01-16 '/Library/Frameworks/R.framework/Versions/3.5/Resources/library/readr/extdata/challenge.csv'
-1002   y 1/0/T/F/TRUE/FALSE 2018-05-18 '/Library/Frameworks/R.framework/Versions/3.5/Resources/library/readr/extdata/challenge.csv'
-1003   y 1/0/T/F/TRUE/FALSE 2015-09-05 '/Library/Frameworks/R.framework/Versions/3.5/Resources/library/readr/extdata/challenge.csv'
-1004   y 1/0/T/F/TRUE/FALSE 2012-11-28 '/Library/Frameworks/R.framework/Versions/3.5/Resources/library/readr/extdata/challenge.csv'
-1005   y 1/0/T/F/TRUE/FALSE 2020-01-13 '/Library/Frameworks/R.framework/Versions/3.5/Resources/library/readr/extdata/challenge.csv'
-.... ... .................. .......... ............................................................................................
-See problems(...) for more details.
+Rows: 2000 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl  (1): x
+date (1): y
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 Diagnosing intake errors
@@ -1747,20 +1736,9 @@ Diagnosing intake errors
 
 ```r
 > problems(challenge)
-# A tibble: 1,000 x 5
-     row col   expected      actual   file                                 
-   <int> <chr> <chr>         <chr>    <chr>                                
- 1  1001 y     1/0/T/F/TRUE… 2015-01… '/Library/Frameworks/R.framework/Ver…
- 2  1002 y     1/0/T/F/TRUE… 2018-05… '/Library/Frameworks/R.framework/Ver…
- 3  1003 y     1/0/T/F/TRUE… 2015-09… '/Library/Frameworks/R.framework/Ver…
- 4  1004 y     1/0/T/F/TRUE… 2012-11… '/Library/Frameworks/R.framework/Ver…
- 5  1005 y     1/0/T/F/TRUE… 2020-01… '/Library/Frameworks/R.framework/Ver…
- 6  1006 y     1/0/T/F/TRUE… 2016-04… '/Library/Frameworks/R.framework/Ver…
- 7  1007 y     1/0/T/F/TRUE… 2011-05… '/Library/Frameworks/R.framework/Ver…
- 8  1008 y     1/0/T/F/TRUE… 2020-07… '/Library/Frameworks/R.framework/Ver…
- 9  1009 y     1/0/T/F/TRUE… 2011-04… '/Library/Frameworks/R.framework/Ver…
-10  1010 y     1/0/T/F/TRUE… 2010-05… '/Library/Frameworks/R.framework/Ver…
-# … with 990 more rows
+# A tibble: 0 × 5
+# … with 5 variables: row <int>, col <int>, expected <chr>, actual <chr>,
+#   file <chr>
 ```
 - This tells us that `read_csv()` was expecting the `y` column to be logical, but when we look at what was actually in the file at rows 1001+, there are what appear to be dates!
 - This happens because `read_csv()` does not know what type of data are in the file- you haven't told it, so it has to guess. 
@@ -1777,15 +1755,15 @@ Specifying data types
 +      y = col_date()
 +    ))
 > head(challenge)
-# A tibble: 6 x 2
-      x y         
-  <dbl> <date>    
-1   404 NA        
-2  4172 NA        
-3  3004 NA        
-4   787 NA        
-5    37 NA        
-6  2332 NA        
+# A tibble: 6 × 2
+      x y     
+  <dbl> <date>
+1   404 NA    
+2  4172 NA    
+3  3004 NA    
+4   787 NA    
+5    37 NA    
+6  2332 NA    
 ```
 - This is a more robust solution than using more rows to guess
 - Now we see that the problem was caused because the first 1000 rows of `y` are NAs
@@ -1803,7 +1781,7 @@ Specifying data types
 +      y = col_date(format="%Y-%m-%d")
 +    ))
 > tail(challenge)
-# A tibble: 6 x 2
+# A tibble: 6 × 2
       x y         
   <dbl> <date>    
 1 0.805 2019-11-21
@@ -1862,13 +1840,27 @@ Non-csv flat files
 
 ```r
 > read_delim("1,2,3\n4,5,6", delim=",", col_names = c("x","y","z"))
-# A tibble: 2 x 3
+Rows: 2 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (3): x, y, z
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+# A tibble: 2 × 3
       x     y     z
   <dbl> <dbl> <dbl>
 1     1     2     3
 2     4     5     6
 > read_delim("1\t2\t3\n4\t5\t6", delim="\t", col_names = c("x","y","z"))
-# A tibble: 2 x 3
+Rows: 2 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+dbl (3): x, y, z
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+# A tibble: 2 × 3
       x     y     z
   <dbl> <dbl> <dbl>
 1     1     2     3
@@ -1923,21 +1915,10 @@ What will happen if I run this code?
 +      y = col_date()
 +    ))
 > write_csv(challenge, "/Users/c242587/Desktop/challenge.csv")
+Error: Cannot open file for writing:
+* '/Users/c242587/Desktop/challenge.csv'
 > challenge2 = read_csv("/Users/c242587/Desktop/challenge.csv")
-Parsed with column specification:
-cols(
-  x = col_double(),
-  y = col_logical()
-)
-Warning: 1000 parsing failures.
- row col           expected     actual                                   file
-1001   y 1/0/T/F/TRUE/FALSE 2015-01-16 '/Users/c242587/Desktop/challenge.csv'
-1002   y 1/0/T/F/TRUE/FALSE 2018-05-18 '/Users/c242587/Desktop/challenge.csv'
-1003   y 1/0/T/F/TRUE/FALSE 2015-09-05 '/Users/c242587/Desktop/challenge.csv'
-1004   y 1/0/T/F/TRUE/FALSE 2012-11-28 '/Users/c242587/Desktop/challenge.csv'
-1005   y 1/0/T/F/TRUE/FALSE 2020-01-13 '/Users/c242587/Desktop/challenge.csv'
-.... ... .................. .......... ......................................
-See problems(...) for more details.
+Error: '/Users/c242587/Desktop/challenge.csv' does not exist.
 ```
 
 readr cheat sheet
