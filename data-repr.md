@@ -350,75 +350,6 @@ Use these to see if something is a vector or of the desired type. They all retur
 ```
 - These functions are imported by `tidyverse`. Base R has its own equivalents but they are not well designed and sometimes produce surprising results. 
 
-Matrices
-========================================================
-- A matrix is a 2D vector (with rows and columns)
-
-
-```r
-> my_example_matrix
-           [,1]       [,2]       [,3]         [,4]       [,5]
-[1,] -0.9550246  0.1925680 -1.1152054 -0.248601473  2.2485060
-[2,] -0.3562240 -0.1123552  0.3333414 -0.136754921 -0.4185435
-[3,] -1.4721724  0.8916387  1.1711265  1.150874175 -1.2058049
-[4,] -0.1566092 -0.6645938 -1.4152207 -0.183074047 -1.8855180
-[5,] -1.1121547  0.3431050  0.9460081 -0.007559438  0.1175070
-```
-
-- All the usual vector rules apply- in particular, all entries of the matrix must be of the same type
-
-```r
-> typeof(my_example_matrix)
-[1] "double"
-```
-- this distinguishes it from a data frame, which can have different types in different columns
-- rows and columns can be named (the same way vector entries can be named)
-- matrices are far more rare than vectors, but many modeling packages take numeric matrices as input, so it's good to be aware of them
-- objects (including data frames) can be coerced to matrices using `as.matrix()`. 
-
-Vectors, matrices, data frames
-========================================================
-
-<div align="center">
-<img src="http://venus.ifca.unican.es/Rintro/_images/dataStructuresNew.png">
-</div>
-
-Exercise: coercing a data frame to matrix
-========================================================
-
-```r
-> # install.packages(nycflights13)
-> library(nycflights13)
-> (flights = as_tibble(flights))
-# A tibble: 336,776 × 19
-    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-   <int> <int> <int>    <int>          <int>     <dbl>    <int>          <int>
- 1  2013     1     1      517            515         2      830            819
- 2  2013     1     1      533            529         4      850            830
- 3  2013     1     1      542            540         2      923            850
- 4  2013     1     1      544            545        -1     1004           1022
- 5  2013     1     1      554            600        -6      812            837
- 6  2013     1     1      554            558        -4      740            728
- 7  2013     1     1      555            600        -5      913            854
- 8  2013     1     1      557            600        -3      709            723
- 9  2013     1     1      557            600        -3      838            846
-10  2013     1     1      558            600        -2      753            745
-# … with 336,766 more rows, and 11 more variables: arr_delay <dbl>,
-#   carrier <chr>, flight <int>, tailnum <chr>, origin <chr>, dest <chr>,
-#   air_time <dbl>, distance <dbl>, hour <dbl>, minute <dbl>, time_hour <dttm>
-```
-
-Convert `flights` into a matrix and find out what type it is. Does this make sense?
-
-Answer: coercing a data frame to matrix
-========================================================
-
-```r
-> matrix_flights = as.matrix(flights)
-> typeof(matrix_flights)
-[1] "character"
-```
-
 Subsetting a vector
 ========================================================
 - We can get parts of a vector out by subsetting it. This is like `filter()`ing a data frame, but it looks a little different with vectors. We use `[ ]` with an index vector inside the brackets
@@ -526,27 +457,16 @@ Similar syntax is used for 2D entities
 
 ```r
 > my_example_matrix[1:3, c(2,2)]
-           [,1]       [,2]
-[1,]  0.1925680  0.1925680
-[2,] -0.1123552 -0.1123552
-[3,]  0.8916387  0.8916387
+Error in eval(expr, envir, enclos): object 'my_example_matrix' not found
 ```
 - the general pattern is `matrix[row_index, column_index]`.
 - leaving either blank returns all rows or columns
 
 ```r
 > my_example_matrix[1:3,]
-           [,1]       [,2]       [,3]       [,4]       [,5]
-[1,] -0.9550246  0.1925680 -1.1152054 -0.2486015  2.2485060
-[2,] -0.3562240 -0.1123552  0.3333414 -0.1367549 -0.4185435
-[3,] -1.4721724  0.8916387  1.1711265  1.1508742 -1.2058049
+Error in eval(expr, envir, enclos): object 'my_example_matrix' not found
 > my_example_matrix[,c(T,T,F,F,T)]
-           [,1]       [,2]       [,3]
-[1,] -0.9550246  0.1925680  2.2485060
-[2,] -0.3562240 -0.1123552 -0.4185435
-[3,] -1.4721724  0.8916387 -1.2058049
-[4,] -0.1566092 -0.6645938 -1.8855180
-[5,] -1.1121547  0.3431050  0.1175070
+Error in eval(expr, envir, enclos): object 'my_example_matrix' not found
 ```
 
 Comparing tidyverse vs. vector indexing
@@ -562,22 +482,22 @@ Comparing tidyverse vs. vector indexing
 +   filter(x>0) %>%
 +   select(x,y)
 # A tibble: 3 × 2
-      x      y
-  <dbl>  <dbl>
-1   0.3  1.82 
-2   0.1 -0.414
-3  12   -0.554
+      x     y
+  <dbl> <dbl>
+1   0.3 0.183
+2   0.1 0.611
+3  12   1.43 
 ```
 **Vector indexing**
 
 ```r
 > df[df$x>0, c(1,2)] # df$x takes the column x from the data frame df (details later)
 # A tibble: 3 × 2
-      x      y
-  <dbl>  <dbl>
-1   0.3  1.82 
-2   0.1 -0.414
-3  12   -0.554
+      x     y
+  <dbl> <dbl>
+1   0.3 0.183
+2   0.1 0.611
+3  12   1.43 
 ```
 - What are the advantages/disadvantages of each?
 
@@ -1124,7 +1044,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-88](data-repr-figure/unnamed-chunk-88-1.png)
+![plot of chunk unnamed-chunk-83](data-repr-figure/unnamed-chunk-83-1.png)
 
 Ordering factor levels
 ===
@@ -1137,7 +1057,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-89](data-repr-figure/unnamed-chunk-89-1.png)
+![plot of chunk unnamed-chunk-84](data-repr-figure/unnamed-chunk-84-1.png)
 - `fct_reorder()` takes in a factor vector and a numeric vector that is used to sort the levels
 
 Ordering factor levels
@@ -1154,7 +1074,7 @@ Ordering factor levels
 +   geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-90](data-repr-figure/unnamed-chunk-90-1.png)
+![plot of chunk unnamed-chunk-85](data-repr-figure/unnamed-chunk-85-1.png)
 
 Recoding factor levels
 ===
@@ -1243,7 +1163,7 @@ How have the proportions of people identifying as Democrat, Republican, and Inde
 +   scale_fill_manual(values = party_colors)
 ```
 
-![plot of chunk unnamed-chunk-94](data-repr-figure/unnamed-chunk-94-1.png)
+![plot of chunk unnamed-chunk-89](data-repr-figure/unnamed-chunk-89-1.png)
 
 Dates and times
 === 
@@ -1270,7 +1190,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 11:48:07 2022-07-02
+1 2022-07-02 11:50:19 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
@@ -1419,7 +1339,7 @@ Plotting with dates
 +   geom_freqpoly(binwidth = 600) # 600 s = 10 minutes
 ```
 
-![plot of chunk unnamed-chunk-105](data-repr-figure/unnamed-chunk-105-1.png)
+![plot of chunk unnamed-chunk-100](data-repr-figure/unnamed-chunk-100-1.png)
 
 Accessing dttm elements
 ===
@@ -1433,7 +1353,7 @@ Accessing dttm elements
 +     geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-106](data-repr-figure/unnamed-chunk-106-1.png)
+![plot of chunk unnamed-chunk-101](data-repr-figure/unnamed-chunk-101-1.png)
 
 Accessing dttm elements
 ===
@@ -1452,7 +1372,7 @@ Accessing dttm elements
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-107](data-repr-figure/unnamed-chunk-107-1.png)
+![plot of chunk unnamed-chunk-102](data-repr-figure/unnamed-chunk-102-1.png)
 
 Date-time arithmetic
 ===

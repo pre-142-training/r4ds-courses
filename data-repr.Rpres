@@ -271,49 +271,6 @@ is_logical(0.14)
 ```
 - These functions are imported by `tidyverse`. Base R has its own equivalents but they are not well designed and sometimes produce surprising results. 
 
-Matrices
-========================================================
-- A matrix is a 2D vector (with rows and columns)
-```{r, echo=F}
-my_example_matrix = matrix(rnorm(25), nrow=5)
-```
-```{r}
-my_example_matrix
-```
-
-- All the usual vector rules apply- in particular, all entries of the matrix must be of the same type
-```{r}
-typeof(my_example_matrix)
-```
-- this distinguishes it from a data frame, which can have different types in different columns
-- rows and columns can be named (the same way vector entries can be named)
-- matrices are far more rare than vectors, but many modeling packages take numeric matrices as input, so it's good to be aware of them
-- objects (including data frames) can be coerced to matrices using `as.matrix()`. 
-
-Vectors, matrices, data frames
-========================================================
-
-<div align="center">
-<img src="http://venus.ifca.unican.es/Rintro/_images/dataStructuresNew.png">
-</div>
-
-Exercise: coercing a data frame to matrix
-========================================================
-```{r}
-# install.packages(nycflights13)
-library(nycflights13)
-(flights = as_tibble(flights))
-```
-
-Convert `flights` into a matrix and find out what type it is. Does this make sense?
-
-Answer: coercing a data frame to matrix
-========================================================
-```{r}
-matrix_flights = as.matrix(flights)
-typeof(matrix_flights)
-```
-
 Subsetting a vector
 ========================================================
 - We can get parts of a vector out by subsetting it. This is like `filter()`ing a data frame, but it looks a little different with vectors. We use `[ ]` with an index vector inside the brackets
