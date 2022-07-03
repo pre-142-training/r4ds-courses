@@ -465,22 +465,22 @@ Comparing tidyverse vs. vector indexing
 ```r
 > filter(df, x>0) %>% select(x,y)
 # A tibble: 3 × 2
-      x        y
-  <dbl>    <dbl>
-1   0.3  0.894  
-2   0.1  0.00228
-3  12   -0.478  
+      x     y
+  <dbl> <dbl>
+1   0.3 -1.28
+2   0.1 -1.24
+3  12   -1.76
 ```
 **Vector indexing**
 
 ```r
 > df[df$x>0, c(1,2)] # df$x takes the column x from the data frame df (details later)
 # A tibble: 3 × 2
-      x        y
-  <dbl>    <dbl>
-1   0.3  0.894  
-2   0.1  0.00228
-3  12   -0.478  
+      x     y
+  <dbl> <dbl>
+1   0.3 -1.28
+2   0.1 -1.24
+3  12   -1.76
 ```
 - What are the advantages/disadvantages of each?
 
@@ -511,412 +511,6 @@ Tidyverse vs. vector indexing
 ```r
 > df[df$x>0, c(1,2)] 
 ```
-
-Working with strings
-========================================================
-type: section
-
-String basics
-========================================================
-
-```r
-> c("1234", "sum(c(1,2,3,4))", "Alejandro", "a long string with weird characters!@#$!%>?", "NA", NA) 
-[1] "1234"                                       
-[2] "sum(c(1,2,3,4))"                            
-[3] "Alejandro"                                  
-[4] "a long string with weird characters!@#$!%>?"
-[5] "NA"                                         
-[6] NA                                           
-```
-- character vectors (or string vectors) store strings, which are arbitrary text (including spaces) or `NA` 
-- even if the text can be interepreted by you as code or numbers, quoting it in `""` tells `R` that it is to be taken literally as text (note `"NA"` is a string, while `NA` is a special value that indicates a missing string if it is in a string vector)
-
-stringr
-========================================================
-- Many of the functions we will use to work with strings come from the `stringr` package, which is `tidyverse`-associated, but not loaded with `library(tidyverse)`
-
-```r
-> library(stringr)
-```
-
-String basics
-========================================================
-- Strings are created by quoting text with `" "` or `' '`. I always use `" "` to be consistent.
-
-```r
-> string1 <- "This is a string"
-```
-- special characters (see `?"'"`) can be included by "escaping" them with `\`. `\\` is a literal backslash.
-
-```r
-> string2_wrong = "This is a "string""
-Error: <text>:1:29: unexpected symbol
-1: string2_wrong = "This is a "string
-                                ^
-```
-
-```r
-> string2_right = "This is a \"string\""
-```
-- check the length of a string with `str_length()` (why not `length()`?)
-
-```r
-> x = "This is a string"
-> str_length(x)
-[1] 16
-> length(x)
-[1] 1
-```
-
-Combining strings
-===
-- Use `str_c()` to combine strings
-
-```r
-> str_c("x", "y", "z")
-[1] "xyz"
-```
-- `sep` controls what gets stuck between them (`""` by default)
-
-```r
-> str_c("x", "y", "z", sep = ", ")
-[1] "x, y, z"
-```
-- also works with vectors of strings
-
-```r
-> str_c("prefix-", c("a", "b", "c"), "-suffix")
-[1] "prefix-a-suffix" "prefix-b-suffix" "prefix-c-suffix"
-> str_c(c("1", "2", "3"), c("a", "b", "c"), sep="-")
-[1] "1-a" "2-b" "3-c"
-```
-- and with a single vector, if you set the `collapse` argument
-
-```r
-> name = "Alejandro"
-> x = c("Good afternoon,", name, "how are you?")
-> str_c(x, collapse=" ")
-[1] "Good afternoon, Alejandro how are you?"
-```
-
-Subsetting 
-===
-- str_sub() does subsetting by start and end letters
-- these can be negative numbers to count from the end of the string backwards
-
-```r
-> str_sub("Hello world", start=1, end=5)
-[1] "Hello"
-> str_sub("Hello world", start=-5, end=-1)
-[1] "world"
-```
-- Also works on vectors
-
-```r
-> x <- c("Apple", "Banana", "Pear")
-> str_sub(x, 1, 3)
-[1] "App" "Ban" "Pea"
-```
-
-Searching in strings
-===
-- `str_detect()` tells you if the query string is in the string (or vector of strings) you're looking at
-
-```r
-> x <- c("apple", "banana", "pear")
-> str_detect(x, "e")
-[1]  TRUE FALSE  TRUE
-```
-
-- `str_subset()` returns the strings in the vector that match the query
-
-```r
-> str_subset(x, "e") # compare to x[str_detect(x,"e")]
-[1] "apple" "pear" 
-```
-
-Exercise: find rows according to string match
-===
-
-```r
-> tibble(
->   word = words, # words is an example string vector loaded by stringr
->   i = seq_along(word) # seq_along(x) is the same as 1:length(x)
-> )
-```
-- Make this data fram for yourself
-- Write code that returns all of rows with words that contain `"tr"`
-
-Answer: find rows according to string match
-===
-
-```r
-> tibble(
-+   word = words, # words is an example string vector loaded by stringr
-+   i = seq_along(word) # seq_along(x) is the same as 1:length(x)
-+ ) %>%
-+   filter(str_detect(word, "tr"))
-# A tibble: 26 × 2
-   word          i
-   <chr>     <int>
- 1 centre      136
- 2 contract    187
- 3 control     188
- 4 country     198
- 5 district    234
- 6 electric    264
- 7 extra       295
- 8 industry    424
- 9 introduce   431
-10 straight    811
-# … with 16 more rows
-```
-
-Counting the number of matches
-===
-- `str_count()` counts how many times the query appears in the string
-
-```r
-> x <- c("apple", "banana", "pear")
-> str_count(x, "a")
-[1] 1 3 1
-```
-- it pairs naturally with `mutate()`
-
-```r
-> tibble(
-+     word = words, 
-+     i = seq_along(word) ) %>%
-+   mutate(count_e = str_count(word, "e")) %>%
-+   arrange(desc(count_e)) %>%
-+   head()
-# A tibble: 6 × 3
-  word           i count_e
-  <chr>      <int>   <int>
-1 experience   292       4
-2 believe       86       3
-3 between       90       3
-4 degree       221       3
-5 difference   229       3
-6 eleven       265       3
-```
-
-Replacing parts of a string
-===
-- sometimes you want to remove something from a string or replace it with something else.
-- `str_replace_all()` lets you do this
-
-```r
-> str_replace_all(x, "a", "-")
-[1] "-pple"  "b-n-n-" "pe-r"  
-```
-- use `""` as the replacement string to delete the part of the string that matches
-
-```r
-> str_replace_all(x, "a", "-")
-[1] "-pple"  "b-n-n-" "pe-r"  
-```
-- you can also replace multiple strings at a time using a named vector
-
-```r
-> x <- c("1 house", "2 cars", "3 people")
-> replacement_dictionary = c("1" = "one", "2" = "two", "3" = "three")
-> str_replace_all(x, replacement_dictionary)
-[1] "one house"    "two cars"     "three people"
-```
-
-Splitting up a string
-===
-- `str_split()` splits a string into multiple strings
-
-```r
-> str_split("hello, how are you today?", " ")
-[[1]]
-[1] "hello," "how"    "are"    "you"    "today?"
-```
-- it returns a list, which is like a vector that can contain other vectors or arbitrary length as elements (more on this later). This allows it to operate on multiple strings at once without mashing the results together
-
-```r
-> greeting = c("hello, how are you today?", 
-+              "I'm fine, thank you")
-> str_split(greeting, " ")
-[[1]]
-[1] "hello," "how"    "are"    "you"    "today?"
-
-[[2]]
-[1] "I'm"   "fine," "thank" "you"  
-```
-- we'll learn more about how to operate on lists in the functional programming course
-
-Matching complicated patterns: regular expressions
-===
-- sometimes you want to match a pattern that is more complicated than a fixed string. For instance, how would you find all strings that have a vowel in them? Or match an email address?
-- **regular expressions** (regexps) are a concise way of solving this problem, but they aren't pretty
-- don't try and memorize all this, just get an idea of what's possible and then look at the cheat sheet later
-- a regular expression is a string that is interpreted in a particular way as a query
-- all of the `str_` functions we've talked about take regular expressions as queries. 
-
-```r
-> x <- c("apple", "banana", "pear")
-> str_subset(x, "an")
-[1] "banana"
-```
-
-- The `.` matches any character
-
-```r
-> str_subset(x, ".a.")
-[1] "banana" "pear"  
-```
-
-Repetition
-===
-
-```r
-> babs = c("bb", "bab", "baab", "baaab")
-```
-- + after a character means match that character one or more times
-
-```r
-> str_subset(babs, "ba+b")
-[1] "bab"   "baab"  "baaab"
-```
-- * after a character means match that character zero or more times
-
-```r
-> str_subset(babs, "ba*b")
-[1] "bb"    "bab"   "baab"  "baaab"
-```
-- ? after a character means match that character zero or one time
-
-```r
-> str_subset(babs, "ba?b")
-[1] "bb"  "bab"
-```
-- {n,m} after a character means match between n and m repetitions
-
-```r
-> str_subset(babs, "ba{2,3}b")
-[1] "baab"  "baaab"
-```
-
-Anchors
-=== 
-- anchors tell the regexp to look at particular places in the string
-- `^` matches the beginning
-- `$` matches the end
-
-```r
-> x <- c("apple", "banana", "pear")
-> str_subset(x, "^a")
-[1] "apple"
-> str_subset(x, "a$")
-[1] "banana"
-```
-
-Character classes
-===
-- Besides `.`, here are some other special sequences that match categories of characters
-- `\\d`: matches any digit.
-- `\\s`: matches any whitespace (e.g. space, tab, newline).
-- `[abc]`: matches a, b, or c.
-- `[a-zA-Z]`: matches any  letter
-- `[^abc]`: matches anything except a, b, or c.
-
-```r
-> str_subset(c("abc", "xyz"), "[aeiou]")
-[1] "abc"
-```
-
-Exercise: what does this regex match?
-===
-`"^[a-zA-Z]+\\d+[a-zA-Z]+$"`
-
-Answer: what does this regex match?
-===
-`"^[a-zA-Z]+\\d+[a-zA-Z]+$"` matches any string starting with a letter and ending a letter, but containing at least one number
-
-```r
-> test_strs = c("c12341aaa", "123aa", "ba123", "asf  asdf", "G5s")
-> str_subset(test_strs, "^[a-zA-Z]+\\d+[a-zA-Z]+$")
-[1] "c12341aaa" "G5s"      
-```
-
-Escaping special characters
-===
-- `\\` is used to escape special characters in regexps so that they can be interpreted literally
-
-```r
-> str_extract(c("abc", "a.c", "bef"), "a\\.c")
-[1] NA    "a.c" NA   
-```
-- It takes two `\\` because a regex is a string. Thus the first `\` puts a literal `\` in the string, which is then interpreted as an escape character by the regex engine.
-
-Extracting matches
-===
-- `str_extract()` will get the portion of the string that matches your regex
-
-```r
-> emails = c("karina@stanford.edu", "nathalie@gmail.com", "carlos@kp.org")
-> str_extract(emails, "@.*")
-[1] "@stanford.edu" "@gmail.com"    "@kp.org"      
-```
-
-Exercise: domain names
-===
-
-```r
-> emails = c("karina@stanford.edu", "nathalie@gmail.com", "carlos@kp.org")
-```
-Get the first part of the domain name out of these email addresses (for instance `kp` from `carlos@kp.org`)
-
-Exercise: domain names
-===
-
-```r
-> emails = c("karina@stanford.edu", "nathalie@gmail.com", "carlos@kp.org")
-```
-Get the first domain names out of these email addresses (for instance `kp` from `carlos@kp.org`)
-
-```r
-> emails %>%
-+   str_extract("@.*\\.") %>%
-+   str_sub(2,-2)
-[1] "stanford" "gmail"    "kp"      
-```
-
-Look-arounds
-===
-- Sometimes you want to check if a string matches a pattern and then only return part of that pattern.
-- For example, if you're looking for history of disease, you may want the disease, but not the term "history of"
-
-```r
-> notes = c("... patient has history of MI ...",
-+           "... family history of diabetes ...",
-+           "... patient has nausea ... ")
-> str_extract(notes, "(?<=history of )[a-zA-Z]+(?= )")
-[1] "MI"       "diabetes" NA        
-```
-- `(?=...)`: positive look-ahead assertion. Matches if ... matches at the current input.
-- `(?!...)`: negative look-ahead assertion. Matches if ... does not match at the current input.
-- `(?<=...)`: positive look-behind assertion. Matches if ... matches text preceding the current position, with the last character of the match being the character just before the current position. 
-- `(?<!...)`: negative look-behind assertion. Matches if ... does not match text preceding the current position.
-
-Regex is a broad topic
-===
-- There is a lot more to learn. This is a regex that matches valid email addresses:
-
-```
-(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
-```
-- But you can go very far with very little!
-- Regex is not just in R, it is used across almost every programming language
-
-stringr cheat sheet
-===
-<div align="center">
-<img src="https://www.rstudio.com/wp-content/uploads/2018/08/strings.png", height=1000, width=1400>
-</div>
 
 Factors
 ===
@@ -1027,7 +621,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-81](data-repr-figure/unnamed-chunk-81-1.png)
+![plot of chunk unnamed-chunk-42](data-repr-figure/unnamed-chunk-42-1.png)
 
 Ordering factor levels
 ===
@@ -1040,7 +634,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-82](data-repr-figure/unnamed-chunk-82-1.png)
+![plot of chunk unnamed-chunk-43](data-repr-figure/unnamed-chunk-43-1.png)
 - `fct_reorder()` takes in a factor vector and a numeric vector that is used to sort the levels
 
 Ordering factor levels
@@ -1057,7 +651,7 @@ Ordering factor levels
 +   geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-83](data-repr-figure/unnamed-chunk-83-1.png)
+![plot of chunk unnamed-chunk-44](data-repr-figure/unnamed-chunk-44-1.png)
 
 Recoding factor levels
 ===
@@ -1146,7 +740,7 @@ How have the proportions of people identifying as Democrat, Republican, and Inde
 +   scale_fill_manual(values = party_colors)
 ```
 
-![plot of chunk unnamed-chunk-87](data-repr-figure/unnamed-chunk-87-1.png)
+![plot of chunk unnamed-chunk-48](data-repr-figure/unnamed-chunk-48-1.png)
 
 Dates and times
 === 
@@ -1173,7 +767,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 21:55:42 2022-07-02
+1 2022-07-02 21:57:43 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
@@ -1322,7 +916,7 @@ Plotting with dates
 +   geom_freqpoly(binwidth = 600) # 600 s = 10 minutes
 ```
 
-![plot of chunk unnamed-chunk-98](data-repr-figure/unnamed-chunk-98-1.png)
+![plot of chunk unnamed-chunk-59](data-repr-figure/unnamed-chunk-59-1.png)
 
 Accessing dttm elements
 ===
@@ -1336,7 +930,7 @@ Accessing dttm elements
 +     geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-99](data-repr-figure/unnamed-chunk-99-1.png)
+![plot of chunk unnamed-chunk-60](data-repr-figure/unnamed-chunk-60-1.png)
 
 Accessing dttm elements
 ===
@@ -1355,7 +949,7 @@ Accessing dttm elements
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-100](data-repr-figure/unnamed-chunk-100-1.png)
+![plot of chunk unnamed-chunk-61](data-repr-figure/unnamed-chunk-61-1.png)
 
 Date-time arithmetic
 ===
