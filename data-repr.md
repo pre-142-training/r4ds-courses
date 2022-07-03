@@ -416,22 +416,21 @@ Indexing with integers (negatives)
 > x
  first second  third  other 
    0.3    0.1   -5.0   12.0 
-> x[1]
+> x[1] # choose the first element only
 first 
   0.3 
-> x[-1]
+> x[-1] # remove the first element
 second  third  other 
    0.1   -5.0   12.0 
-> x[-length(x)]
+> x[-length(x)] # remove the last element
  first second  third 
    0.3    0.1   -5.0 
-> x[c(-1, -length(x))]
+> x[c(-1, -length(x))] # remove the first and last elements
 second  third 
    0.1   -5.0 
 ```
 - You can't mix positive and negative vector indices in a single
 index expression. R will complain.
-- This is similar to the `df %>% select(-var)` syntax
 - What about using `0` as an index? It is ignored.
 
 
@@ -487,9 +486,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3 0.415 
-2   0.1 2.23  
-3  12   0.0329
+1   0.3  0.522
+2   0.1  0.502
+3  12   -1.88 
 ```
 **Vector indexing**
 
@@ -498,9 +497,9 @@ Comparing tidyverse vs. vector indexing
 # A tibble: 3 × 2
       x      y
   <dbl>  <dbl>
-1   0.3 0.415 
-2   0.1 2.23  
-3  12   0.0329
+1   0.3  0.522
+2   0.1  0.502
+3  12   -1.88 
 ```
 - What are the advantages/disadvantages of each?
 
@@ -1193,7 +1192,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 11:54:24 2022-07-02
+1 2022-07-02 21:49:57 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 

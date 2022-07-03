@@ -311,14 +311,13 @@ Indexing with integers (negatives)
 ========================================================
 ```{r}
 x
-x[1]
-x[-1]
-x[-length(x)]
-x[c(-1, -length(x))]
+x[1] # choose the first element only
+x[-1] # remove the first element
+x[-length(x)] # remove the last element
+x[c(-1, -length(x))] # remove the first and last elements
 ```
 - You can't mix positive and negative vector indices in a single
 index expression. R will complain.
-- This is similar to the `df %>% select(-var)` syntax
 - What about using `0` as an index? It is ignored.
 
 
