@@ -276,6 +276,7 @@ Subsetting a vector
 - We can get parts of a vector out by subsetting it. This is like `filter()`ing a data frame, but it looks a little different with vectors. We use `[ ]` with an index vector inside the brackets
 ```{r}
 x <- c("first"=0.3, "second"=0.1, "third"=-5, "other"=12)
+x
 ```
 There are a few ways to subset a vector:
 - with a numeric index vector of integers
@@ -301,10 +302,10 @@ x[c(3, 1)]
 x[c(1,1,1,1,1,1,4)]
 ```
 - Indexing returns a subsequence of the vector. It does not change
-the original vector. Assign the result to a new variable to save it if you neeed it later.
+the original vector. Assign the result to a new variable to save it if you need it later.
 - R starts counting vector indices from 1.
 - You can index using a multi-element index vector.
-- You can repeat index positions
+- You can repeat index positions.
 
 Indexing with integers (negatives)
 ========================================================

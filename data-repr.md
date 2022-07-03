@@ -356,6 +356,9 @@ Subsetting a vector
 
 ```r
 > x <- c("first"=0.3, "second"=0.1, "third"=-5, "other"=12)
+> x
+ first second  third  other 
+   0.3    0.1   -5.0   12.0 
 ```
 There are a few ways to subset a vector:
 - with a numeric index vector of integers
@@ -401,10 +404,10 @@ first first first first first first other
   0.3   0.3   0.3   0.3   0.3   0.3  12.0 
 ```
 - Indexing returns a subsequence of the vector. It does not change
-the original vector. Assign the result to a new variable to save it if you neeed it later.
+the original vector. Assign the result to a new variable to save it if you need it later.
 - R starts counting vector indices from 1.
 - You can index using a multi-element index vector.
-- You can repeat index positions
+- You can repeat index positions.
 
 Indexing with integers (negatives)
 ========================================================
@@ -482,22 +485,22 @@ Comparing tidyverse vs. vector indexing
 +   filter(x>0) %>%
 +   select(x,y)
 # A tibble: 3 × 2
-      x     y
-  <dbl> <dbl>
-1   0.3 0.183
-2   0.1 0.611
-3  12   1.43 
+      x      y
+  <dbl>  <dbl>
+1   0.3 0.415 
+2   0.1 2.23  
+3  12   0.0329
 ```
 **Vector indexing**
 
 ```r
 > df[df$x>0, c(1,2)] # df$x takes the column x from the data frame df (details later)
 # A tibble: 3 × 2
-      x     y
-  <dbl> <dbl>
-1   0.3 0.183
-2   0.1 0.611
-3  12   1.43 
+      x      y
+  <dbl>  <dbl>
+1   0.3 0.415 
+2   0.1 2.23  
+3  12   0.0329
 ```
 - What are the advantages/disadvantages of each?
 
@@ -1190,7 +1193,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 11:50:19 2022-07-02
+1 2022-07-02 11:54:24 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
