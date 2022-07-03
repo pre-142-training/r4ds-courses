@@ -453,24 +453,6 @@ Indexing with logicals
 similar test.
 - The logical index vector should be the same length as the vector being subsetted
 
-Indexing 2D objects
-========================================================
-Similar syntax is used for 2D entities
-
-```r
-> my_example_matrix[1:3, c(2,2)]
-Error in eval(expr, envir, enclos): object 'my_example_matrix' not found
-```
-- the general pattern is `matrix[row_index, column_index]`.
-- leaving either blank returns all rows or columns
-
-```r
-> my_example_matrix[1:3,]
-Error in eval(expr, envir, enclos): object 'my_example_matrix' not found
-> my_example_matrix[,c(T,T,F,F,T)]
-Error in eval(expr, envir, enclos): object 'my_example_matrix' not found
-```
-
 Comparing tidyverse vs. vector indexing
 ====================================
 
@@ -478,28 +460,27 @@ Comparing tidyverse vs. vector indexing
 > df <- tibble(x=x, y=rnorm(4), z=rnorm(4))
 ```
 **Tidyverse**
+- The `%>%` pipe operator passes the result of the preceding function to the next functions
 
 ```r
-> df %>% 
-+   filter(x>0) %>%
-+   select(x,y)
+> filter(df, x>0) %>% select(x,y)
 # A tibble: 3 × 2
-      x      y
-  <dbl>  <dbl>
-1   0.3  0.522
-2   0.1  0.502
-3  12   -1.88 
+      x        y
+  <dbl>    <dbl>
+1   0.3  0.894  
+2   0.1  0.00228
+3  12   -0.478  
 ```
 **Vector indexing**
 
 ```r
 > df[df$x>0, c(1,2)] # df$x takes the column x from the data frame df (details later)
 # A tibble: 3 × 2
-      x      y
-  <dbl>  <dbl>
-1   0.3  0.522
-2   0.1  0.502
-3  12   -1.88 
+      x        y
+  <dbl>    <dbl>
+1   0.3  0.894  
+2   0.1  0.00228
+3  12   -0.478  
 ```
 - What are the advantages/disadvantages of each?
 
@@ -507,11 +488,11 @@ Tidyverse vs. vector indexing
 ====================================
 
 - **Tidyverse**:
-  - operations are ordered top-to-bottom/left-to-right in the way that they are being performed so the code can be read like natural language
-  - each operation gets its own line, which facilitates finding bugs
-  - functions are named sensibly so the code can be understood without knowledge of symbols like `$` or `[`. Even `$>$` is made to look like an arrow to suggest the left-to-right flow
-  - variables are always referred to as bare names (no quotes or `$`)
-  - will be easier for you to skim over and understand in 6 months
+  - Operations are ordered top-to-bottom/left-to-right in the way that they are being performed so the code can be read like natural language
+  - Each operation gets its own line, which facilitates finding bugs
+  - Functions are named sensibly so the code can be understood without knowledge of symbols like `$` or `[`. Even `%>%` is made to look like an arrow to suggest the left-to-right flow
+  - Variables are always referred to as bare names (no quotes or `$`)
+  - Will be easier for you to skim over and understand in 6 months
 - **Vector indexing**
   - Fewer keystrokes
   - More familiar to programmers from C++ or python
@@ -1046,7 +1027,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-83](data-repr-figure/unnamed-chunk-83-1.png)
+![plot of chunk unnamed-chunk-81](data-repr-figure/unnamed-chunk-81-1.png)
 
 Ordering factor levels
 ===
@@ -1059,7 +1040,7 @@ Ordering factor levels
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-84](data-repr-figure/unnamed-chunk-84-1.png)
+![plot of chunk unnamed-chunk-82](data-repr-figure/unnamed-chunk-82-1.png)
 - `fct_reorder()` takes in a factor vector and a numeric vector that is used to sort the levels
 
 Ordering factor levels
@@ -1076,7 +1057,7 @@ Ordering factor levels
 +   geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-85](data-repr-figure/unnamed-chunk-85-1.png)
+![plot of chunk unnamed-chunk-83](data-repr-figure/unnamed-chunk-83-1.png)
 
 Recoding factor levels
 ===
@@ -1165,7 +1146,7 @@ How have the proportions of people identifying as Democrat, Republican, and Inde
 +   scale_fill_manual(values = party_colors)
 ```
 
-![plot of chunk unnamed-chunk-89](data-repr-figure/unnamed-chunk-89-1.png)
+![plot of chunk unnamed-chunk-87](data-repr-figure/unnamed-chunk-87-1.png)
 
 Dates and times
 === 
@@ -1192,7 +1173,7 @@ The following objects are masked from 'package:base':
 # A tibble: 1 × 2
   date_time           date      
   <dttm>              <date>    
-1 2022-07-02 21:49:57 2022-07-02
+1 2022-07-02 21:55:42 2022-07-02
 ```
 - Always use the simplest possible data type that works for your needs. Date-times are more complicated because of the need to handle time zones.
 
@@ -1341,7 +1322,7 @@ Plotting with dates
 +   geom_freqpoly(binwidth = 600) # 600 s = 10 minutes
 ```
 
-![plot of chunk unnamed-chunk-100](data-repr-figure/unnamed-chunk-100-1.png)
+![plot of chunk unnamed-chunk-98](data-repr-figure/unnamed-chunk-98-1.png)
 
 Accessing dttm elements
 ===
@@ -1355,7 +1336,7 @@ Accessing dttm elements
 +     geom_bar()
 ```
 
-![plot of chunk unnamed-chunk-101](data-repr-figure/unnamed-chunk-101-1.png)
+![plot of chunk unnamed-chunk-99](data-repr-figure/unnamed-chunk-99-1.png)
 
 Accessing dttm elements
 ===
@@ -1374,7 +1355,7 @@ Accessing dttm elements
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-102](data-repr-figure/unnamed-chunk-102-1.png)
+![plot of chunk unnamed-chunk-100](data-repr-figure/unnamed-chunk-100-1.png)
 
 Date-time arithmetic
 ===
