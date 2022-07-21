@@ -234,27 +234,6 @@ that variable in the calculation.
 simple, but very useful kind of abstraction.
 
 
-Two ways to assign
-========================================================
-In R, there are (unfortunately) two assignment operators. They have
-subtly different meanings (more details later).
-- `<-` requires that you type two characters. Don't put a
-space between `<` and `-`. (What would happen?)
-- RStudio hint: Use "`Option -`" (Mac) or "`Alt -`" (PC)
-to type this using one key combination.
-- `=` is easier to type.
-- You will see both used throughout R and user code.
-
-```r
-> x <- 10
-> x
-[1] 10
-> x = 20
-> x
-[1] 20
-```
-- We suggest you stick to the arrow `<-` to reduce confusion with the comparison operator `==` (more on that later).
-
 Assignment has no undo
 ========================================================
 
@@ -293,33 +272,6 @@ Error: object 'A' not found
 ```
 - R cares about upper and lower case in names.
 - We also see that some error messages in R are a bit obscure.
-
-
-More about naming
-========================================================
-There are different conventions for constructing compound names. Warning:
-disputes over the right way to do this can get heated.
-
-```r
-stringlength
-string.length
-StringLength (CamelCase)
-stringLength
-string_length (underscore or underbar a.k.a. snake_case)
-string-length (hyphen a.k.a. kebab-case)
-```
-- To be consistent with the packages we will use, I recommend snake_case where you separate lowercase words with _
-- Note that R itself uses several of these conventions.
-- One of these won't work. Which one and why?
-  
-R saves some names for itself
-========================================================
-
-```r
-> for <- 7 # this causes an error
-```
-- `for` is a reserved word in R. (It is used in loop control.)
-- ADVANCED: see `?Reserved` for the complete rules.
 
 Exercise: birth year
 ===
@@ -1083,11 +1035,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-2  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-3  15       8  301    335  3.54  3.57  14.6     0     1     5     8
-4  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-5  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
+1  16.4     8 276.    180  3.07  4.07  17.4     0     0     3     3
+2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
+3  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
+4  15.5     8 318     150  2.76  3.52  16.9     0     0     3     2
+5  14.7     8 440     230  3.23  5.34  17.4     0     0     3     4
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1473,7 +1425,7 @@ A simple scatterplot
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-84](tabular-data-figure/unnamed-chunk-84-1.png)
+![plot of chunk unnamed-chunk-81](tabular-data-figure/unnamed-chunk-81-1.png)
 - Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
 
 How to call ggplot
@@ -1502,7 +1454,7 @@ Change points to lines
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-87](tabular-data-figure/unnamed-chunk-87-1.png)
+![plot of chunk unnamed-chunk-84](tabular-data-figure/unnamed-chunk-84-1.png)
 - This is pretty ugly. Line plots are better for time series.
 
 
@@ -1516,7 +1468,7 @@ Fit straight line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-88](tabular-data-figure/unnamed-chunk-88-1.png)
+![plot of chunk unnamed-chunk-85](tabular-data-figure/unnamed-chunk-85-1.png)
 - `"lm"` means "linear model," which is a least-squares regression line.
 - The gray band is the confidence interval.
 
@@ -1531,7 +1483,7 @@ Fit smooth line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-89](tabular-data-figure/unnamed-chunk-89-1.png)
+![plot of chunk unnamed-chunk-86](tabular-data-figure/unnamed-chunk-86-1.png)
 - "loess" fits a collection of tiny regression lines, then glues them together.
 - This is a better approximation than a straight line for these data.
 
@@ -1572,7 +1524,7 @@ Plotting categorical variables
 +   geom_col()
 ```
 
-![plot of chunk unnamed-chunk-91](tabular-data-figure/unnamed-chunk-91-1.png)
+![plot of chunk unnamed-chunk-88](tabular-data-figure/unnamed-chunk-88-1.png)
 - `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
 
 The grammar of graphics
@@ -1627,7 +1579,7 @@ Answer: Is there a linear relationship between hp and 1/mpg?
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-92](tabular-data-figure/unnamed-chunk-92-1.png)
+![plot of chunk unnamed-chunk-89](tabular-data-figure/unnamed-chunk-89-1.png)
 - So, probably "yes"
 
 Answer: Is there a linear relationship between hp and 1/mpg?
@@ -1661,7 +1613,7 @@ Answer: orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-95](tabular-data-figure/unnamed-chunk-95-1.png)
+![plot of chunk unnamed-chunk-92](tabular-data-figure/unnamed-chunk-92-1.png)
 
 
 Exercise: more orange trees
@@ -1679,7 +1631,7 @@ Answer: more orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-96](tabular-data-figure/unnamed-chunk-96-1.png)
+![plot of chunk unnamed-chunk-93](tabular-data-figure/unnamed-chunk-93-1.png)
 
 
 Exercise: even more orange trees

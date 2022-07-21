@@ -211,24 +211,6 @@ that variable in the calculation.
 simple, but very useful kind of abstraction.
 
 
-Two ways to assign
-========================================================
-In R, there are (unfortunately) two assignment operators. They have
-subtly different meanings (more details later).
-- `<-` requires that you type two characters. Don't put a
-space between `<` and `-`. (What would happen?)
-- RStudio hint: Use "`Option -`" (Mac) or "`Alt -`" (PC)
-to type this using one key combination.
-- `=` is easier to type.
-- You will see both used throughout R and user code.
-```{r}
-x <- 10
-x
-x = 20
-x
-```
-- We suggest you stick to the arrow `<-` to reduce confusion with the comparison operator `==` (more on that later).
-
 Assignment has no undo
 ========================================================
 ```{r}
@@ -263,31 +245,6 @@ Error: object 'A' not found
 ```
 - R cares about upper and lower case in names.
 - We also see that some error messages in R are a bit obscure.
-
-
-More about naming
-========================================================
-There are different conventions for constructing compound names. Warning:
-disputes over the right way to do this can get heated.
-```{r, prompt=FALSE,eval=FALSE,tidy=FALSE}
-stringlength
-string.length
-StringLength (CamelCase)
-stringLength
-string_length (underscore or underbar a.k.a. snake_case)
-string-length (hyphen a.k.a. kebab-case)
-```
-- To be consistent with the packages we will use, I recommend snake_case where you separate lowercase words with _
-- Note that R itself uses several of these conventions.
-- One of these won't work. Which one and why?
-  
-R saves some names for itself
-========================================================
-```{r eval=FALSE}
-for <- 7 # this causes an error
-```
-- `for` is a reserved word in R. (It is used in loop control.)
-- ADVANCED: see `?Reserved` for the complete rules.
 
 Exercise: birth year
 ===
