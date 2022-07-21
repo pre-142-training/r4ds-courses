@@ -537,15 +537,13 @@ The rest of this section shows the basic data frame functions ("verbs") in the `
 - `arrange()` sorts the row by values in some column(s)
 - `mutate()` creates new columns, often based on operations on other columns
 
-These can all be used in conjunction with `group_by()` which changes the scope of each function from operating on the entire dataset to operating on it group-by-group. These six functions provide the verbs for a language of data manipulation. 
-
 All verbs work similarly:
 
-1. The first argument is a data frame.
+1. The first argument (arguments are the things inside the parentheses next to the function) is a data frame.
 2. The subsequent arguments describe what to do with the data frame, using the variable names (without quotes).
 3. The result is a new data frame.
 
-Together these properties make it easy to chain together multiple simple steps to achieve a complex result. Let’s dive in and see how these verbs work.
+Together these properties make it easy to chain together multiple simple steps to achieve a complex result. Let’s dive in and see the basics of how these verbs work.
 
 filter() subsets the rows of a data frame
 ========================================================
@@ -582,29 +580,6 @@ Comparison operators
 c(1,5,-22,4) > 0
 ```
 
-Logical conjunctions
-=========================================================
-```{r}
-filter(mtc, mpg > 30 | mpg < 20)
-```
-- `|` stands for OR, `&` is AND
-- as we have seen, separating conditions by a comma is the same as using `&` inside `filter()`
-- these can be made into complex logical conditions 
-
-Logical conjunctions
-=========================================================
-```{r}
-filter(mtc, !(mpg > 30 | mpg < 20))
-```
-- `!` is NOT, which negates the logical condition
-
-Logical conjunctions
-=========================================================
-```{r}
-filter(mtc, cyl %in% c(6,8)) # equivalent to filter(mtc, cyl==6 | cyl==8)
-```
-- `%in%` returns true for all elements of the thing on the left that are also elements of the thing on the right
-
 Exercise: cars with powerful engines
 ==========================================================
 - How many cars have engines with horsepower (`hp`) greater than 200?
@@ -616,35 +591,6 @@ Answer: cars with powerful engines
 filter(mtc, hp > 200)
 ```
 - Answer: 7
-
-
-Exercise: filtering rows
-========================================================
-- List all cars with `mpg` between 15 and 20.
-
-
-Answer: filtering rows
-=========================================================
-```{r}
-filter(mtc, mpg > 15, mpg < 20)
-```
-
-
-Filtering by row number
-==========================================================
-```{r}
-filter(mtc, row_number()<=3)
-```
-- use `row_number()` to get specific rows. This is more useful once you have sorted the data in a particular order, which we will soon see how to do.
-
-Sampling rows
-==========================================================
-```{r}
-sample_n(mtc, 5)
-```
-- You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
-- `sample_frac()` is similar
-- do `?sample_n()` to see how you can sample with replacement or with weights
 
 select() subsets columns by name
 =========================================================
@@ -791,7 +737,7 @@ dplyr verbs summary
 
 All verbs work similarly:
 
-1. The first argument is a data frame.
+1. The first argument (arguments are the things inside the parentheses next to the function) is a data frame.
 2. The subsequent arguments describe what to do with the data frame, using the variable names (without quotes).
 3. The result is a new data frame.
 

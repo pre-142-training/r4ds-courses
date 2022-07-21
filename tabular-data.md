@@ -657,15 +657,13 @@ The rest of this section shows the basic data frame functions ("verbs") in the `
 - `arrange()` sorts the row by values in some column(s)
 - `mutate()` creates new columns, often based on operations on other columns
 
-These can all be used in conjunction with `group_by()` which changes the scope of each function from operating on the entire dataset to operating on it group-by-group. These six functions provide the verbs for a language of data manipulation. 
-
 All verbs work similarly:
 
-1. The first argument is a data frame.
+1. The first argument (arguments are the things inside the parentheses next to the function) is a data frame.
 2. The subsequent arguments describe what to do with the data frame, using the variable names (without quotes).
 3. The result is a new data frame.
 
-Together these properties make it easy to chain together multiple simple steps to achieve a complex result. Let’s dive in and see how these verbs work.
+Together these properties make it easy to chain together multiple simple steps to achieve a complex result. Let’s dive in and see the basics of how these verbs work.
 
 filter() subsets the rows of a data frame
 ========================================================
@@ -726,73 +724,6 @@ Comparison operators
 [1]  TRUE  TRUE FALSE  TRUE
 ```
 
-Logical conjunctions
-=========================================================
-
-```r
-> filter(mtc, mpg > 30 | mpg < 20)
-# A tibble: 22 × 11
-     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
- 2  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
- 3  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
- 4  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
- 5  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
- 6  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
- 7  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
- 8  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
- 9  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
-10  10.4     8  460    215  3     5.42  17.8     0     0     3     4
-# … with 12 more rows
-```
-- `|` stands for OR, `&` is AND
-- as we have seen, separating conditions by a comma is the same as using `&` inside `filter()`
-- these can be made into complex logical conditions 
-
-Logical conjunctions
-=========================================================
-
-```r
-> filter(mtc, !(mpg > 30 | mpg < 20))
-# A tibble: 10 × 11
-     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
- 2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
- 3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
- 4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
- 5  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
- 6  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
- 7  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1
- 8  27.3     4   79     66  4.08  1.94  18.9     1     1     4     1
- 9  26       4  120.    91  4.43  2.14  16.7     0     1     5     2
-10  21.4     4  121    109  4.11  2.78  18.6     1     1     4     2
-```
-- `!` is NOT, which negates the logical condition
-
-Logical conjunctions
-=========================================================
-
-```r
-> filter(mtc, cyl %in% c(6,8)) # equivalent to filter(mtc, cyl==6 | cyl==8)
-# A tibble: 21 × 11
-     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
- 2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
- 3  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
- 4  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
- 5  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
- 6  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
- 7  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
- 8  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
- 9  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
-10  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
-# … with 11 more rows
-```
-- `%in%` returns true for all elements of the thing on the left that are also elements of the thing on the right
-
 Exercise: cars with powerful engines
 ==========================================================
 - How many cars have engines with horsepower (`hp`) greater than 200?
@@ -815,67 +746,6 @@ Answer: cars with powerful engines
 7  15       8   301   335  3.54  3.57  14.6     0     1     5     8
 ```
 - Answer: 7
-
-
-Exercise: filtering rows
-========================================================
-- List all cars with `mpg` between 15 and 20.
-
-
-Answer: filtering rows
-=========================================================
-
-```r
-> filter(mtc, mpg > 15, mpg < 20)
-# A tibble: 12 × 11
-     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
- 2  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
- 3  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
- 4  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
- 5  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
- 6  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
- 7  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
- 8  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
- 9  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
-10  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
-11  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
-12  19.7     6  145    175  3.62  2.77  15.5     0     1     5     6
-```
-
-
-Filtering by row number
-==========================================================
-
-```r
-> filter(mtc, row_number()<=3)
-# A tibble: 3 × 11
-    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  21       6   160   110  3.9   2.62  16.5     0     1     4     4
-2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
-3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
-```
-- use `row_number()` to get specific rows. This is more useful once you have sorted the data in a particular order, which we will soon see how to do.
-
-Sampling rows
-==========================================================
-
-```r
-> sample_n(mtc, 5)
-# A tibble: 5 × 11
-    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
-2  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-4  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
-5  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
-```
-- You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
-- `sample_frac()` is similar
-- do `?sample_n()` to see how you can sample with replacement or with weights
 
 select() subsets columns by name
 =========================================================
@@ -1220,7 +1090,7 @@ dplyr verbs summary
 
 All verbs work similarly:
 
-1. The first argument is a data frame.
+1. The first argument (arguments are the things inside the parentheses next to the function) is a data frame.
 2. The subsequent arguments describe what to do with the data frame, using the variable names (without quotes).
 3. The result is a new data frame.
 
@@ -1257,7 +1127,7 @@ A simple scatterplot
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-68](tabular-data-figure/unnamed-chunk-68-1.png)
+![plot of chunk unnamed-chunk-62](tabular-data-figure/unnamed-chunk-62-1.png)
 - Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
 
 How to call ggplot
@@ -1286,7 +1156,7 @@ Change points to lines
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-71](tabular-data-figure/unnamed-chunk-71-1.png)
+![plot of chunk unnamed-chunk-65](tabular-data-figure/unnamed-chunk-65-1.png)
 - This is pretty ugly. Line plots are better for time series.
 
 
@@ -1300,7 +1170,7 @@ Fit straight line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-72](tabular-data-figure/unnamed-chunk-72-1.png)
+![plot of chunk unnamed-chunk-66](tabular-data-figure/unnamed-chunk-66-1.png)
 - `"lm"` means "linear model," which is a least-squares regression line.
 - The gray band is the confidence interval.
 
@@ -1315,7 +1185,7 @@ Fit smooth line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-73](tabular-data-figure/unnamed-chunk-73-1.png)
+![plot of chunk unnamed-chunk-67](tabular-data-figure/unnamed-chunk-67-1.png)
 - "loess" fits a collection of tiny regression lines, then glues them together.
 - This is a better approximation than a straight line for these data.
 
@@ -1356,7 +1226,7 @@ Plotting categorical variables
 +   geom_col()
 ```
 
-![plot of chunk unnamed-chunk-75](tabular-data-figure/unnamed-chunk-75-1.png)
+![plot of chunk unnamed-chunk-69](tabular-data-figure/unnamed-chunk-69-1.png)
 - `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
 
 The grammar of graphics
@@ -1411,7 +1281,7 @@ Answer: Is there a linear relationship between hp and 1/mpg?
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-76](tabular-data-figure/unnamed-chunk-76-1.png)
+![plot of chunk unnamed-chunk-70](tabular-data-figure/unnamed-chunk-70-1.png)
 - So, probably "yes"
 
 Answer: Is there a linear relationship between hp and 1/mpg?
@@ -1445,7 +1315,7 @@ Answer: orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-79](tabular-data-figure/unnamed-chunk-79-1.png)
+![plot of chunk unnamed-chunk-73](tabular-data-figure/unnamed-chunk-73-1.png)
 
 
 Exercise: more orange trees
@@ -1463,7 +1333,7 @@ Answer: more orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-80](tabular-data-figure/unnamed-chunk-80-1.png)
+![plot of chunk unnamed-chunk-74](tabular-data-figure/unnamed-chunk-74-1.png)
 
 
 Exercise: even more orange trees
