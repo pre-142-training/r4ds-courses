@@ -1,12 +1,14 @@
 Tabular Data Foundations
 ========================================================
-author: Alejandro Schuler and David Connell
+author: Alejandro Schuler
 date: 2022
 transition: none
 width: 1680
 height: 1050
 
 Adapted from [Steve Bagley](https://profiles.stanford.edu/steven-bagley) and based on [R for Data Science by Hadley Wickham](https://r4ds.had.co.nz/)
+
+Edited by David Connell
 
 
 <style>
@@ -15,33 +17,32 @@ Adapted from [Steve Bagley](https://profiles.stanford.edu/steven-bagley) and bas
 }
 </style>
 
-Introduction to the course
+Introduction
 ========================================================
 type: section
 
 
-Goals of this course
+Goals of this section
 ========================================================
-By the end of the course you should be able to...
+By the end of these slides you should be able to...
 
-- write neat R scripts and markdown reports in R studio
+- write simple R scripts
 - find, read, and understand package and function documentation 
 - read and write tabular data into R from CSV files
 - manipulate and subset tabular data
-- visualize tabular data using line and scatter plots
 
 ![](images/data-science.png)
 
-Resources for this course
+Resources for this tutorial
 ========================================================
 
 ## Tidyverse
 
-- The tidyverse collection of R packages is used in this course, and in PHW142, to provide lots of additional functionality that's not present in the basic R programming language.
+- The tidyverse collection of R packages is used in this tutorial, and in PHW142, to provide lots of additional functionality that's not present in the basic R programming language.
 
 ![](images/tidyverse.png)
 
-Resources for this course
+Resources for this tutorial
 ========================================================
 
 ![](https://r4ds.had.co.nz/cover.png)
@@ -56,7 +57,7 @@ Resources for this course
 
 ## [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
 
-- Extremely useful reference guides for functions used in this course
+- Extremely useful reference guides for functions used in this tutorial
 
 RStudio
 ========================================================
@@ -70,21 +71,14 @@ If you haven't already, please open RStudio on DataHub by [clicking this link](h
 
 You will get more out of this tutorial if you try out these things in R yourself!!
 
-The R console window is the left (or lower-left) window in RStudio.
-The R console uses a "read, eval, print" loop. This is sometimes
-called a REPL.
-- Read: R reads what you type ...
-- Eval: R evaluates it ...
-- Print: R prints the result ...
-- Loop: (repeat forever)
 
-***
-
-![](images/console.png)
 
 
 A simple example in the console
 ========================================================
+
+The R console window is the left (or lower-left) window in RStudio.
+
 - The box contains an expression that will be evaluated by R, followed by the result of evaluating that expression.
 
 ```r
@@ -95,6 +89,9 @@ A simple example in the console
 - `[1]` means: the answer is a vector (a list of elements of the same type) and this line starts with the first element of that vector.
 - It does not mean the answer has one element (although that is true in this case).
 
+***
+
+![](images/console.png)
 
 Spaces (mostly) don't matter
 ========================================================
@@ -237,27 +234,6 @@ that variable in the calculation.
 simple, but very useful kind of abstraction.
 
 
-Two ways to assign
-========================================================
-In R, there are (unfortunately) two assignment operators. They have
-subtly different meanings (more details later).
-- `<-` requires that you type two characters. Don't put a
-space between `<` and `-`. (What would happen?)
-- RStudio hint: Use "`Option -`" (Mac) or "`Alt -`" (PC)
-to type this using one key combination.
-- `=` is easier to type.
-- You will see both used throughout R and user code.
-
-```r
-> x <- 10
-> x
-[1] 10
-> x = 20
-> x
-[1] 20
-```
-- We suggest you stick to the arrow `<-` to reduce confusion with the comparison operator `==` (more on that later).
-
 Assignment has no undo
 ========================================================
 
@@ -297,33 +273,6 @@ Error: object 'A' not found
 - R cares about upper and lower case in names.
 - We also see that some error messages in R are a bit obscure.
 
-
-More about naming
-========================================================
-There are different conventions for constructing compound names. Warning:
-disputes over the right way to do this can get heated.
-
-```r
-stringlength
-string.length
-StringLength (CamelCase)
-stringLength
-string_length (underscore or underbar a.k.a. snake_case)
-string-length (hyphen a.k.a. kebab-case)
-```
-- To be consistent with the packages we will use, I recommend snake_case where you separate lowercase words with _
-- Note that R itself uses several of these conventions.
-- One of these won't work. Which one and why?
-  
-R saves some names for itself
-========================================================
-
-```r
-> for <- 7 # this causes an error
-```
-- `for` is a reserved word in R. (It is used in loop control.)
-- ADVANCED: see `?Reserved` for the complete rules.
-
 Exercise: birth year
 ===
 - Make a variable that represents the age you will be at the end of this year
@@ -348,19 +297,19 @@ type: section
 
 What is a function?
 ========================================================
-+ Backbone of R programming language, majority of things you will do in R rely on them!
-+ Set of statements that performs a specific task
++ Functions are the backbone of the R programming language; the majority of things you will do in R rely on them!
++ A function is a set of statements that performs a specific task
 + User is able to call or pass information to the function
 + Function will perform task and return object or value or action
 
 ### Where do functions come from?
 + Many built into base R
 + Many many more available through different package libraries
-+ Can create your own! (This will be covered later in the semester)
++ ADVANCED: You can create your own!
 
 
 
-Source: OOMPH course PHW251 - R for Public Health
+*Source: OOMPH course PHW251 - R for Public Health*
 
 Calling built-in functions
 ========================================================
@@ -432,16 +381,6 @@ Type `?name` for help on name. Example:
 - Parts of the R documentation are rather obscure.
 
 
-Getting help on operator symbols
-========================================================
-  
-  ```text
-  > ?"+"
-  ```
-- This will show help about the `+` operator.
-- Put symbols in quotes to get help.
-
-
 Exercise: convert weights
 ========================================================
 
@@ -502,163 +441,6 @@ Answer: subtract the mean
 > sum(x - mean(x)) # answer in one expression
 [1] 0
 ```
-
-
-Exercise: compute a confidence interval
-========================================================
-
-```r
-> m <- 13
-> se <- 0.25
-```
-- Given the values of `m` (mean), and `se` (standard error), construct a vector containing the two values, $m \pm 2 \times se$.
-- That is, add and subtract two times the standard error
-value to/from the mean value.
-- Your output should look like:
-
-```
-[1] 12.5 13.5
-```
-
-
-Answer: compute a confidence interval
-========================================================
-
-```r
-> ## one way:
-> c(m - 2*se, m + 2*se)
-[1] 12.5 13.5
-> ## another way:
-> m + c(-2, 2)*se
-[1] 12.5 13.5
-```
-
-
-Arguments by position
-========================================================
-
-```r
-> 1:5
-[1] 1 2 3 4 5
-> seq(1,5)
-[1] 1 2 3 4 5
-```
-- `seq` is the function equivalent of the colon operator.
-- Arguments can be specified by position, with one supplied
-argument for each name in the function parameter list, and in the
-same order.
-
-
-Arguments by name
-========================================================
-
-```r
-> seq(from = 1, to = 5)
-[1] 1 2 3 4 5
-> seq(to = 5, from = 1) # identical result
-[1] 1 2 3 4 5
-```
-- Sometimes, arguments can be supplied by name using the syntax,
-variable `=` value.
-- When using names, the order of the named arguments
-does not matter.
-- You can mix positional and named arguments (carefully).
-- Do not use `<-` in place of `=` when specifying
-named arguments.
-
-
-Using the correct argument name
-========================================================
-
-```r
-> seq(1, 5)
-[1] 1 2 3 4 5
-> seq(from = 1, to = 5)
-[1] 1 2 3 4 5
-> seq(begin = 1, end = 5)
-Warning: In seq.default(begin = 1, end = 5) :
- extra arguments 'begin', 'end' will be disregarded
-[1] 1
-```
-- You have to use the correct argument names to get the correct results.
-
-
-How to find the names of a function's arguments
-========================================================
-  - How can you figure out the names of seq's arguments? It is
-a built-in function.
-- Answer: the arguments are listed in the R documentation of the
-function.
-
-```r
-> # Try this:
-> ?seq
-```
-
-Packages
-============================================================
-- An R package is a collection of functions and variables.
-- Each package has a name.
-- By default, when R starts up, the base packages
-(datasets, utils, grDevices, graphics, stats, methods) are loaded
-into the workspace for you.
-- When you _install_ a package, a copy is downloaded from a server to a directory on your local machine, but not loaded
-into the workspace.
-- When you _load_ a package, the contents the package are
-copied into the workspace.
-- If you try to load a package that has not been installed, you
-will get an error.
-- These operations can be initiated from either the graphical user
-interface or through the console.
-
-
-Installing a package
-============================================================
-- When you install a package, R may prompt you to select a CRAN
-mirror. This is the server that R will use when installing packages.
-Pick one that is geographically close to you.
-- In RStudio, select Packages, then Install Packages.
-- Or:
-
-```r
-> install.packages("name_of_package")
-```
-Try this now:
-
-```r
-> install.packages("tidyverse")
-```
-
-
-Loading a package
-============================================================
-- Use the `library` function to load an installed package.
-- Terminology alert: Note that `library` _loads_ a package,
-not a library.
-- Hint: Put the library call(s) at the top of every script file you write.
-
-```r
-> library("name_of_package")
-```
-
-Calling functions from a package
-============================================================
-- Sometimes packages introduce name conflicts, which is when the pacakge loads a function that is named the same thing as a function that's already in the environment
-- Typically, the package being loaded will take precedence over what is already loaded.
-- For instance:
-
-```r
-> ?filter # returns documentation for a function called filter in the stats package
-> library(dplyr)
-> ?filter # now returns documentation for a function called filter in the dplyr package!
-```
-- You can tell R which function you want by specifying the package name and then `::` before the function name
-
-```r
-> ?stats::filter
-> ?dplyr::filter
-```
-- This also works when calling the function in your code
 
 RStudio scripts
 ============================================================
@@ -790,10 +572,8 @@ Data frame example
 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 # … with 22 more rows
 ```
-- Typically, each row in a data frame describes an
-instance of some (real-world) object. (Yes: one row for each model of car.)
-- Each column contains the values of a variable for the
-corresponding instance. (Yes: one column for each variable.)
+- Typically, each row in a data frame describes an instance of some (real-world) object. (Yes: one row for each model of car.)
+- Each column contains the values of a variable for the corresponding instance. (Yes: one column for each variable.)
 
 Reading in flat files
 ========================================================
@@ -808,7 +588,8 @@ Reading in flat files
 
 Making data frames
 ========================================================
-- use `tibble()` to make your own data frames from scratch in R
+- you can use `tibble()` to make your own data frames from scratch in R
+- you don't need to do this yourself--we're just going to use this data in some examples
 
 ```r
 > my_data = tibble( # newlines don't do anything, just increase code readability
@@ -876,15 +657,13 @@ The rest of this section shows the basic data frame functions ("verbs") in the `
 - `arrange()` sorts the row by values in some column(s)
 - `mutate()` creates new columns, often based on operations on other columns
 
-These can all be used in conjunction with `group_by()` which changes the scope of each function from operating on the entire dataset to operating on it group-by-group. These six functions provide the verbs for a language of data manipulation. 
-
 All verbs work similarly:
 
-1. The first argument is a data frame.
+1. The first argument (arguments are the things inside the parentheses next to the function) is a data frame.
 2. The subsequent arguments describe what to do with the data frame, using the variable names (without quotes).
 3. The result is a new data frame.
 
-Together these properties make it easy to chain together multiple simple steps to achieve a complex result. Let’s dive in and see how these verbs work.
+Together these properties make it easy to chain together multiple simple steps to achieve a complex result. Let’s dive in and see the basics of how these verbs work.
 
 filter() subsets the rows of a data frame
 ========================================================
@@ -945,73 +724,6 @@ Comparison operators
 [1]  TRUE  TRUE FALSE  TRUE
 ```
 
-Logical conjunctions
-=========================================================
-
-```r
-> filter(mtc, mpg > 30 | mpg < 20)
-# A tibble: 22 × 11
-     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
- 2  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
- 3  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
- 4  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
- 5  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
- 6  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
- 7  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
- 8  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
- 9  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
-10  10.4     8  460    215  3     5.42  17.8     0     0     3     4
-# … with 12 more rows
-```
-- `|` stands for OR, `&` is AND
-- as we have seen, separating conditions by a comma is the same as using `&` inside `filter()`
-- these can be made into complex logical conditions 
-
-Logical conjunctions
-=========================================================
-
-```r
-> filter(mtc, !(mpg > 30 | mpg < 20))
-# A tibble: 10 × 11
-     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
- 2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
- 3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
- 4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
- 5  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
- 6  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
- 7  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1
- 8  27.3     4   79     66  4.08  1.94  18.9     1     1     4     1
- 9  26       4  120.    91  4.43  2.14  16.7     0     1     5     2
-10  21.4     4  121    109  4.11  2.78  18.6     1     1     4     2
-```
-- `!` is NOT, which negates the logical condition
-
-Logical conjunctions
-=========================================================
-
-```r
-> filter(mtc, cyl %in% c(6,8)) # equivalent to filter(mtc, cyl==6 | cyl==8)
-# A tibble: 21 × 11
-     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
- 2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
- 3  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
- 4  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
- 5  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
- 6  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
- 7  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
- 8  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
- 9  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
-10  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
-# … with 11 more rows
-```
-- `%in%` returns true for all elements of the thing on the left that are also elements of the thing on the right
-
 Exercise: cars with powerful engines
 ==========================================================
 - How many cars have engines with horsepower (`hp`) greater than 200?
@@ -1035,67 +747,6 @@ Answer: cars with powerful engines
 ```
 - Answer: 7
 
-
-Exercise: filtering rows
-========================================================
-- List all cars with `mpg` between 15 and 20.
-
-
-Answer: filtering rows
-=========================================================
-
-```r
-> filter(mtc, mpg > 15, mpg < 20)
-# A tibble: 12 × 11
-     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
- 2  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
- 3  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
- 4  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4
- 5  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
- 6  17.3     8  276.   180  3.07  3.73  17.6     0     0     3     3
- 7  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
- 8  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
- 9  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
-10  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
-11  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
-12  19.7     6  145    175  3.62  2.77  15.5     0     1     5     6
-```
-
-
-Filtering by row number
-==========================================================
-
-```r
-> filter(mtc, row_number()<=3)
-# A tibble: 3 × 11
-    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  21       6   160   110  3.9   2.62  16.5     0     1     4     4
-2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
-3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
-```
-- use `row_number()` to get specific rows. This is more useful once you have sorted the data in a particular order, which we will soon see how to do.
-
-Sampling rows
-==========================================================
-
-```r
-> sample_n(mtc, 5)
-# A tibble: 5 × 11
-    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  15.8     8 351     264  4.22  3.17  14.5     0     1     5     4
-2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-3  19.2     6 168.    123  3.92  3.44  18.3     1     0     4     4
-4  15.5     8 318     150  2.76  3.52  16.9     0     0     3     2
-5  21       6 160     110  3.9   2.88  17.0     0     1     4     4
-```
-- You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
-- `sample_frac()` is similar
-- do `?sample_n()` to see how you can sample with replacement or with weights
-
 select() subsets columns by name
 =========================================================
 
@@ -1116,73 +767,27 @@ select() subsets columns by name
 10  19.2  18.3  3.44
 # … with 22 more rows
 ```
-- The select function will return a subset of the tibble, using only the requested columns in the order specified.
-
-select() subsets columns by name
-=========================================================
-- `select()` can also be used with handy helpers like `starts_with()` and `contains()`
-
-```r
-> select(mtc, starts_with("m"))
-# A tibble: 32 × 1
-     mpg
-   <dbl>
- 1  21  
- 2  21  
- 3  22.8
- 4  21.4
- 5  18.7
- 6  18.1
- 7  14.3
- 8  24.4
- 9  22.8
-10  19.2
-# … with 22 more rows
-```
-
-select() subsets columns by name
-=========================================================
-- `select()` can also be used with handy helpers like `starts_with()` and `contains()`
-
-```r
-> select(mtc, hp, contains("m"))
-# A tibble: 32 × 3
-      hp   mpg    am
-   <dbl> <dbl> <dbl>
- 1   110  21       1
- 2   110  21       1
- 3    93  22.8     1
- 4   110  21.4     0
- 5   175  18.7     0
- 6   105  18.1     0
- 7   245  14.3     0
- 8    62  24.4     0
- 9    95  22.8     0
-10   123  19.2     0
-# … with 22 more rows
-```
-- The quotes around the letter `"m"` make it a character string (or string for short). If we did not do this, `R` would think it was looking for a variable called `m` and not just the plain letter. 
-- We don't have to quote the names of columns (like `hp`) because the `tidyverse` functions know that we are working within the dataframe and thus treat the column names like they are variables in their own right
+- The select function will return a subset of the data frame, using only the requested columns in the order specified.
 
 select() subsets columns by name
 =========================================================
 - `select()` can also be used to select everything **except for** certain columns by using the minus character `-`
 
 ```r
-> select(mtc, -contains("m"), -hp)
-# A tibble: 32 × 8
-     cyl  disp  drat    wt  qsec    vs  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1     6  160   3.9   2.62  16.5     0     4     4
- 2     6  160   3.9   2.88  17.0     0     4     4
- 3     4  108   3.85  2.32  18.6     1     4     1
- 4     6  258   3.08  3.22  19.4     1     3     1
- 5     8  360   3.15  3.44  17.0     0     3     2
- 6     6  225   2.76  3.46  20.2     1     3     1
- 7     8  360   3.21  3.57  15.8     0     3     4
- 8     4  147.  3.69  3.19  20       1     4     2
- 9     4  141.  3.92  3.15  22.9     1     4     2
-10     6  168.  3.92  3.44  18.3     1     4     4
+> select(mtc, -hp)
+# A tibble: 32 × 10
+     mpg   cyl  disp  drat    wt  qsec    vs    am  gear  carb
+   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+ 1  21       6  160   3.9   2.62  16.5     0     1     4     4
+ 2  21       6  160   3.9   2.88  17.0     0     1     4     4
+ 3  22.8     4  108   3.85  2.32  18.6     1     1     4     1
+ 4  21.4     6  258   3.08  3.22  19.4     1     0     3     1
+ 5  18.7     8  360   3.15  3.44  17.0     0     0     3     2
+ 6  18.1     6  225   2.76  3.46  20.2     1     0     3     1
+ 7  14.3     8  360   3.21  3.57  15.8     0     0     3     4
+ 8  24.4     4  147.  3.69  3.19  20       1     0     4     2
+ 9  22.8     4  141.  3.92  3.15  22.9     1     0     4     2
+10  19.2     6  168.  3.92  3.44  18.3     1     0     4     4
 # … with 22 more rows
 ```
 
@@ -1215,11 +820,12 @@ Saving the result
 =========================================================
 
 ```r
-> filter(mtc, row_number()==1)
-# A tibble: 1 × 11
+> filter(mtc, mpg < 11)
+# A tibble: 2 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1    21     6   160   110   3.9  2.62  16.5     0     1     4     4
+1  10.4     8   472   205  2.93  5.25  18.0     0     0     3     4
+2  10.4     8   460   215  3     5.42  17.8     0     0     3     4
 > head(mtc)
 # A tibble: 6 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -1235,36 +841,17 @@ Saving the result
 
 Saving the result
 =========================================================
-- To save a new version of mtc, use a variable
+- To save a new version of mtc, assign it to a variable using `<-`
 
 ```r
-> mtc_first_row = filter(mtc, row_number()==1)
+> mtc_first_row <- filter(mtc, mpg < 11)
 > mtc_first_row
-# A tibble: 1 × 11
+# A tibble: 2 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1    21     6   160   110   3.9  2.62  16.5     0     1     4     4
+1  10.4     8   472   205  2.93  5.25  18.0     0     0     3     4
+2  10.4     8   460   215  3     5.42  17.8     0     0     3     4
 ```
-
-Combining filtering and selecting
-=========================================================
-- If the result of the operation will only be used by one other function, you can nest the calls:
-
-```r
-> # tmp = select(mtc, mpg, qsec, wt)
-> # filter(tmp, mpg >= 25)
-> filter(select(mtc, mpg, qsec, wt), mpg >= 25)
-# A tibble: 6 × 3
-    mpg  qsec    wt
-  <dbl> <dbl> <dbl>
-1  32.4  19.5  2.2 
-2  30.4  18.5  1.62
-3  33.9  19.9  1.84
-4  27.3  18.9  1.94
-5  26    16.7  2.14
-6  30.4  16.9  1.51
-```
-
 
 arrange() sorts rows
 ===========================================================
@@ -1321,39 +908,6 @@ Use the desc function to sort by descending values
 7  10.4     8   460   215  3     5.42  17.8     0     0     3     4
 ```
 
-Exercise: top 5 mpg cars
-===========================================================
-Use `arrange()` and `filter()` to get the data for the 5 cars with the highest mpg.
-
-Answer: top 5 mpg cars
-================================================================
-
-```r
-> filter(arrange(mtc, desc(mpg)), row_number()<=5) # "nesting" the calls to filter and arrange
-# A tibble: 5 × 11
-    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
-2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-3  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
-4  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
-5  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
-```
-or
-
-```r
-> cars_by_mpg = arrange(mtc, desc(mpg)) # using a temporary variable
-> filter(cars_by_mpg, row_number()<=5)
-# A tibble: 5 × 11
-    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
-2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-3  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
-4  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
-5  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
-```
-
 mutate() creates new columns
 ================================================================
 
@@ -1404,31 +958,6 @@ mutate() can create multiple new columns at once
 ```
 - As before, the result of this function is only saved if you assign it to a variable. In this example, `mtc_vars_subset` is unchanged after the mutate.
 
-mutate() for data type conversion
-===
-- Data is sometimes given to you in a form that makes it difficult to do operations on
-
-```r
-> df = tibble(number = c("1", "2", "3"))
-> mutate(df, number_plus_1 = number + 1)
-Error: Problem with `mutate()` column `number_plus_1`.
-ℹ `number_plus_1 = number + 1`.
-x non-numeric argument to binary operator
-```
-
-- `mutate()` is also useful for converting data types, in this case text to numbers
-
-```r
-> mutate(df, number = as.numeric(number)) 
-# A tibble: 3 × 1
-  number
-   <dbl>
-1      1
-2      2
-3      3
-```
-- if you save the result into a column that already exists, it will be overwritten
-
 dplyr verbs summary
 ========================================================
 
@@ -1439,7 +968,7 @@ dplyr verbs summary
 
 All verbs work similarly:
 
-1. The first argument is a data frame.
+1. The first argument (arguments are the things inside the parentheses next to the function) is a data frame.
 2. The subsequent arguments describe what to do with the data frame, using the variable names (without quotes).
 3. The result is a new data frame.
 
@@ -1450,268 +979,8 @@ dplyr cheatsheet
 [Download the full cheatsheet here](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf)
 ![](images/dplyr.png)
 
-Visualization basics
-============================================================
-type: section
 
-ggplot2
-=============================================================
-- `ggplot2` is a very powerful graphics package.
-- gg stands for "grammar of graphics"
-- It was installed and loaded as part of `tidyverse`.
-- Otherwise, you must do the following:
-
-```r
-> install.packages("ggplot2")
-> library("ggplot2")
-```
-
-
-
-A simple scatterplot
-=============================================================
-
-```r
-> ggplot(data = mtc, mapping = aes(x = hp, y = mpg)) + 
-+   geom_point()
-```
-
-![plot of chunk unnamed-chunk-84](tabular-data-figure/unnamed-chunk-84-1.png)
-- Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
-
-How to call ggplot
-==============================================================
-
-```r
-ggplot(data = mtc, mapping = aes(x = hp, y = mpg)) + geom_point()
-```
-- `data = mtc`: this tells which tibble contains the data to be plotted
-- `mapping = aes(x = hp, y = mpg)`: use the data in the hp column on x-axis, mpg column on y-axis
-- `geom_point()`: plot the data as points
-- Note that you can use positional instead of named arguments to make this expression shorter:
-
-```r
-ggplot(mtc, aes(hp, mpg)) + 
-  geom_point()
-```
-- The use of "+" to glue these operations together will be explained later.
-
-
-Change points to lines
-===============================================================
-
-```r
-> ggplot(mtc, aes(hp, mpg)) + 
-+   geom_line()
-```
-
-![plot of chunk unnamed-chunk-87](tabular-data-figure/unnamed-chunk-87-1.png)
-- This is pretty ugly. Line plots are better for time series.
-
-
-Fit straight line to points
-===============================================================
-
-```r
-> ggplot(mtc, aes(hp, mpg)) + 
-+   geom_point() + 
-+   geom_smooth(method="lm")
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-88](tabular-data-figure/unnamed-chunk-88-1.png)
-- `"lm"` means "linear model," which is a least-squares regression line.
-- The gray band is the confidence interval.
-
-
-Fit smooth line to points
-================================================================
-
-```r
-> ggplot(mtc, aes(hp, mpg)) + 
-+   geom_point() + 
-+   geom_smooth(method="loess")
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-89](tabular-data-figure/unnamed-chunk-89-1.png)
-- "loess" fits a collection of tiny regression lines, then glues them together.
-- This is a better approximation than a straight line for these data.
-
-
-Plotting categorical variables
-====================================================================
-First, let's load in some new data.
-
-```r
-> data1 <- read_csv("https://raw.githubusercontent.com/pre-142-training/r4ds-courses/fa8642362bf9aa1a6423988ea6d2816d7cb9c39f/data/data1.csv")
-Rows: 5 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): name, gender
-dbl (3): age, weight, shoesize
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-> data1
-# A tibble: 5 × 5
-  name   gender   age weight shoesize
-  <chr>  <chr>  <dbl>  <dbl>    <dbl>
-1 Emmet  F         10    1          5
-2 Jordan M         11    3          8
-3 Tala   F         20    1.5        5
-4 Parker M         25    4         10
-5 Riley  <NA>      66    5          9
-```
-- `<chr>` is short for "character string", which means text data
-
-Plotting categorical variables
-====================================================================
-
-
-```r
-> data1 %>%
-+   ggplot(aes(x = name, shoesize)) + 
-+   geom_col()
-```
-
-![plot of chunk unnamed-chunk-91](tabular-data-figure/unnamed-chunk-91-1.png)
-- `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
-
-The grammar of graphics
-============================================================
-- Most graphics systems are a large collection of functions to call to
-construct a graph piece by piece.
-- `ggplot2` is different, and is based on the idea of a "grammar of
-graphics," a set of primitives and rules for combining them in a way
-that makes sense for plotting data.
-- This perspective is quite powerful, but requires learning a bit of
-vocabulary and a new way of thinking about graphics.
-
-
-The ggplot2 model (simplified version)
-============================================================
-1. supply data frame (rows of observations, columns of variables)
-2. use `aes` to map from variables (columns in data frame) to
-aesthetics (visual properties of the plot): x, y, color, size,
-shape, and others.
-3. choose a `geom`. This determines the type of the plot: point (a
-scatterplot), line (line graph or line chart), bar (barplot), and
-others.
-4. choose a `stat` (statistical transformation): often `identity` (do
-no transformation), but can be used to count, bin, or summarize
-data (e.g., in a histogram).
-5. choose a `scale`. This converts from the units used in the data
-frame to the units used for display.
-6. provide optional facet specification.
-
-ggplot2 cheatsheet
-============================================================
-[Download the full cheatsheet here](https://github.com/rstudio/cheatsheets/blob/main/data-visualization.pdf)
-
-![](images/ggplot.png)
-
-Putting it together
-=================================================================
-type: section
-
-Exercise: Is there a linear relationship between hp and 1/mpg?
-=================================================================
-- Use `ggplot` to look for a linear relationship between `hp` and `1/mpg` in our `mtc` data
-
-
-Answer: Is there a linear relationship between hp and 1/mpg?
-=================================================================
-
-```r
-> ggplot(mtc, aes(hp, 1/mpg)) + 
-+   geom_point() + 
-+   geom_smooth(method="lm", se=FALSE)
-`geom_smooth()` using formula 'y ~ x'
-```
-
-![plot of chunk unnamed-chunk-92](tabular-data-figure/unnamed-chunk-92-1.png)
-- So, probably "yes"
-
-Answer: Is there a linear relationship between hp and 1/mpg?
-=================================================================
-- Could also have done:
-
-```r
-> mtc %>%
->   mutate(gpm = 1/mpg) %>%
-> ggplot(aes(hp, gpm)) + 
->   geom_point() + 
->   geom_smooth(method="lm", se=FALSE)
-```
-
-Exercise: orange trees
-=================================================================
-
-```r
-> orange <- as_tibble(Orange) # this data is pre-loaded into R
-```
-1. Pull out the data for tree 2 only
-2. Plot circumference versus age for those data
-
-Answer: orange trees
-==================================================================
-
-```r
-> orange %>%
-+   filter(Tree == 2) %>%
-+ ggplot(aes(age, circumference)) + 
-+   geom_point()
-```
-
-![plot of chunk unnamed-chunk-95](tabular-data-figure/unnamed-chunk-95-1.png)
-
-
-Exercise: more orange trees
-============================================================
-1. Pull out the data for tree 2 where `age > 1000`
-2. Plot circumference versus age for those data
-
-Answer: more orange trees
-==================================================================
-
-```r
-> orange %>%
-+   filter(Tree == 2, age > 1000) %>%
-+ ggplot(aes(age, circumference)) + 
-+   geom_point()
-```
-
-![plot of chunk unnamed-chunk-96](tabular-data-figure/unnamed-chunk-96-1.png)
-
-
-Exercise: even more orange trees
-============================================================
-- Add a new column called `circum_in` which is the circumference in inches, not in millimeters.
-
-
-Answer: even more orange trees
-=================================================================
-
-```r
-> mutate(orange, circum_in = circumference/(10 * 2.54))
-# A tibble: 35 × 4
-   Tree    age circumference circum_in
-   <ord> <dbl>         <dbl>     <dbl>
- 1 1       118            30      1.18
- 2 1       484            58      2.28
- 3 1       664            87      3.43
- 4 1      1004           115      4.53
- 5 1      1231           120      4.72
- 6 1      1372           142      5.59
- 7 1      1582           145      5.71
- 8 2       118            33      1.30
- 9 2       484            69      2.72
-10 2       664           111      4.37
-# … with 25 more rows
-```
-
-Review: Resources for this course
+Review: Resources for this tutorial
 ========================================================
 
 ![](https://r4ds.had.co.nz/cover.png)
@@ -1726,4 +995,4 @@ Review: Resources for this course
 
 ## [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
 
-- Extremely useful reference guides for functions used in this course
+- Extremely useful reference guides for functions used in this tutorial
