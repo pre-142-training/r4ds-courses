@@ -767,73 +767,27 @@ select() subsets columns by name
 10  19.2  18.3  3.44
 # … with 22 more rows
 ```
-- The select function will return a subset of the tibble, using only the requested columns in the order specified.
-
-select() subsets columns by name
-=========================================================
-- `select()` can also be used with handy helpers like `starts_with()` and `contains()`
-
-```r
-> select(mtc, starts_with("m"))
-# A tibble: 32 × 1
-     mpg
-   <dbl>
- 1  21  
- 2  21  
- 3  22.8
- 4  21.4
- 5  18.7
- 6  18.1
- 7  14.3
- 8  24.4
- 9  22.8
-10  19.2
-# … with 22 more rows
-```
-
-select() subsets columns by name
-=========================================================
-- `select()` can also be used with handy helpers like `starts_with()` and `contains()`
-
-```r
-> select(mtc, hp, contains("m"))
-# A tibble: 32 × 3
-      hp   mpg    am
-   <dbl> <dbl> <dbl>
- 1   110  21       1
- 2   110  21       1
- 3    93  22.8     1
- 4   110  21.4     0
- 5   175  18.7     0
- 6   105  18.1     0
- 7   245  14.3     0
- 8    62  24.4     0
- 9    95  22.8     0
-10   123  19.2     0
-# … with 22 more rows
-```
-- The quotes around the letter `"m"` make it a character string (or string for short). If we did not do this, `R` would think it was looking for a variable called `m` and not just the plain letter. 
-- We don't have to quote the names of columns (like `hp`) because the `tidyverse` functions know that we are working within the dataframe and thus treat the column names like they are variables in their own right
+- The select function will return a subset of the data frame, using only the requested columns in the order specified.
 
 select() subsets columns by name
 =========================================================
 - `select()` can also be used to select everything **except for** certain columns by using the minus character `-`
 
 ```r
-> select(mtc, -contains("m"), -hp)
-# A tibble: 32 × 8
-     cyl  disp  drat    wt  qsec    vs  gear  carb
-   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
- 1     6  160   3.9   2.62  16.5     0     4     4
- 2     6  160   3.9   2.88  17.0     0     4     4
- 3     4  108   3.85  2.32  18.6     1     4     1
- 4     6  258   3.08  3.22  19.4     1     3     1
- 5     8  360   3.15  3.44  17.0     0     3     2
- 6     6  225   2.76  3.46  20.2     1     3     1
- 7     8  360   3.21  3.57  15.8     0     3     4
- 8     4  147.  3.69  3.19  20       1     4     2
- 9     4  141.  3.92  3.15  22.9     1     4     2
-10     6  168.  3.92  3.44  18.3     1     4     4
+> select(mtc, -hp)
+# A tibble: 32 × 10
+     mpg   cyl  disp  drat    wt  qsec    vs    am  gear  carb
+   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+ 1  21       6  160   3.9   2.62  16.5     0     1     4     4
+ 2  21       6  160   3.9   2.88  17.0     0     1     4     4
+ 3  22.8     4  108   3.85  2.32  18.6     1     1     4     1
+ 4  21.4     6  258   3.08  3.22  19.4     1     0     3     1
+ 5  18.7     8  360   3.15  3.44  17.0     0     0     3     2
+ 6  18.1     6  225   2.76  3.46  20.2     1     0     3     1
+ 7  14.3     8  360   3.21  3.57  15.8     0     0     3     4
+ 8  24.4     4  147.  3.69  3.19  20       1     0     4     2
+ 9  22.8     4  141.  3.92  3.15  22.9     1     0     4     2
+10  19.2     6  168.  3.92  3.44  18.3     1     0     4     4
 # … with 22 more rows
 ```
 
@@ -866,11 +820,12 @@ Saving the result
 =========================================================
 
 ```r
-> filter(mtc, row_number()==1)
-# A tibble: 1 × 11
+> filter(mtc, mpg < 11)
+# A tibble: 2 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1    21     6   160   110   3.9  2.62  16.5     0     1     4     4
+1  10.4     8   472   205  2.93  5.25  18.0     0     0     3     4
+2  10.4     8   460   215  3     5.42  17.8     0     0     3     4
 > head(mtc)
 # A tibble: 6 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -886,36 +841,17 @@ Saving the result
 
 Saving the result
 =========================================================
-- To save a new version of mtc, use a variable
+- To save a new version of mtc, assign it to a variable using `<-`
 
 ```r
-> mtc_first_row = filter(mtc, row_number()==1)
+> mtc_first_row <- filter(mtc, mpg < 11)
 > mtc_first_row
-# A tibble: 1 × 11
+# A tibble: 2 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1    21     6   160   110   3.9  2.62  16.5     0     1     4     4
+1  10.4     8   472   205  2.93  5.25  18.0     0     0     3     4
+2  10.4     8   460   215  3     5.42  17.8     0     0     3     4
 ```
-
-Combining filtering and selecting
-=========================================================
-- If the result of the operation will only be used by one other function, you can nest the calls:
-
-```r
-> # tmp = select(mtc, mpg, qsec, wt)
-> # filter(tmp, mpg >= 25)
-> filter(select(mtc, mpg, qsec, wt), mpg >= 25)
-# A tibble: 6 × 3
-    mpg  qsec    wt
-  <dbl> <dbl> <dbl>
-1  32.4  19.5  2.2 
-2  30.4  18.5  1.62
-3  33.9  19.9  1.84
-4  27.3  18.9  1.94
-5  26    16.7  2.14
-6  30.4  16.9  1.51
-```
-
 
 arrange() sorts rows
 ===========================================================
@@ -1127,7 +1063,7 @@ A simple scatterplot
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-62](tabular-data-figure/unnamed-chunk-62-1.png)
+![plot of chunk unnamed-chunk-59](tabular-data-figure/unnamed-chunk-59-1.png)
 - Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
 
 How to call ggplot
@@ -1156,7 +1092,7 @@ Change points to lines
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-65](tabular-data-figure/unnamed-chunk-65-1.png)
+![plot of chunk unnamed-chunk-62](tabular-data-figure/unnamed-chunk-62-1.png)
 - This is pretty ugly. Line plots are better for time series.
 
 
@@ -1170,7 +1106,7 @@ Fit straight line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-66](tabular-data-figure/unnamed-chunk-66-1.png)
+![plot of chunk unnamed-chunk-63](tabular-data-figure/unnamed-chunk-63-1.png)
 - `"lm"` means "linear model," which is a least-squares regression line.
 - The gray band is the confidence interval.
 
@@ -1185,7 +1121,7 @@ Fit smooth line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-67](tabular-data-figure/unnamed-chunk-67-1.png)
+![plot of chunk unnamed-chunk-64](tabular-data-figure/unnamed-chunk-64-1.png)
 - "loess" fits a collection of tiny regression lines, then glues them together.
 - This is a better approximation than a straight line for these data.
 
@@ -1226,7 +1162,7 @@ Plotting categorical variables
 +   geom_col()
 ```
 
-![plot of chunk unnamed-chunk-69](tabular-data-figure/unnamed-chunk-69-1.png)
+![plot of chunk unnamed-chunk-66](tabular-data-figure/unnamed-chunk-66-1.png)
 - `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
 
 The grammar of graphics
@@ -1281,7 +1217,7 @@ Answer: Is there a linear relationship between hp and 1/mpg?
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-70](tabular-data-figure/unnamed-chunk-70-1.png)
+![plot of chunk unnamed-chunk-67](tabular-data-figure/unnamed-chunk-67-1.png)
 - So, probably "yes"
 
 Answer: Is there a linear relationship between hp and 1/mpg?
@@ -1315,7 +1251,7 @@ Answer: orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-73](tabular-data-figure/unnamed-chunk-73-1.png)
+![plot of chunk unnamed-chunk-70](tabular-data-figure/unnamed-chunk-70-1.png)
 
 
 Exercise: more orange trees
@@ -1333,7 +1269,7 @@ Answer: more orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-74](tabular-data-figure/unnamed-chunk-74-1.png)
+![plot of chunk unnamed-chunk-71](tabular-data-figure/unnamed-chunk-71-1.png)
 
 
 Exercise: even more orange trees

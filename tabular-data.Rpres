@@ -597,29 +597,13 @@ select() subsets columns by name
 ```{r}
 select(mtc, mpg, qsec, wt)
 ```
-- The select function will return a subset of the tibble, using only the requested columns in the order specified.
-
-select() subsets columns by name
-=========================================================
-- `select()` can also be used with handy helpers like `starts_with()` and `contains()`
-```{r}
-select(mtc, starts_with("m"))
-```
-
-select() subsets columns by name
-=========================================================
-- `select()` can also be used with handy helpers like `starts_with()` and `contains()`
-```{r}
-select(mtc, hp, contains("m"))
-```
-- The quotes around the letter `"m"` make it a character string (or string for short). If we did not do this, `R` would think it was looking for a variable called `m` and not just the plain letter. 
-- We don't have to quote the names of columns (like `hp`) because the `tidyverse` functions know that we are working within the dataframe and thus treat the column names like they are variables in their own right
+- The select function will return a subset of the data frame, using only the requested columns in the order specified.
 
 select() subsets columns by name
 =========================================================
 - `select()` can also be used to select everything **except for** certain columns by using the minus character `-`
 ```{r}
-select(mtc, -contains("m"), -hp)
+select(mtc, -hp)
 ```
 
 pull() is a friend of select()
@@ -633,28 +617,18 @@ pull(mtc, hp)
 Saving the result
 =========================================================
 ```{r}
-filter(mtc, row_number()==1)
+filter(mtc, mpg < 11)
 head(mtc)
 ```
 - `select()` and `filter()` are functions, so they do not modify their input. You can see `mtc` is unchanged after calling `filter()` on it. This holds for functions in general.
 
 Saving the result
 =========================================================
-- To save a new version of mtc, use a variable
+- To save a new version of mtc, assign it to a variable using `<-`
 ```{r}
-mtc_first_row = filter(mtc, row_number()==1)
+mtc_first_row <- filter(mtc, mpg < 11)
 mtc_first_row
 ```
-
-Combining filtering and selecting
-=========================================================
-- If the result of the operation will only be used by one other function, you can nest the calls:
-```{r}
-# tmp = select(mtc, mpg, qsec, wt)
-# filter(tmp, mpg >= 25)
-filter(select(mtc, mpg, qsec, wt), mpg >= 25)
-```
-
 
 arrange() sorts rows
 ===========================================================
