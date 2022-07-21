@@ -572,10 +572,8 @@ Data frame example
 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 # … with 22 more rows
 ```
-- Typically, each row in a data frame describes an
-instance of some (real-world) object. (Yes: one row for each model of car.)
-- Each column contains the values of a variable for the
-corresponding instance. (Yes: one column for each variable.)
+- Typically, each row in a data frame describes an instance of some (real-world) object. (Yes: one row for each model of car.)
+- Each column contains the values of a variable for the corresponding instance. (Yes: one column for each variable.)
 
 Reading in flat files
 ========================================================
@@ -590,7 +588,8 @@ Reading in flat files
 
 Making data frames
 ========================================================
-- use `tibble()` to make your own data frames from scratch in R
+- you can use `tibble()` to make your own data frames from scratch in R
+- you don't need to do this yourself--we're just going to use this data in some examples
 
 ```r
 > my_data = tibble( # newlines don't do anything, just increase code readability
@@ -868,11 +867,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
-2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-3  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-4  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
-5  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+1  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+2  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+4  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+5  19.2     8  400    175  3.08  3.84  17.0     0     0     3     2
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
