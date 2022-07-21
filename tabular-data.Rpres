@@ -28,7 +28,7 @@ Introduction
 type: section
 
 
-Goals of this course
+Goals of this section
 ========================================================
 By the end of these slides you should be able to...
 
@@ -694,7 +694,7 @@ dplyr cheatsheet
 ![](images/dplyr.png)
 
 
-Review: Resources for this course
+Review: Resources for this tutorial
 ========================================================
 
 ![](https://r4ds.had.co.nz/cover.png)
@@ -709,4 +709,4 @@ Review: Resources for this course
 
 ## [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
 
-- Extremely useful reference guides for functions used in this course
+- Extremely useful reference guides for functions used in this tutorial
