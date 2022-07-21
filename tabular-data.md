@@ -297,19 +297,19 @@ type: section
 
 What is a function?
 ========================================================
-+ Backbone of R programming language, majority of things you will do in R rely on them!
-+ Set of statements that performs a specific task
++ Functions are the backbone of the R programming language; the majority of things you will do in R rely on them!
++ A function is a set of statements that performs a specific task
 + User is able to call or pass information to the function
 + Function will perform task and return object or value or action
 
 ### Where do functions come from?
 + Many built into base R
 + Many many more available through different package libraries
-+ Can create your own! (This will be covered later in the semester)
++ ADVANCED: You can create your own!
 
 
 
-Source: OOMPH course PHW251 - R for Public Health
+*Source: OOMPH course PHW251 - R for Public Health*
 
 Calling built-in functions
 ========================================================
@@ -1035,11 +1035,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  16.4     8 276.    180  3.07  4.07  17.4     0     0     3     3
-2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-3  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
-4  15.5     8 318     150  2.76  3.52  16.9     0     0     3     2
-5  14.7     8 440     230  3.23  5.34  17.4     0     0     3     4
+1  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+2  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+3  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+4  15       8  301    335  3.54  3.57  14.6     0     1     5     8
+5  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar

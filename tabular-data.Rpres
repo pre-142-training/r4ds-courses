@@ -268,19 +268,19 @@ type: section
 
 What is a function?
 ========================================================
-+ Backbone of R programming language, majority of things you will do in R rely on them!
-+ Set of statements that performs a specific task
++ Functions are the backbone of the R programming language; the majority of things you will do in R rely on them!
++ A function is a set of statements that performs a specific task
 + User is able to call or pass information to the function
 + Function will perform task and return object or value or action
 
 ### Where do functions come from?
 + Many built into base R
 + Many many more available through different package libraries
-+ Can create your own! (This will be covered later in the semester)
++ ADVANCED: You can create your own!
 
 
 
-Source: OOMPH course PHW251 - R for Public Health
+*Source: OOMPH course PHW251 - R for Public Health*
 
 Calling built-in functions
 ========================================================
