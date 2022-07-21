@@ -381,16 +381,6 @@ Type `?name` for help on name. Example:
 - Parts of the R documentation are rather obscure.
 
 
-Getting help on operator symbols
-========================================================
-  
-  ```text
-  > ?"+"
-  ```
-- This will show help about the `+` operator.
-- Put symbols in quotes to get help.
-
-
 Exercise: convert weights
 ========================================================
 
@@ -451,163 +441,6 @@ Answer: subtract the mean
 > sum(x - mean(x)) # answer in one expression
 [1] 0
 ```
-
-
-Exercise: compute a confidence interval
-========================================================
-
-```r
-> m <- 13
-> se <- 0.25
-```
-- Given the values of `m` (mean), and `se` (standard error), construct a vector containing the two values, $m \pm 2 \times se$.
-- That is, add and subtract two times the standard error
-value to/from the mean value.
-- Your output should look like:
-
-```
-[1] 12.5 13.5
-```
-
-
-Answer: compute a confidence interval
-========================================================
-
-```r
-> ## one way:
-> c(m - 2*se, m + 2*se)
-[1] 12.5 13.5
-> ## another way:
-> m + c(-2, 2)*se
-[1] 12.5 13.5
-```
-
-
-Arguments by position
-========================================================
-
-```r
-> 1:5
-[1] 1 2 3 4 5
-> seq(1,5)
-[1] 1 2 3 4 5
-```
-- `seq` is the function equivalent of the colon operator.
-- Arguments can be specified by position, with one supplied
-argument for each name in the function parameter list, and in the
-same order.
-
-
-Arguments by name
-========================================================
-
-```r
-> seq(from = 1, to = 5)
-[1] 1 2 3 4 5
-> seq(to = 5, from = 1) # identical result
-[1] 1 2 3 4 5
-```
-- Sometimes, arguments can be supplied by name using the syntax,
-variable `=` value.
-- When using names, the order of the named arguments
-does not matter.
-- You can mix positional and named arguments (carefully).
-- Do not use `<-` in place of `=` when specifying
-named arguments.
-
-
-Using the correct argument name
-========================================================
-
-```r
-> seq(1, 5)
-[1] 1 2 3 4 5
-> seq(from = 1, to = 5)
-[1] 1 2 3 4 5
-> seq(begin = 1, end = 5)
-Warning: In seq.default(begin = 1, end = 5) :
- extra arguments 'begin', 'end' will be disregarded
-[1] 1
-```
-- You have to use the correct argument names to get the correct results.
-
-
-How to find the names of a function's arguments
-========================================================
-  - How can you figure out the names of seq's arguments? It is
-a built-in function.
-- Answer: the arguments are listed in the R documentation of the
-function.
-
-```r
-> # Try this:
-> ?seq
-```
-
-Packages
-============================================================
-- An R package is a collection of functions and variables.
-- Each package has a name.
-- By default, when R starts up, the base packages
-(datasets, utils, grDevices, graphics, stats, methods) are loaded
-into the workspace for you.
-- When you _install_ a package, a copy is downloaded from a server to a directory on your local machine, but not loaded
-into the workspace.
-- When you _load_ a package, the contents the package are
-copied into the workspace.
-- If you try to load a package that has not been installed, you
-will get an error.
-- These operations can be initiated from either the graphical user
-interface or through the console.
-
-
-Installing a package
-============================================================
-- When you install a package, R may prompt you to select a CRAN
-mirror. This is the server that R will use when installing packages.
-Pick one that is geographically close to you.
-- In RStudio, select Packages, then Install Packages.
-- Or:
-
-```r
-> install.packages("name_of_package")
-```
-Try this now:
-
-```r
-> install.packages("tidyverse")
-```
-
-
-Loading a package
-============================================================
-- Use the `library` function to load an installed package.
-- Terminology alert: Note that `library` _loads_ a package,
-not a library.
-- Hint: Put the library call(s) at the top of every script file you write.
-
-```r
-> library("name_of_package")
-```
-
-Calling functions from a package
-============================================================
-- Sometimes packages introduce name conflicts, which is when the pacakge loads a function that is named the same thing as a function that's already in the environment
-- Typically, the package being loaded will take precedence over what is already loaded.
-- For instance:
-
-```r
-> ?filter # returns documentation for a function called filter in the stats package
-> library(dplyr)
-> ?filter # now returns documentation for a function called filter in the dplyr package!
-```
-- You can tell R which function you want by specifying the package name and then `::` before the function name
-
-```r
-> ?stats::filter
-> ?dplyr::filter
-```
-- This also works when calling the function in your code
 
 RStudio scripts
 ============================================================
@@ -1035,11 +868,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
-2  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-3  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-4  15       8  301    335  3.54  3.57  14.6     0     1     5     8
-5  16.4     8  276.   180  3.07  4.07  17.4     0     0     3     3
+1  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+3  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+4  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+5  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
@@ -1425,7 +1258,7 @@ A simple scatterplot
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-81](tabular-data-figure/unnamed-chunk-81-1.png)
+![plot of chunk unnamed-chunk-68](tabular-data-figure/unnamed-chunk-68-1.png)
 - Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
 
 How to call ggplot
@@ -1454,7 +1287,7 @@ Change points to lines
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-84](tabular-data-figure/unnamed-chunk-84-1.png)
+![plot of chunk unnamed-chunk-71](tabular-data-figure/unnamed-chunk-71-1.png)
 - This is pretty ugly. Line plots are better for time series.
 
 
@@ -1468,7 +1301,7 @@ Fit straight line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-85](tabular-data-figure/unnamed-chunk-85-1.png)
+![plot of chunk unnamed-chunk-72](tabular-data-figure/unnamed-chunk-72-1.png)
 - `"lm"` means "linear model," which is a least-squares regression line.
 - The gray band is the confidence interval.
 
@@ -1483,7 +1316,7 @@ Fit smooth line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-86](tabular-data-figure/unnamed-chunk-86-1.png)
+![plot of chunk unnamed-chunk-73](tabular-data-figure/unnamed-chunk-73-1.png)
 - "loess" fits a collection of tiny regression lines, then glues them together.
 - This is a better approximation than a straight line for these data.
 
@@ -1524,7 +1357,7 @@ Plotting categorical variables
 +   geom_col()
 ```
 
-![plot of chunk unnamed-chunk-88](tabular-data-figure/unnamed-chunk-88-1.png)
+![plot of chunk unnamed-chunk-75](tabular-data-figure/unnamed-chunk-75-1.png)
 - `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
 
 The grammar of graphics
@@ -1579,7 +1412,7 @@ Answer: Is there a linear relationship between hp and 1/mpg?
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-89](tabular-data-figure/unnamed-chunk-89-1.png)
+![plot of chunk unnamed-chunk-76](tabular-data-figure/unnamed-chunk-76-1.png)
 - So, probably "yes"
 
 Answer: Is there a linear relationship between hp and 1/mpg?
@@ -1613,7 +1446,7 @@ Answer: orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-92](tabular-data-figure/unnamed-chunk-92-1.png)
+![plot of chunk unnamed-chunk-79](tabular-data-figure/unnamed-chunk-79-1.png)
 
 
 Exercise: more orange trees
@@ -1631,7 +1464,7 @@ Answer: more orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-93](tabular-data-figure/unnamed-chunk-93-1.png)
+![plot of chunk unnamed-chunk-80](tabular-data-figure/unnamed-chunk-80-1.png)
 
 
 Exercise: even more orange trees
