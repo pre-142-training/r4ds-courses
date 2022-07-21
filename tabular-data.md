@@ -1,12 +1,14 @@
 Tabular Data Foundations
 ========================================================
-author: Alejandro Schuler and David Connell
+author: Alejandro Schuler
 date: 2022
 transition: none
 width: 1680
 height: 1050
 
 Adapted from [Steve Bagley](https://profiles.stanford.edu/steven-bagley) and based on [R for Data Science by Hadley Wickham](https://r4ds.had.co.nz/)
+
+Edited by David Connell
 
 
 <style>
@@ -15,33 +17,32 @@ Adapted from [Steve Bagley](https://profiles.stanford.edu/steven-bagley) and bas
 }
 </style>
 
-Introduction to the course
+Introduction
 ========================================================
 type: section
 
 
 Goals of this course
 ========================================================
-By the end of the course you should be able to...
+By the end of these slides you should be able to...
 
-- write neat R scripts and markdown reports in R studio
+- write simple R scripts
 - find, read, and understand package and function documentation 
 - read and write tabular data into R from CSV files
 - manipulate and subset tabular data
-- visualize tabular data using line and scatter plots
 
 ![](images/data-science.png)
 
-Resources for this course
+Resources for this tutorial
 ========================================================
 
 ## Tidyverse
 
-- The tidyverse collection of R packages is used in this course, and in PHW142, to provide lots of additional functionality that's not present in the basic R programming language.
+- The tidyverse collection of R packages is used in this tutorial, and in PHW142, to provide lots of additional functionality that's not present in the basic R programming language.
 
 ![](images/tidyverse.png)
 
-Resources for this course
+Resources for this tutorial
 ========================================================
 
 ![](https://r4ds.had.co.nz/cover.png)
@@ -56,7 +57,7 @@ Resources for this course
 
 ## [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
 
-- Extremely useful reference guides for functions used in this course
+- Extremely useful reference guides for functions used in this tutorial
 
 RStudio
 ========================================================
@@ -70,21 +71,14 @@ If you haven't already, please open RStudio on DataHub by [clicking this link](h
 
 You will get more out of this tutorial if you try out these things in R yourself!!
 
-The R console window is the left (or lower-left) window in RStudio.
-The R console uses a "read, eval, print" loop. This is sometimes
-called a REPL.
-- Read: R reads what you type ...
-- Eval: R evaluates it ...
-- Print: R prints the result ...
-- Loop: (repeat forever)
 
-***
-
-![](images/console.png)
 
 
 A simple example in the console
 ========================================================
+
+The R console window is the left (or lower-left) window in RStudio.
+
 - The box contains an expression that will be evaluated by R, followed by the result of evaluating that expression.
 
 ```r
@@ -95,6 +89,9 @@ A simple example in the console
 - `[1]` means: the answer is a vector (a list of elements of the same type) and this line starts with the first element of that vector.
 - It does not mean the answer has one element (although that is true in this case).
 
+***
+
+![](images/console.png)
 
 Spaces (mostly) don't matter
 ========================================================
@@ -1086,11 +1083,11 @@ Sampling rows
 # A tibble: 5 × 11
     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  15.8     8 351     264  4.22  3.17  14.5     0     1     5     4
-2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-3  19.2     6 168.    123  3.92  3.44  18.3     1     0     4     4
-4  15.5     8 318     150  2.76  3.52  16.9     0     0     3     2
-5  21       6 160     110  3.9   2.88  17.0     0     1     4     4
+1  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+2  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+3  15       8  301    335  3.54  3.57  14.6     0     1     5     8
+4  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+5  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
 ```
 - You can use `sample_n()` to get `n` randomly selected rows if you don't have a particular condition you would like to filter on.
 - `sample_frac()` is similar
