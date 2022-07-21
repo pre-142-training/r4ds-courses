@@ -652,21 +652,6 @@ Use the desc function to sort by descending values
 arrange(powerful, desc(mpg))
 ```
 
-Exercise: top 5 mpg cars
-===========================================================
-Use `arrange()` and `filter()` to get the data for the 5 cars with the highest mpg.
-
-Answer: top 5 mpg cars
-================================================================
-```{r}
-filter(arrange(mtc, desc(mpg)), row_number()<=5) # "nesting" the calls to filter and arrange
-```
-or
-```{r}
-cars_by_mpg = arrange(mtc, desc(mpg)) # using a temporary variable
-filter(cars_by_mpg, row_number()<=5)
-```
-
 mutate() creates new columns
 ================================================================
 ```{r}
@@ -686,20 +671,6 @@ mutate(mtc_vars_subset, # the newlines make it more readable
       mpg_hp_ratio = mpg/hp) 
 ```
 - As before, the result of this function is only saved if you assign it to a variable. In this example, `mtc_vars_subset` is unchanged after the mutate.
-
-mutate() for data type conversion
-===
-- Data is sometimes given to you in a form that makes it difficult to do operations on
-```{r}
-df = tibble(number = c("1", "2", "3"))
-mutate(df, number_plus_1 = number + 1)
-```
-
-- `mutate()` is also useful for converting data types, in this case text to numbers
-```{r}
-mutate(df, number = as.numeric(number)) 
-```
-- if you save the result into a column that already exists, it will be overwritten
 
 dplyr verbs summary
 ========================================================

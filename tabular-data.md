@@ -908,39 +908,6 @@ Use the desc function to sort by descending values
 7  10.4     8   460   215  3     5.42  17.8     0     0     3     4
 ```
 
-Exercise: top 5 mpg cars
-===========================================================
-Use `arrange()` and `filter()` to get the data for the 5 cars with the highest mpg.
-
-Answer: top 5 mpg cars
-================================================================
-
-```r
-> filter(arrange(mtc, desc(mpg)), row_number()<=5) # "nesting" the calls to filter and arrange
-# A tibble: 5 × 11
-    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
-2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-3  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
-4  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
-5  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
-```
-or
-
-```r
-> cars_by_mpg = arrange(mtc, desc(mpg)) # using a temporary variable
-> filter(cars_by_mpg, row_number()<=5)
-# A tibble: 5 × 11
-    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-1  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
-2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
-3  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
-4  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
-5  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
-```
-
 mutate() creates new columns
 ================================================================
 
@@ -991,31 +958,6 @@ mutate() can create multiple new columns at once
 ```
 - As before, the result of this function is only saved if you assign it to a variable. In this example, `mtc_vars_subset` is unchanged after the mutate.
 
-mutate() for data type conversion
-===
-- Data is sometimes given to you in a form that makes it difficult to do operations on
-
-```r
-> df = tibble(number = c("1", "2", "3"))
-> mutate(df, number_plus_1 = number + 1)
-Error: Problem with `mutate()` column `number_plus_1`.
-ℹ `number_plus_1 = number + 1`.
-x non-numeric argument to binary operator
-```
-
-- `mutate()` is also useful for converting data types, in this case text to numbers
-
-```r
-> mutate(df, number = as.numeric(number)) 
-# A tibble: 3 × 1
-  number
-   <dbl>
-1      1
-2      2
-3      3
-```
-- if you save the result into a column that already exists, it will be overwritten
-
 dplyr verbs summary
 ========================================================
 
@@ -1063,7 +1005,7 @@ A simple scatterplot
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-59](tabular-data-figure/unnamed-chunk-59-1.png)
+![plot of chunk unnamed-chunk-55](tabular-data-figure/unnamed-chunk-55-1.png)
 - Note that, although the package is named `ggplot2`, the function is called simply `ggplot()`
 
 How to call ggplot
@@ -1092,7 +1034,7 @@ Change points to lines
 +   geom_line()
 ```
 
-![plot of chunk unnamed-chunk-62](tabular-data-figure/unnamed-chunk-62-1.png)
+![plot of chunk unnamed-chunk-58](tabular-data-figure/unnamed-chunk-58-1.png)
 - This is pretty ugly. Line plots are better for time series.
 
 
@@ -1106,7 +1048,7 @@ Fit straight line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-63](tabular-data-figure/unnamed-chunk-63-1.png)
+![plot of chunk unnamed-chunk-59](tabular-data-figure/unnamed-chunk-59-1.png)
 - `"lm"` means "linear model," which is a least-squares regression line.
 - The gray band is the confidence interval.
 
@@ -1121,7 +1063,7 @@ Fit smooth line to points
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-64](tabular-data-figure/unnamed-chunk-64-1.png)
+![plot of chunk unnamed-chunk-60](tabular-data-figure/unnamed-chunk-60-1.png)
 - "loess" fits a collection of tiny regression lines, then glues them together.
 - This is a better approximation than a straight line for these data.
 
@@ -1162,7 +1104,7 @@ Plotting categorical variables
 +   geom_col()
 ```
 
-![plot of chunk unnamed-chunk-66](tabular-data-figure/unnamed-chunk-66-1.png)
+![plot of chunk unnamed-chunk-62](tabular-data-figure/unnamed-chunk-62-1.png)
 - `geom_col()` is used to make a bar plot. Height of bar is the value for that individual
 
 The grammar of graphics
@@ -1217,7 +1159,7 @@ Answer: Is there a linear relationship between hp and 1/mpg?
 `geom_smooth()` using formula 'y ~ x'
 ```
 
-![plot of chunk unnamed-chunk-67](tabular-data-figure/unnamed-chunk-67-1.png)
+![plot of chunk unnamed-chunk-63](tabular-data-figure/unnamed-chunk-63-1.png)
 - So, probably "yes"
 
 Answer: Is there a linear relationship between hp and 1/mpg?
@@ -1251,7 +1193,7 @@ Answer: orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-70](tabular-data-figure/unnamed-chunk-70-1.png)
+![plot of chunk unnamed-chunk-66](tabular-data-figure/unnamed-chunk-66-1.png)
 
 
 Exercise: more orange trees
@@ -1269,7 +1211,7 @@ Answer: more orange trees
 +   geom_point()
 ```
 
-![plot of chunk unnamed-chunk-71](tabular-data-figure/unnamed-chunk-71-1.png)
+![plot of chunk unnamed-chunk-67](tabular-data-figure/unnamed-chunk-67-1.png)
 
 
 Exercise: even more orange trees
