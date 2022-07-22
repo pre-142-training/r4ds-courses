@@ -33,32 +33,6 @@ By the end of these slides you should be able to...
 
 ![](images/data-science.png)
 
-Resources for this tutorial
-========================================================
-
-## Tidyverse
-
-- The tidyverse collection of R packages is used in this tutorial, and in PHW142, to provide lots of additional functionality that's not present in the basic R programming language.
-
-![](images/tidyverse.png)
-
-Resources for this tutorial
-========================================================
-
-![](https://r4ds.had.co.nz/cover.png)
-
-***
-## [R for Data Science (R4DS) free online book by Hadley Wickham](https://r4ds.had.co.nz)
-
-- Fundamentals: ch 1, 4, 6
-- Input/output: ch 11
-- Data manipulation: ch 5, 13
-- Visualization: ch 3, 28
-
-## [RStudio cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
-
-- Extremely useful reference guides for functions used in this tutorial
-
 RStudio
 ========================================================
 type: section
@@ -67,7 +41,7 @@ type: section
 The basics of interaction using the console window
 ========================================================
 
-If you haven't already, please open RStudio on DataHub by [clicking this link](https://publichealth.datahub.berkeley.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fpre-142-training%2Ftutorial-playground&urlpath=rstudio%2F&branch=main). If you're viewing this on bCourses, you'll have to right click and then choose "Open Link in New Tab".
+Please open RStudio on DataHub by [going to this link](https://publichealth.datahub.berkeley.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fpre-142-training%2Ftutorial-playground&urlpath=rstudio%2F&branch=main). You'll have to right click and then choose "Open Link in New Tab".
 
 You will get more out of this tutorial if you try out these things in R yourself!!
 
@@ -488,31 +462,33 @@ Introduction to Data Manipulation
 ========================================================
 type: section
 
+Tidyverse
+========================================================
+
+- The tidyverse collection of R packages is used in this tutorial, and in PHW142, to provide lots of additional functionality that's not present in the basic R programming language.
+
+![](images/tidyverse.png)
 
 Need to install the tidyverse set of packages
 ========================================================
-If you're working in R locally (installed on your computer), you will need to install the tidyverse package. If you're on DataHub it has already been installed.
 
+- If you're working in R locally (installed on your computer), you will need to install the tidyverse package
+- If you're on RStudio on DataHub it has already been installed, and you will only need to load the tidyverse with `library()`
 - Do this:
+
 
 ```r
 > install.packages("tidyverse")
 ```
 
+
 ```r
 > library("tidyverse")
-── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
-✓ tibble  3.1.5     ✓ dplyr   1.0.7
-✓ tidyr   1.1.4     ✓ stringr 1.4.0
-✓ readr   2.0.2     ✓ forcats 0.5.1
-✓ purrr   0.3.4     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()
 ```
+
 - "tidyverse" is a coherent set of packages for operating a kind of data called the "data frame".
 - It is not built-in, so you need to install it (once), then load it each time you restart R.
-- Put `library("tidyverse")` at the top of every script file.
+- Put `library("tidyverse")` at the top of every script file so you can always access tidyverse functions.
 
 
 Data frame: a two-dimensional data structure
@@ -980,7 +956,7 @@ dplyr cheatsheet
 ![](images/dplyr.png)
 
 
-Review: Resources for this tutorial
+Resources for this tutorial
 ========================================================
 
 ![](https://r4ds.had.co.nz/cover.png)
